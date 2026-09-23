@@ -1,0 +1,21 @@
+# Local archives and generated QA artifacts
+backups/
+outputs/
+work/
+.chrome-*/
+.edge-*/
+.vite/
+
+# Local environment and logs
+.env
+.env.*
+!.env.example
+*.log
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+

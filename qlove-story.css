@@ -1,0 +1,71 @@
+/* Keep the collection story sticky to the viewport, without horizontal overflow. */
+#qlove-main {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* Four implemented scenes: three viewport-heights of travel plus the pinned viewport. */
+#qlove-main .qlove-story {
+  height: 1200svh;
+}
+
+#qlove-main .qlove-story__pack {
+  left: 55%;
+  top: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+  width: min(47vw, 640px);
+  height: min(80vh, 680px);
+  object-fit: contain;
+  filter: drop-shadow(0 24px 28px rgba(60, 35, 45, .14));
+}
+
+#qlove-main .qlove-story__support {
+  z-index: 1;
+  width: clamp(190px, 16vw, 245px);
+  height: 34vh;
+  object-fit: contain;
+}
+
+#qlove-main .qlove-story__support--a {
+  top: 18%;
+  left: 21%;
+}
+
+#qlove-main .qlove-story__support--b {
+  right: 11%;
+  bottom: 17%;
+}
+
+@media (max-width: 900px) {
+  #qlove-main .qlove-story { height: 1000svh; }
+  #qlove-main .qlove-story__pack { width: min(58vw, 580px); }
+  #qlove-main .qlove-story__support {
+    display: block;
+    width: min(18vw, 200px);
+    height: 24vh;
+  }
+  #qlove-main .qlove-story__support--a { top: 20%; left: 17%; }
+  #qlove-main .qlove-story__support--b { right: 8%; bottom: 28%; }
+}
+
+@media (max-width: 600px) {
+  #qlove-main .qlove-story { height: 1000svh; }
+  #qlove-main .qlove-story__pack {
+    left: 55%;
+    width: 70vw;
+    height: 70vh;
+  }
+  #qlove-main .qlove-story__support { width: 36vw; height: 26vh; }
+  #qlove-main .qlove-story__support--a { top: 22%; left: 5%; }
+  #qlove-main .qlove-story__support--b {
+    right: 4%;
+    top: 21%;
+    bottom: auto;
+    width: 34vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #qlove-main .qlove-story { height: auto; }
+}

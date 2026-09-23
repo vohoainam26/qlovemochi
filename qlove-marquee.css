@@ -1,0 +1,12 @@
+/* Compact the flavour statement band without changing its artwork or typography. */
+#qlove-main .qlove-marquee {
+  min-height: clamp(320px, 40svh, 440px);
+  padding: 4vh 0;
+}
+
+@media (max-width: 600px) {
+  #qlove-main .qlove-marquee {
+    min-height: clamp(280px, 38svh, 360px);
+    padding: 3vh 0;
+  }
+}
