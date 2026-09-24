@@ -8,34 +8,29 @@
     <title>QLove Mochi</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="/header_qlove/styles.css" />
-    <link rel="stylesheet" href="/qlove-main.css" />
-    <link rel="stylesheet" href="/qlove-intro.css" />
-    <link rel="stylesheet" href="/qlove-story.css" />
-    <link rel="stylesheet" href="/qlove-marquee.css" />
-    <link rel="stylesheet" href="/qlove-mini-showcase.css" />
-    <link rel="stylesheet" href="/qlove-traditional-hover.css" />
-    <link rel="stylesheet" href="/qlove-extra-journey.css" />
-    <link rel="stylesheet" href="/qlove-deluxe-mochi-showcase.css" />
-    <link rel="stylesheet" href="/qlove-dorayaki-showcase.css" />
-    <link rel="stylesheet" href="/qlove-deluxe-dorayaki-transition.css" />
-    <link rel="stylesheet" href="/qlove-snowflake.css" />
-    <link rel="stylesheet" href="/qlove-pouch-wall.css" />
-    <link rel="stylesheet" href="/qlove-integrated-motion.css" />
-    <link rel="stylesheet" href="/qlove-footer-unified.css" />
+    <link rel="stylesheet" href="/styles/qlove-main.css" />
+    <link rel="stylesheet" href="/styles/qlove-intro.css" />
+    <link rel="stylesheet" href="/styles/qlove-story.css" />
+    <link rel="stylesheet" href="/styles/qlove-marquee.css" />
+    <link rel="stylesheet" href="/styles/qlove-mini-showcase.css" />
+    <link rel="stylesheet" href="/styles/qlove-traditional-hover.css" />
+    <link rel="stylesheet" href="/styles/qlove-extra-journey.css" />
+    <link rel="stylesheet" href="/styles/qlove-deluxe-mochi-showcase.css" />
+    <link rel="stylesheet" href="/styles/qlove-dorayaki-showcase.css" />
+    <link rel="stylesheet" href="/styles/qlove-deluxe-dorayaki-transition.css" />
+    <link rel="stylesheet" href="/styles/qlove-snowflake.css" />
+    <link rel="stylesheet" href="/styles/qlove-dessert-platter-embed.css" />
+    <link rel="stylesheet" href="/styles/qlove-pouch-wall.css" />
+    <link rel="stylesheet" href="/styles/qlove-integrated-motion.css" />
+    <link rel="stylesheet" href="/styles/qlove-footer-unified.css" />
     <!-- Header slider previously locked the document; unlock only page scrolling. -->
     <style id="qlove-scroll-unlock">html{overflow-x:clip!important;overflow-y:auto!important}body{overflow-x:clip!important;overflow-y:visible!important}body>.hero-slider{width:100%}</style>
   </head>
   <body id="top">
     <header class="hero-slider" aria-label="Product Slider">
       <nav class="hero-nav">
-        <div class="hero-logo">QLOVE</div>
-        <div class="hero-links">
-          <a href="#">HOME</a>
-          <a href="#">OUR MOCHI</a>
-          <a href="#">ABOUT</a>
-          <a href="#">WHERE TO FIND US</a>
-          <a href="#">CONTACT</a>
-        </div>
+        <div class="hero-logo"><img src="/header_qlove/assets/images/qlove-logo-trang.png" alt="QLOVE"></div>
+
       </nav>
 
       <div class="slider-container">
@@ -177,7 +172,15 @@
       </div>
 
       <div class="slider-flavors">
-        <button class="random-btn" id="randomBtn" aria-label="Randomize"></button>
+        <button class="random-btn" id="randomBtn" aria-label="Randomize">
+          <svg viewBox="0 0 100 100" class="rotating-text" xmlns="http://www.w3.org/2000/svg">
+            <path id="circlePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+            <text>
+              <textPath href="#circlePath" startOffset="0%" textLength="251" lengthAdjust="spacing">CHEWY ON THE INSIDE! SOFT ON THE OUTSIDE, </textPath>
+            </text>
+          </svg>
+          <img class="random-btn-img" src="https://cdn.prod.website-files.com/687a44933c41a5b00ca00f62/6881d888514492599bc23616_Content1-midpic.webp" alt="Mochi" />
+        </button>
         <button class="flavor-btn active" data-index="0" style="--thumb-bg: #FFD3BA;" aria-label="Mini Mochi">
           <img src="/header_qlove/assets/images/mini_mochi.png?v=2" alt="" />
         </button>
@@ -207,8 +210,8 @@
     <script src="/header_qlove/script.js"></script>
     <script src="/assets/gsap.min.js"></script>
     <script src="/assets/ScrollTrigger.min.js"></script>
-    <script src="/qlove-main.js"></script>
-    <script src="/qlove-integrated-motion.js"></script>
-    <script src="/qlove-deluxe-dorayaki-transition.js"></script>
+    <script src="/scripts/qlove-main.js"></script>
+    <script src="/scripts/qlove-integrated-motion.js"></script>
+    <script src="/scripts/qlove-deluxe-dorayaki-transition.js"></script>
   </body>
 </html>

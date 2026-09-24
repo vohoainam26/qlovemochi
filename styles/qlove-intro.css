@@ -3,15 +3,15 @@
 #qlove-intro-story .qlove-intro-inner{position:sticky;top:0;min-height:100svh;overflow:visible;isolation:isolate;background:#f8f7f4;display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.38fr);align-items:center;padding:clamp(88px,12vh,154px) 7vw clamp(64px,9vh,120px);will-change:transform}
 #qlove-intro-story .qlove-banner-bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:#f8f7f4;pointer-events:none}
 #qlove-intro-story .qlove-banner-bg-image{position:absolute;inset:0;background-image:url('/assets/qlove/banner%20Qlove.png');background-size:cover;background-position:center center;background-repeat:no-repeat;opacity:.26;filter:none;transform:none}
-#qlove-intro-story .qlove-intro-content{position:relative;z-index:2;width:min(100%,900px);padding-right:clamp(0px,2vw,38px)}
+#qlove-intro-story .qlove-intro-content{position:relative;z-index:2;width:100%;max-width:1200px;padding-right:clamp(0px,2vw,38px)}
 #qlove-intro-story .qlove-intro-eyebrow{margin:0 0 clamp(14px,2.2vh,26px);color:#1a1a1a;font-size:clamp(.68rem,.78vw,.82rem);font-weight:800;letter-spacing:.16em;line-height:1.2;text-transform:uppercase}
 #qlove-intro-story .qlove-intro-headline{margin:0;color:#1a1a1a;font-size:clamp(5.6rem,10vw,11.56rem);font-weight:900;letter-spacing:-.09em;line-height:.84}
-#qlove-intro-story .qlove-intro-line-mask{display:block;overflow:hidden;padding:.05em .08em .1em 0}
+#qlove-intro-story .qlove-intro-line-mask{display:block;overflow:hidden;padding:.05em .2em .1em 0}
 #qlove-intro-story .qlove-intro-line{display:block;will-change:transform}
 #qlove-intro-story .qlove-intro-love{color:#1a1a1a}
 #qlove-intro-story .qlove-intro-wrapped{margin-left:clamp(18px,8vw,145px);color:#169873}
 #qlove-intro-story .qlove-intro-mochi{margin-left:clamp(8px,4vw,74px);color:#805d93}
-#qlove-intro-story .qlove-intro-copy{max-width:500px;margin:clamp(28px,4vh,45px) 0 0;color:#1a1a1a;font-family:Poppins,Arial,sans-serif;font-size:16px;font-weight:500;line-height:1.5}
+#qlove-intro-story .qlove-intro-copy{max-width:650px;margin:clamp(28px,4vh,45px) 0 0;color:#1a1a1a;font-family:Poppins,Arial,sans-serif;font-size:16px;font-weight:500;line-height:1.5}
 #qlove-intro-story .qlove-intro-product-world{position:absolute;z-index:1;top:50%;right:clamp(-100px,-4vw,-30px);width:clamp(360px,35vw,650px);height:clamp(500px,62vh,720px);transform:translateY(-50%);overflow:visible;pointer-events:none}
 #qlove-intro-story .qlove-intro-portal{position:absolute;inset:0;border-radius:50%;background:#ffd3ba;will-change:transform,opacity}
 #qlove-intro-story .qlove-intro-product{position:absolute;z-index:1;height:auto;object-fit:contain;transform:translate(-50%,-50%);transform-origin:center center;filter:drop-shadow(0 18px 24px rgba(50,30,20,.12));will-change:transform,opacity}

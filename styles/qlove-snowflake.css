@@ -2,7 +2,7 @@
 #qlove-main .qlove-snowflake-showcase {
   --snowflake-accent: #e96f91; --snowflake-soft: #f9ccda;
   position: relative; min-height: 100svh; overflow: hidden;
-  background: linear-gradient(145deg,#fbfcfc 0%,#f4f8f8 48%,#fffaf8 100%); color: #243038; scroll-margin-top: 58px;
+  background: #f4f8f8 url("/assets/backgrounds/qlove-snowflake-bg.png") center center / cover no-repeat; color: #243038; scroll-margin-top: 58px;
 }
 #qlove-main .qlove-snowflake-showcase__sticky {
   position: relative; display: grid; grid-template: 1fr auto / minmax(260px,29vw) minmax(0,1fr);
@@ -18,7 +18,7 @@
 }
 #qlove-main .qlove-snowflake-showcase__header { position: relative; z-index: 4; align-self: center; max-width: 390px; }
 #qlove-main .qlove-snowflake-showcase__header h2 { margin: 0; font-size: clamp(4.3rem,8.2vw,9rem); font-weight: 900; line-height: .78; letter-spacing: -.085em; }
-#qlove-main .qlove-snowflake-showcase__header > p:not(.qlove-kicker) { max-width: 310px; margin: 28px 0 0; color: #66747b; font-size: clamp(.9rem,1.15vw,1.08rem); line-height: 1.55; }
+#qlove-main .qlove-snowflake-showcase__header > p:not(.qlove-kicker) { max-width: none; margin: 28px 0 0; color: #66747b; font-size: clamp(.9rem,1.15vw,1.08rem); line-height: 1.55; white-space: nowrap; }
 #qlove-main .qlove-snowflake-showcase__header > span { display: block; margin-top: 22px; color: var(--snowflake-accent); font-size: .7rem; font-weight: 900; letter-spacing: .15em; transition: color 450ms ease; }
 
 #qlove-main .qlove-snowflake-showcase__stage { position: relative; z-index: 2; grid-area: 1 / 2 / 3 / 3; min-width: 0; perspective: 1200px; transform: translateX(-1vw); }
@@ -87,7 +87,7 @@
 #qlove-main .qlove-snowflake-showcase__progress i { display: block; width: var(--snowflake-progress,60%); height: 100%; background: var(--snowflake-accent); transition: width 500ms cubic-bezier(.22,1,.36,1),background 450ms ease; }
 
 @media (max-width:900px) {
-  #qlove-main .qlove-snowflake-showcase { min-height: 900px; }
+  #qlove-main .qlove-snowflake-showcase { min-height: 900px; background-position: 64% center; }
   #qlove-main .qlove-snowflake-showcase__sticky { grid-template: auto minmax(480px,1fr) auto / 1fr; gap: 4px; min-height: 900px; padding: 70px 5vw 24px; }
   #qlove-main .qlove-snowflake-showcase__header { align-self: start; max-width: none; }
   #qlove-main .qlove-snowflake-showcase__header h2 { font-size: clamp(3.4rem,13vw,6.2rem); }
@@ -101,7 +101,7 @@
   #qlove-main .qlove-snowflake-showcase__info p { min-height: 0; }
 }
 @media (max-width:600px) {
-  #qlove-main .qlove-snowflake-showcase { min-height: 850px; }
+  #qlove-main .qlove-snowflake-showcase { min-height: 850px; background-position: 68% center; }
   #qlove-main .qlove-snowflake-showcase__sticky { grid-template-rows: auto 510px auto; min-height: 850px; padding: 62px 16px 14px; }
   #qlove-main .qlove-snowflake-showcase__header h2 { font-size: clamp(3rem,16vw,4.8rem); }
   #qlove-main .qlove-snowflake-showcase__header > span { display: none; }

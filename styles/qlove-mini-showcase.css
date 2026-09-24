@@ -1,0 +1,678 @@
+/* One reusable frame governs every Mini Mochi flavour panel. */
+#qlove-main .qlove-jump {
+  justify-content: safe center;
+}
+
+#qlove-main .qlove-jump a.is-active {
+  background: var(--qlove-pink);
+  border-color: var(--qlove-pink);
+  color: #261920;
+}
+
+#qlove-main .qlove-mini-showcase {
+  --panel-gap: 18px;
+  --panel-width: calc(33.333333% - 12px);
+  --visible-panels: 3;
+  padding: clamp(38px, 4vw, 64px) 6vw clamp(44px, 4vw, 64px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('/assets/banner2serri.png'); background-size: cover; background-position: center; background-attachment: fixed;
+  scroll-margin-top: 72px;
+}
+
+#qlove-main .qlove-mini-showcase__header {
+  width: 100%;
+  margin: 0 auto clamp(18px, 2vw, 30px);
+  text-align: left;
+}
+
+#qlove-main .qlove-mini-showcase__heading-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: clamp(18px, 2.4vw, 36px);
+  row-gap: 4px;
+}
+
+#qlove-main .qlove-mini-showcase__header .qlove-kicker {
+  margin: 0;
+  font-size: clamp(12px, 1vw, 16px);
+  white-space: nowrap;
+}
+
+#qlove-main .qlove-mini-showcase__header h2 {
+  margin: 0;
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 900;
+  line-height: .94;
+  letter-spacing: -.085em;
+}
+
+#qlove-main .qlove-mini-showcase__header > p:last-child {
+  margin: 9px 0 0;
+  font-size: clamp(.95rem, 1.15vw, 1.1rem);
+  line-height: 1.4;
+}
+
+#qlove-main .qlove-mini-showcase__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#qlove-main .qlove-mini-showcase__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+#qlove-main .qlove-mini-showcase__viewport:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 5px;
+}
+
+#qlove-main .qlove-mini-showcase__track {
+  display: flex;
+  gap: var(--panel-gap);
+}
+
+#qlove-main .qlove-mini-panel {
+  position: relative;
+  flex: 0 0 var(--panel-width);
+  min-width: 0;
+  aspect-ratio: .84;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--mini-bg);
+  color: var(--mini-ink);
+  box-shadow: 0 14px 34px rgba(40, 24, 36, .09);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  isolation: isolate;
+  transition: box-shadow .35s ease;
+}
+
+#qlove-main .qlove-mini-panel__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#qlove-main .qlove-mini-panel__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
+
+#qlove-main .qlove-mini-panel__hover-reveal {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  z-index: 2;
+}
+
+#qlove-main .qlove-mini-panel__mask-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#qlove-main .qlove-mini-panel__title {
+  position: absolute;
+  z-index: 5;
+  top: 6%;
+  left: 7%;
+  right: 7%;
+  margin: 0;
+  font-size: clamp(2.4rem, 3.3vw, 4.5rem);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+}
+
+  #qlove-main .qlove-mini-showcase__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: 30px;
+}
+
+
+    /* One reusable frame governs every Mini Mochi flavour panel. */
+#qlove-main .qlove-jump {
+  justify-content: safe center;
+}
+
+#qlove-main .qlove-jump a.is-active {
+  background: var(--qlove-pink);
+  border-color: var(--qlove-pink);
+  color: #261920;
+}
+
+#qlove-main .qlove-mini-showcase {
+  --panel-gap: 18px;
+  --panel-width: calc(33.333333% - 12px);
+  --visible-panels: 3;
+  padding: clamp(38px, 4vw, 64px) 6vw clamp(44px, 4vw, 64px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('/assets/banner2serri.png'); background-size: cover; background-position: center; background-attachment: fixed;
+  scroll-margin-top: 72px;
+}
+
+#qlove-main .qlove-mini-showcase__header {
+  width: 100%;
+  margin: 0 auto clamp(18px, 2vw, 30px);
+  text-align: left;
+}
+
+#qlove-main .qlove-mini-showcase__heading-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: clamp(18px, 2.4vw, 36px);
+  row-gap: 4px;
+}
+
+#qlove-main .qlove-mini-showcase__header .qlove-kicker {
+  margin: 0;
+  font-size: clamp(12px, 1vw, 16px);
+  white-space: nowrap;
+}
+
+#qlove-main .qlove-mini-showcase__header h2 {
+  margin: 0;
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 900;
+  line-height: .94;
+  letter-spacing: -.085em;
+}
+
+#qlove-main .qlove-mini-showcase__header > p:last-child {
+  margin: 9px 0 0;
+  font-size: clamp(.95rem, 1.15vw, 1.1rem);
+  line-height: 1.4;
+}
+
+#qlove-main .qlove-mini-showcase__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#qlove-main .qlove-mini-showcase__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+#qlove-main .qlove-mini-showcase__viewport:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 5px;
+}
+
+#qlove-main .qlove-mini-showcase__track {
+  display: flex;
+  gap: var(--panel-gap);
+}
+
+#qlove-main .qlove-mini-panel {
+  position: relative;
+  flex: 0 0 var(--panel-width);
+  min-width: 0;
+  aspect-ratio: .84;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--mini-bg);
+  color: var(--mini-ink);
+  box-shadow: 0 14px 34px rgba(40, 24, 36, .09);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  isolation: isolate;
+  transition: box-shadow .35s ease;
+}
+
+#qlove-main .qlove-mini-panel__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#qlove-main .qlove-mini-panel__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
+
+#qlove-main .qlove-mini-panel__hover-reveal {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  z-index: 2;
+}
+
+#qlove-main .qlove-mini-panel__mask-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#qlove-main .qlove-mini-panel__title {
+  position: absolute;
+  z-index: 5;
+  top: 6%;
+  left: 7%;
+  right: 7%;
+  margin: 0;
+  font-size: clamp(2.4rem, 3.3vw, 4.5rem);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+}
+
+  #qlove-main .qlove-mini-showcase__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: 30px;
+}
+
+
+
+#qlove-main .qlove-mini-showcase__arrow:not(:disabled):hover {
+  background: #fce7ee;
+  transform: translateY(-2px);
+}
+
+#qlove-main .qlove-mini-showcase__arrow:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 3px;
+}
+
+#qlove-main .qlove-mini-showcase__arrow:disabled {
+  opacity: .38;
+  cursor: default;
+}
+
+#qlove-main .qlove-mini-showcase__counter { display: none;
+  min-width: 72px;
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 1100px) {
+  #qlove-main .qlove-mini-showcase {
+    --panel-width: calc(50% - 9px);
+    --visible-panels: 2;
+  }
+}
+
+@media (max-width: 680px) {
+  #qlove-main .qlove-mini-showcase {
+    --panel-gap: 14px;
+    --panel-width: 100%;
+    --visible-panels: 1;
+    padding: 38px 6vw 52px;
+  }
+  #qlove-main .qlove-mini-showcase__header h2 {
+    font-size: clamp(2.7rem, 11vw, 3.5rem);
+  }
+  #qlove-main .qlove-mini-panel {
+    aspect-ratio: .9;
+  }
+  #qlove-main .qlove-mini-panel__title {
+    font-size: clamp(2.3rem, 9vw, 3.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #qlove-main .qlove-mini-showcase__viewport { scroll-behavior: auto; }
+  #qlove-main .qlove-mini-panel,
+  #qlove-main .qlove-mini-panel__image,
+
+}
+
+
+
+#qlove-main .qlove-mini-showcase + .qlove-mini-showcase { padding-top: 10px; }
+
+
+
+
+
+
+#qlove-main .qlove-mini-showcase__arrow:not(:disabled):hover {
+  background: #fce7ee;
+  transform: translateY(-2px);
+}
+
+#qlove-main .qlove-mini-showcase__arrow:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 3px;
+}
+
+#qlove-main .qlove-mini-showcase__arrow:disabled {
+  opacity: .38;
+  cursor: default;
+}
+
+#qlove-main .qlove-mini-showcase__counter { display: none;
+  min-width: 72px;
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 1100px) {
+  #qlove-main .qlove-mini-showcase {
+    --panel-width: calc(50% - 9px);
+    --visible-panels: 2;
+  }
+}
+
+@media (max-width: 680px) {
+  #qlove-main .qlove-mini-showcase {
+    --panel-gap: 14px;
+    --panel-width: 100%;
+    --visible-panels: 1;
+    padding: 38px 6vw 52px;
+  }
+  #qlove-main .qlove-mini-showcase__header h2 {
+    font-size: clamp(2.7rem, 11vw, 3.5rem);
+  }
+  #qlove-main .qlove-mini-panel {
+    aspect-ratio: .9;
+  }
+  #qlove-main .qlove-mini-panel__title {
+    font-size: clamp(2.3rem, 9vw, 3.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #qlove-main .qlove-mini-showcase__viewport { scroll-behavior: auto; }
+  #qlove-main .qlove-mini-panel,
+  #qlove-main .qlove-mini-panel__image,
+
+    /* One reusable frame governs every Mini Mochi flavour panel. */
+#qlove-main .qlove-jump {
+  justify-content: safe center;
+}
+
+#qlove-main .qlove-jump a.is-active {
+  background: var(--qlove-pink);
+  border-color: var(--qlove-pink);
+  color: #261920;
+}
+
+#qlove-main .qlove-mini-showcase {
+  --panel-gap: 18px;
+  --panel-width: calc(33.333333% - 12px);
+  --visible-panels: 3;
+  padding: clamp(38px, 4vw, 64px) 6vw clamp(44px, 4vw, 64px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('/assets/banner2serri.png'); background-size: cover; background-position: center; background-attachment: fixed;
+  scroll-margin-top: 72px;
+}
+
+#qlove-main .qlove-mini-showcase__header {
+  width: 100%;
+  margin: 0 auto clamp(18px, 2vw, 30px);
+  text-align: left;
+}
+
+#qlove-main .qlove-mini-showcase__heading-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: clamp(18px, 2.4vw, 36px);
+  row-gap: 4px;
+}
+
+#qlove-main .qlove-mini-showcase__header .qlove-kicker {
+  margin: 0;
+  font-size: clamp(12px, 1vw, 16px);
+  white-space: nowrap;
+}
+
+#qlove-main .qlove-mini-showcase__header h2 {
+  margin: 0;
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 900;
+  line-height: .94;
+  letter-spacing: -.085em;
+}
+
+#qlove-main .qlove-mini-showcase__header > p:last-child {
+  margin: 9px 0 0;
+  font-size: clamp(.95rem, 1.15vw, 1.1rem);
+  line-height: 1.4;
+}
+
+#qlove-main .qlove-mini-showcase__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#qlove-main .qlove-mini-showcase__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+#qlove-main .qlove-mini-showcase__viewport:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 5px;
+}
+
+#qlove-main .qlove-mini-showcase__track {
+  display: flex;
+  gap: var(--panel-gap);
+}
+
+#qlove-main .qlove-mini-panel {
+  position: relative;
+  flex: 0 0 var(--panel-width);
+  min-width: 0;
+  aspect-ratio: .84;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--mini-bg);
+  color: var(--mini-ink);
+  box-shadow: 0 14px 34px rgba(40, 24, 36, .09);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  isolation: isolate;
+  transition: box-shadow .35s ease;
+}
+
+#qlove-main .qlove-mini-panel__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#qlove-main .qlove-mini-panel__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
+
+#qlove-main .qlove-mini-panel__hover-reveal {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  z-index: 2;
+}
+
+#qlove-main .qlove-mini-panel__mask-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#qlove-main .qlove-mini-panel__title {
+  position: absolute;
+  z-index: 5;
+  top: 6%;
+  left: 7%;
+  right: 7%;
+  margin: 0;
+  font-size: clamp(2.4rem, 3.3vw, 4.5rem);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+}
+
+  #qlove-main .qlove-mini-showcase__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: 30px;
+}
+
+
+
+#qlove-main .qlove-mini-showcase__arrow:not(:disabled):hover {
+  background: #fce7ee;
+  transform: translateY(-2px);
+}
+
+#qlove-main .qlove-mini-showcase__arrow:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 3px;
+}
+
+#qlove-main .qlove-mini-showcase__arrow:disabled {
+  opacity: .38;
+  cursor: default;
+}
+
+#qlove-main .qlove-mini-showcase__counter { display: none;
+  min-width: 72px;
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 1100px) {
+  #qlove-main .qlove-mini-showcase {
+    --panel-width: calc(50% - 9px);
+    --visible-panels: 2;
+  }
+}
+
+@media (max-width: 680px) {
+  #qlove-main .qlove-mini-showcase {
+    --panel-gap: 14px;
+    --panel-width: 100%;
+    --visible-panels: 1;
+    padding: 38px 6vw 52px;
+  }
+  #qlove-main .qlove-mini-showcase__header h2 {
+    font-size: clamp(2.7rem, 11vw, 3.5rem);
+  }
+  #qlove-main .qlove-mini-panel {
+    aspect-ratio: .9;
+  }
+  #qlove-main .qlove-mini-panel__title {
+    font-size: clamp(2.3rem, 9vw, 3.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #qlove-main .qlove-mini-showcase__viewport { scroll-behavior: auto; }
+  #qlove-main .qlove-mini-panel,
+  #qlove-main .qlove-mini-panel__image,
+
+}
+
+
+
+#qlove-main .qlove-mini-showcase + .qlove-mini-showcase { padding-top: 10px; }
+
+
+
+
+
+}
+
+
+
+#qlove-main .qlove-mini-showcase + .qlove-mini-showcase { padding-top: 10px; }
+
+
+
+
+
+
+#qlove-main .qlove-mini-showcase__arrow {
+  position: absolute;
+  top: calc(50% - 24px);
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid #d7ced1;
+  border-radius: 50%;
+  background: #fff;
+  color: #281c20;
+  font: 600 1.4rem/1 Poppins, Arial, sans-serif;
+  cursor: pointer;
+  transition: background .25s ease, transform .25s ease, opacity .25s ease;
+}
+
+#qlove-main .qlove-mini-showcase__arrow.qlove-mini-showcase__prev { left: clamp(10px, 2vw, 20px); }
+#qlove-main .qlove-mini-showcase__arrow.qlove-mini-showcase__next { right: clamp(10px, 2vw, 20px); }
+
+#qlove-main .qlove-mini-showcase__arrow:not(:disabled):hover {
+  background: #fce7ee;
+  transform: translateY(-2px);
+}
+
+#qlove-main .qlove-mini-showcase__arrow:focus-visible {
+  outline: 3px solid var(--qlove-purple);
+  outline-offset: 3px;
+}
+
+#qlove-main .qlove-mini-showcase__arrow:disabled {
+  opacity: .38;
+  cursor: default;
+}

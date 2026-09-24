@@ -1,0 +1,7 @@
+{
+  "name": "qlove-mochi-showcase",
+  "private": true,
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}

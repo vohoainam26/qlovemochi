@@ -25,10 +25,7 @@
       const overlay = section.querySelector('.qlove-motion-overlay');
       const bubbles = section.querySelector('.qlove-motion-flavour-bubbles');
       const head = section.querySelector('.qlove-motion-chapter__head');
-      const closeButtons = [
-        section.querySelector('.qlove-motion-panel__x'),
-        section.querySelector('.qlove-motion-panel__close')
-      ].filter(Boolean);
+      const closeButton = section.querySelector('.qlove-motion-panel__x');
       let active = -1;
       let returnFocus = null;
 
@@ -81,9 +78,8 @@
       };
 
       products.forEach((product, index) => product.addEventListener('click', () => open(index)));
-      closeButtons.forEach(button => button.addEventListener('click', () => close()));
+      closeButton?.addEventListener('click', () => close());
       overlay.addEventListener('click', () => close());
-      panel.querySelector('.qlove-motion-panel__next')?.addEventListener('click', () => open((active + 1) % products.length));
 
       panel.addEventListener('keydown', event => {
         if (event.key === 'Tab') {

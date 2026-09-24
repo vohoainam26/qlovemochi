@@ -1,0 +1,107 @@
+
+.qlove-dora-scroll {
+  height: 500svh;
+  position: relative;
+}
+.qlove-dora-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--dora-background, #dfe8c4);
+  color: #171717;
+  transition: background-color .55s ease;
+}
+.qlove-dora-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.53), transparent 28%), radial-gradient(circle at 80% 80%, rgba(255,255,255,.33), transparent 25%);
+}
+.qlove-dora-bg {
+  position: absolute;
+  inset: -30px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(15px) brightness(0.85);
+  transition: background-image 0.55s ease;
+  z-index: 0;
+}
+.qlove-dora-flash {
+  position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 9;
+}
+.qlove-dora-flash.play { animation: qlove-dora-flash-anim .45s ease; }
+@keyframes qlove-dora-flash-anim { 30% { opacity: .22; } 100% { opacity: 0; } }
+
+.qlove-dora-header {
+  position: absolute; z-index: 5; top: calc(4vh + 58px); left: 5vw; right: 5vw;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.qlove-dora-header h2 { font-size: clamp(58px, 8vw, 125px); letter-spacing: -.075em; line-height: .8; margin: 0; font-weight: 1000; }
+.qlove-dora-header p { margin: 16px 0 0; font-weight: 650; opacity: .68; max-width: 440px; }
+.qlove-dora-hint { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 900; opacity: .62; }
+
+.qlove-dora-main {
+  position: absolute; inset: 0; padding: 18vh 5vw 7vh;
+  display: grid; grid-template-columns: 1fr 1.35fr .8fr; align-items: center; gap: 2vw;
+  z-index: 3;
+}
+.qlove-dora-copy { align-self: end; padding-bottom: 4vh; z-index: 3; }
+.qlove-dora-kicker { font-size: 11px; letter-spacing: .17em; text-transform: uppercase; font-weight: 900; opacity: .62; margin-bottom: 12px; }
+.qlove-dora-flavour { font-size: clamp(40px, 5vw, 92px); line-height: .88; letter-spacing: -.06em; margin: 0; font-weight: 1000; max-width: 7ch; transition: .3s ease; }
+.qlove-dora-meta { margin-top: 18px; font-size: 12px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; display: flex; gap: 12px; align-items: center; }
+.qlove-dora-pill { border: 1px solid rgba(0,0,0,.13); border-radius: 999px; padding: 9px 14px; background: rgba(255,255,255,.34); }
+
+.qlove-dora-visual { height: min(68vh, 700px); display: grid; place-items: center; position: relative; perspective: 1400px; z-index: 2; }
+.qlove-dora-wheel { position: absolute; width: min(43vw, 610px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #f0c079 0 8%, #d99b50 28%, #b56e2e 61%, #8d4d1f 100%); box-shadow: inset -24px -28px 44px #63331144, inset 20px 18px 35px #ffecb955, 0 42px 70px #43271133; transform: rotate(var(--dora-rotation,0deg)) scale(.96); transition: transform .78s cubic-bezier(.16,.78,.18,1); }
+.qlove-dora-cut { position: absolute; width: 42%; height: 17%; left: 29%; top: 41.5%; border-radius: 999px; background: var(--dora-fill, #53683f); box-shadow: inset 0 7px 13px rgba(255,255,255,.18); transition: background-color .5s ease; }
+
+.qlove-dora-packwrap { width: min(34vw, 500px); height: min(66vh, 650px); position: relative; z-index: 2; display: grid; place-items: center; perspective: 1400px; }
+.qlove-dora-pack { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; backface-visibility: hidden; transform-origin: center; filter: drop-shadow(0 34px 38px rgba(54,30,16,.22)); transition: transform .65s cubic-bezier(.18,.78,.2,1), opacity .35s ease; will-change: transform, opacity; }
+
+.qlove-dora-side { align-self: end; padding-bottom: 4vh; z-index: 3; }
+.qlove-dora-progress { display: grid; gap: 13px; justify-content: end; }
+.qlove-dora-progress button { all: unset; width: 52px; height: 4px; background: rgba(0,0,0,.2); border-radius: 999px; cursor: pointer; transition: width .3s ease, background-color .3s ease; }
+.qlove-dora-progress button.active { width: 92px; background: #171717; }
+.qlove-dora-steptitle { margin-top: 23px; text-align: right; font-size: 12px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.qlove-dora-stepcopy { margin: 10px 0 0 auto; max-width: 240px; text-align: right; font-size: 13px; line-height: 1.5; opacity: .68; }
+
+.qlove-dora-bar { position: absolute; left: 5vw; right: 5vw; bottom: 22px; height: 1px; background: rgba(0,0,0,.13); z-index: 5; }
+.qlove-dora-bar span { display: block; height: 100%; width: 25%; background: #171717; transition: width .55s ease; }
+
+@media(max-width: 900px) {
+  .qlove-dora-main { grid-template-columns: 1fr; padding-top: 20vh; }
+  .qlove-dora-copy { position: absolute; left: 24px; bottom: 7vh; }
+  .qlove-dora-side { position: absolute; right: 24px; bottom: 7vh; }
+  .qlove-dora-visual { height: 62svh; }
+  .qlove-dora-wheel { width: min(80vw, 560px); }
+  .qlove-dora-packwrap { width: min(58vw, 380px); height: min(52svh, 500px); }
+  .qlove-dora-header { left: 24px; right: 24px; }
+  .qlove-dora-header p, .qlove-dora-hint, .qlove-dora-stepcopy { display: none; }
+}
+
+@media(max-width: 600px) {
+  .qlove-dora-header { top: 76px; }
+  .qlove-dora-header h2 { font-size: clamp(48px, 15vw, 72px); }
+  .qlove-dora-main { padding: 16svh 20px 6svh; }
+  .qlove-dora-copy { left: 20px; bottom: 6svh; max-width: 58vw; }
+  .qlove-dora-flavour { font-size: clamp(30px, 10vw, 48px); }
+  .qlove-dora-meta { align-items: flex-start; flex-direction: column; gap: 8px; font-size: 10px; }
+  .qlove-dora-side { right: 20px; bottom: 6svh; }
+  .qlove-dora-steptitle { max-width: 120px; }
+  .qlove-dora-visual { height: 58svh; transform: translateY(-1svh); }
+  .qlove-dora-wheel { width: min(88vw, 500px); }
+  .qlove-dora-packwrap { width: min(72vw, 340px); height: min(49svh, 440px); }
+  .qlove-dora-progress { gap: 10px; }
+  .qlove-dora-progress button { width: 34px; }
+  .qlove-dora-progress button.active { width: 58px; }
+  .qlove-dora-bar { left: 20px; right: 20px; bottom: 14px; }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  .qlove-dora-stage, .qlove-dora-wheel, .qlove-dora-cut, .qlove-dora-pack, .qlove-dora-flavour, .qlove-dora-progress button, .qlove-dora-bar span { transition-duration: .01ms !important; }
+  .qlove-dora-flash { display: none; }
+}

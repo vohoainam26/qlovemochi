@@ -24,7 +24,7 @@
   const deluxeShowcase = items => `<section class="qlove-section qlove-deluxe-showcase" id="deluxe-mochi" data-mode="all" aria-labelledby="qlove-deluxe-title">
     <div class="qlove-deluxe-showcase__ambient" aria-hidden="true"></div>
     <div class="qlove-deluxe-showcase__header">
-      <div class="qlove-deluxe-showcase__heading"><p class="qlove-kicker">04 / THE COLLECTION</p><h2 id="qlove-deluxe-title">DELUXE<br>MOCHI</h2><p class="qlove-deluxe-showcase__weights-line">168g / 180g</p></div>
+      <div class="qlove-deluxe-showcase__heading"><p class="qlove-kicker"></p><h2 id="qlove-deluxe-title">DELUXE<br>MOCHI</h2><p class="qlove-deluxe-showcase__weights-line">168g / 180g</p></div>
       <div class="qlove-deluxe-showcase__tools"><p class="qlove-deluxe-showcase__intro">Ten flavours. One deliciously different collection.</p><div class="qlove-deluxe-showcase__weight-controls" role="group" aria-label="Filter Deluxe Mochi by weight"><button type="button" data-weight="168" aria-pressed="false">168G</button><button type="button" data-weight="180" aria-pressed="false">180G</button><span class="qlove-deluxe-showcase__weight-indicator" aria-hidden="true"></span></div><p class="qlove-deluxe-showcase__instruction">Choose a weight, or pick a flavour below.</p></div>
     </div>
     <div class="qlove-deluxe-showcase__experience">
@@ -40,51 +40,48 @@
     </div>
     <div class="qlove-deluxe-showcase__footer"><span class="qlove-deluxe-showcase__status" aria-live="polite">10 FLAVOURS</span><span class="qlove-deluxe-showcase__footer-note">A little extra in every bite.</span></div>
   </section>`;
-  const dorayakiPresentation = [
-    {
-      key: 'matcha', label: 'Matcha & Red Bean',
-      banner: '/assets/qlove/dorayaki-banner-01-matcha-red-bean.png',
-      description: 'Earthy matcha with mellow red-bean sweetness — soft, calm and distinctly Japanese café.'
-    },
-    {
-      key: 'boba', label: 'Boba Milk Tea',
-      banner: '/assets/qlove/dorayaki-banner-02-boba-milk-tea.png',
-      description: 'Creamy milk-tea character with a playful boba-inspired finish and rounded sweetness.'
-    },
-    {
-      key: 'redbean', label: 'Red Bean',
-      banner: '/assets/qlove/dorayaki-banner-03-red-bean.png',
-      description: 'A classic, warm red-bean profile with gentle sweetness and a familiar Dorayaki mood.'
-    },
-    {
-      key: 'strawberry', label: 'Strawberry',
-      banner: '/assets/qlove/dorayaki-banner-04-strawberry.png',
-      description: 'Bright strawberry sweetness brings a lighter, fruit-forward mood to the soft Dorayaki format.'
-    }
+  const dorayakiScrollScenes = [
+    { key: 'matcha', label: 'Matcha & Red Bean', display: 'MATCHA & RED BEAN', description: 'earthy \u00b7 creamy \u00b7 classic', background: '#dfe8c4', fill: '#4d6339', title: 'Matcha scene' },
+    { key: 'boba', label: 'Boba Milk Tea', display: 'BOBA MILK TEA', description: 'milky \u00b7 chewy \u00b7 playful', background: '#d9edf1', fill: '#9f785e', title: 'Boba milk tea scene' },
+    { key: 'redbean', label: 'Red Bean', display: 'RED BEAN', description: 'sweet \u00b7 smooth \u00b7 nostalgic', background: '#efd6d7', fill: '#7f2d2f', title: 'Red bean scene' },
+    { key: 'strawberry', label: 'Strawberry', display: 'STRAWBERRY', description: 'fruity \u00b7 soft \u00b7 bright', background: '#f5d3dd', fill: '#c84f67', title: 'Strawberry scene' }
   ];
   const dorayakiShowcase = items => {
-    const flavours = dorayakiPresentation.map((presentation, index) => ({ ...presentation, product: items[index] }));
-    return `<section class="qlove-section qlove-dorayaki-showcase" id="dorayaki" data-view="overview" aria-label="Dorayaki flavour showcase">
-      <div class="qlove-dorayaki-showcase__stage" aria-hidden="true">
-        <img class="qlove-dorayaki-showcase__banner is-current" src="/assets/qlove/dorayaki-banner-overview-all-4.png" alt="" loading="eager" fetchpriority="high" decoding="async">
-        <img class="qlove-dorayaki-showcase__banner" src="/assets/qlove/dorayaki-banner-overview-all-4.png" alt="" loading="eager" decoding="async">
-        <span class="qlove-dorayaki-showcase__shade"></span>
-      </div>
-      <div class="qlove-dorayaki-showcase__interface">
-        <div class="qlove-dorayaki-showcase__tabs" role="tablist" aria-label="Dorayaki flavours">${flavours.map(({ product, key, label }, index) => `<button class="qlove-dorayaki-showcase__tab" type="button" role="tab" aria-selected="false" tabindex="${index === 0 ? '0' : '-1'}" data-view="${key}" data-index="${index}" data-number="${product.number}"><span class="qlove-dorayaki-showcase__thumbnail" aria-hidden="true"><img src="/assets/qlove/dorayaki-thumbnails/${product.number}.png" alt="" loading="lazy" decoding="async"></span><span class="qlove-dorayaki-showcase__tab-label"><strong>${label}</strong><small>165G</small></span></button>`).join('')}</div>
-        <div class="qlove-dorayaki-showcase__description" aria-live="polite">
-          <span class="qlove-dorayaki-showcase__index">ALL / 04</span>
-          <div class="qlove-dorayaki-showcase__description-copy"><h3>Choose your Dorayaki flavour</h3><p>Default banner shows all four flavours. Click one flavour above to enter its scene.</p></div>
-          <span class="qlove-dorayaki-showcase__hint">SELECT A FLAVOUR &uarr;</span>
+    const transparentImage = product => `/assets/qlove/products-cutout/${product.number}-transparent.png`;
+    const flavours = dorayakiScrollScenes.map((scene, index) => ({
+      ...scene,
+      product: items.find(product => product.number === 72 + index) || items[index]
+    }));
+    const first = flavours[0];
+    return `<section class="qlove-section qlove-dora-scroll" id="dorayaki" aria-labelledby="qlove-dora-title">
+      <div class="qlove-dora-stage" id="qlove-dora-stage" style="--dora-background:${first.background};--dora-fill:${first.fill}">
+        <div class="qlove-dora-flash" id="qlove-dora-flash" aria-hidden="true"></div>
+        <header class="qlove-dora-header">
+          <div><h2 id="qlove-dora-title">DORAYAKI</h2><p>One flavour at a time. Scroll to rotate through the collection.</p></div>
+          <div class="qlove-dora-hint">Scroll through 4 flavours &darr;</div>
+        </header>
+        <div class="qlove-dora-main">
+          <div class="qlove-dora-copy">
+            <div class="qlove-dora-kicker">QLove Dorayaki</div>
+            <h3 class="qlove-dora-flavour" id="qlove-dora-flavour">${first.display}</h3>
+            <div class="qlove-dora-meta"><span class="qlove-dora-pill">165G</span><span id="qlove-dora-desc">${first.description}</span></div>
+          </div>
+          <div class="qlove-dora-visual">
+            <div class="qlove-dora-wheel" id="qlove-dora-wheel" aria-hidden="true"><div class="qlove-dora-cut" id="qlove-dora-cut"></div></div>
+            <div class="qlove-dora-packwrap">
+              <img class="qlove-dora-pack" id="qlove-dora-pack" src="${transparentImage(first.product)}" alt="${first.product.name}" width="1000" height="1000" loading="eager" fetchpriority="high" decoding="async">
+            </div>
+          </div>
+          <aside class="qlove-dora-side" aria-label="Dorayaki flavour progress">
+            <div class="qlove-dora-progress" id="qlove-dora-progress">
+              ${flavours.map(({ label, product }, index) => `<button class="${index === 0 ? 'active' : ''}" type="button" data-index="${index}" data-src="${transparentImage(product)}" data-alt="${product.name}" aria-label="Show ${label}"${index === 0 ? ' aria-current="step"' : ''}></button>`).join('')}
+            </div>
+            <div class="qlove-dora-steptitle" id="qlove-dora-steptitle">${first.title}</div>
+            <p class="qlove-dora-stepcopy" id="qlove-dora-stepcopy">Each scroll beat rotates the dorayaki wheel 90&deg; and flips in the next flavour.</p>
+          </aside>
         </div>
-        <div class="qlove-dorayaki-showcase__progress" aria-hidden="true"><i></i></div>
+        <div class="qlove-dora-bar" aria-hidden="true"><span id="qlove-dora-bar-fill"></span></div>
       </div>
-      <aside class="qlove-dorayaki-showcase__rail" aria-label="Dorayaki showcase controls">
-        <span class="qlove-dorayaki-showcase__menu" aria-hidden="true"><i></i><i></i></span>
-        <span class="qlove-dorayaki-showcase__rail-meta">QLove &middot; Japanese style &middot; 165g</span>
-        <strong>DORAYAKI</strong>
-        <button type="button" aria-label="Show all Dorayaki flavours">ALL</button>
-      </aside>
     </section>`;
   };
   const snowflakePresentation = [
@@ -108,7 +105,6 @@
       <div class="qlove-snowflake-showcase__sticky">
         <div class="qlove-snowflake-showcase__frost" aria-hidden="true"></div>
         <header class="qlove-snowflake-showcase__header">
-          <p class="qlove-kicker">07 / 05 FLAVOURS</p>
           <h2 id="qlove-snowflake-title">SNOW<br>FLAKE</h2>
           <p>Five light, colourful Snowflake Cake flavours.</p>
           <span>5 PRODUCTS</span>
@@ -146,7 +142,7 @@
     '#ead39f', // 13 Mango Chilli         → warm mango gold
   ];
   const pouchWallCard = (product, index) => `<article class="qlove-pouch-wall__card" tabindex="0" style="--pouch-bg:${pouchPalettes[index % pouchPalettes.length]};--pouch-ink:#2b2930;--card-index:${index % 4}"><div class="qlove-pouch-wall__media"><img class="qlove-pouch-wall__image qlove-pouch-wall__image--default" src="${image(product)}" alt="${product.name}" loading="lazy" decoding="async" draggable="false" width="1000" height="1000"><img class="qlove-pouch-wall__image qlove-pouch-wall__image--hover" src="/assets/products/deluxe-pouch-120g/pouch-${index + 1}.png" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" width="1000" height="1000"></div><div class="qlove-pouch-wall__info"><h3>${pouchTitles[index] || product.name}</h3><p>${shortSize(product.name)}</p></div></article>`;
-  const pouchWall = items => `<section class="qlove-section qlove-pouch-wall" id="deluxe-pouch-120g" aria-labelledby="qlove-pouch-wall-title"><div class="qlove-pouch-wall__ambient" aria-hidden="true"></div><div class="qlove-pouch-wall__head"><p class="qlove-kicker">03 / ${items.length} FLAVOURS</p><h2 id="qlove-pouch-wall-title">DELUXE<br>POUCH 120g</h2></div><div class="qlove-pouch-wall__carousel"><button class="qlove-pouch-wall__arrow qlove-pouch-wall__prev" type="button" aria-label="Previous flavour">←</button><div class="qlove-pouch-wall__viewport" tabindex="0" role="region" aria-label="Deluxe pouch flavours"><div class="qlove-pouch-wall__track">${items.map(pouchWallCard).join('')}</div></div><button class="qlove-pouch-wall__arrow qlove-pouch-wall__next" type="button" aria-label="Next flavour">→</button></div><div class="qlove-pouch-wall__status"><span class="qlove-pouch-wall__counter" aria-live="polite">01 / ${String(items.length).padStart(2, '0')}</span><i></i></div></section>`;
+  const pouchWall = items => `<section class="qlove-section qlove-pouch-wall" id="deluxe-pouch-120g" aria-labelledby="qlove-pouch-wall-title"><div class="qlove-pouch-wall__ambient" aria-hidden="true"></div><div class="qlove-pouch-wall__head"><p class="qlove-kicker">03 / ${items.length} FLAVOURS</p><h2 id="qlove-pouch-wall-title">DELUXE POUCH 120G</h2></div><div class="qlove-pouch-wall__carousel"><button class="qlove-pouch-wall__arrow qlove-pouch-wall__prev" type="button" aria-label="Previous flavour">←</button><div class="qlove-pouch-wall__viewport" tabindex="0" role="region" aria-label="Deluxe pouch flavours"><div class="qlove-pouch-wall__track">${items.map(pouchWallCard).join('')}</div></div><button class="qlove-pouch-wall__arrow qlove-pouch-wall__next" type="button" aria-label="Next flavour">→</button></div><div class="qlove-pouch-wall__status"><span class="qlove-pouch-wall__counter" aria-live="polite">01 / ${String(items.length).padStart(2, '0')}</span><i></i></div></section>`;
   // One frame for every Mini Mochi flavour; artwork pairs share the same layout.
   const miniPalettes = [
     { title: 'MANGO', bg: '#fbd273', ink: '#35251b' },
@@ -180,7 +176,6 @@
     <div class="qlove-mini-showcase__header">
       <div class="qlove-mini-showcase__heading-row">
         <h2 id="qlove-mini-title">MINI MOCHI</h2>
-        <p class="qlove-kicker">01 / 8 FLAVOURS</p>
       </div>
       <p>Pick a flavour. Keep it playful.</p>
     </div>
@@ -204,7 +199,7 @@
     const flavour = premiumFlavours[index];
     return `<article class="qlove-extra-card" style="--extra-card-bg:${flavour.bg};--extra-card-accent:${flavour.accent};--extra-card-ink:${flavour.ink}" aria-label="${product.name}">
       <h3>${flavour.title}</h3>
-      <img src="${image(product)}" alt="${product.name}" loading="lazy" decoding="async" width="1000" height="1000">
+      <img src="${image(product)}" alt="${product.name}" loading="lazy" decoding="async" width="1000" height="1000" style="position:absolute; top:57%; left:50%; transform:translate(-50%,-50%); width:85%; height:auto; max-height:75%;">
     </article>`;
   };
   const premiumJourney = items => `<section class="qlove-section qlove-extra-journey" id="extra-to-love" aria-labelledby="qlove-extra-title">
@@ -247,13 +242,8 @@
       <div class="qlove-traditional-scroll__stage">
         <div class="qlove-traditional-scroll__grain" aria-hidden="true"></div>
 
-        <div class="qlove-traditional-scroll__topbar">
-          <div class="qlove-traditional-scroll__brand"><span class="qlove-traditional-scroll__brandmark">Q</span><span>QLove</span></div>
-          <div class="qlove-traditional-scroll__counter"><span>09 / TRADITIONAL MOCHI</span></div>
-        </div>
-
         <div class="qlove-traditional-scroll__headline">
-          <div class="kicker">09 / QLOVE TRADITIONAL MOCHI</div>
+          <div class="kicker">QLOVE TRADITIONAL MOCHI</div>
           <h2>THE CLASSICS,<br>SEVEN WAYS.</h2>
           <p>Soft, chewy Japanese-style mochi in seven timeless flavours.</p>
         </div>
@@ -318,11 +308,28 @@
     if (type === 'greenwash') return '<i class="qlove-motion-green-wash"></i><i class="qlove-motion-gold-line"></i>';
     return '';
   };
+  const pouchMixImages = {
+    33: '/assets/POUCHMIX120G/3.png',
+    34: '/assets/POUCHMIX120G/6.png',
+    35: '/assets/POUCHMIX120G/1.png',
+    36: '/assets/POUCHMIX120G/2.png',
+    40: '/assets/POUCHMIX120G/4.png',
+    41: '/assets/POUCHMIX120G/5.png'
+  };
+  const bobaImages = {
+    37: '/assets/BOBA/2.png',
+    38: '/assets/BOBA/3.png',
+    39: '/assets/BOBA/1.png'
+  };
+  const integratedProductImage = (product, motion) => {
+    if (motion === 'pouch') return pouchMixImages[product.number] || image(product);
+    if (motion === 'boba') return bobaImages[product.number] || image(product);
+    return image(product);
+  };
   const integratedChapter = ({id,index,title,subtitle,motion,entry,exit,items,dark=false}) => `<section class="qlove-motion-chapter${dark?' is-dark':''}" id="${id}" data-motion="${motion}" data-entry="${entry}" data-exit="${exit}" aria-labelledby="${id}-title">
     <div class="qlove-motion-chapter__sticky">
       <div class="qlove-motion-chapter__background" aria-hidden="true"></div><div class="qlove-motion-chapter__grain" aria-hidden="true"></div>
-      <div class="qlove-motion-chapter__topbar"><span>QLove</span><span>${String(index).padStart(2,'0')} / ${title}</span></div>
-      <header class="qlove-motion-chapter__head"><p>${String(index).padStart(2,'0')} / ${title}</p><h2 id="${id}-title">${title}</h2><span>${subtitle}</span></header>
+      <header class="qlove-motion-chapter__head"><h2 id="${id}-title">${title}</h2><span>${subtitle}</span></header>
       <div class="qlove-motion-chapter__scene">
         <strong class="qlove-motion-chapter__ghost" aria-hidden="true">${motion.toUpperCase()}</strong>
         ${motion==='custard'?'<i class="qlove-motion-lens" aria-hidden="true"></i>':''}
@@ -331,68 +338,150 @@
         ${motion==='dubai'?'<i class="qlove-motion-base-gold" aria-hidden="true"></i>':''}
         <div class="qlove-motion-transition qlove-motion-transition--entry" aria-hidden="true">${integratedTransition(entry,items.length)}</div>
         <div class="qlove-motion-transition qlove-motion-transition--exit" aria-hidden="true">${integratedTransition(exit,items.length)}</div>
-        <div class="qlove-motion-products" role="group" aria-label="${title} products">${items.map((product,i)=>{const meta=integratedProductMeta[product.number];return `<button class="qlove-motion-product" type="button" data-index="${i}" data-number="${product.number}" data-accent="${meta.accent}" data-name="${meta.label}" data-description="${meta.desc}" data-tags="${meta.tags.join('|')}" style="--product-accent:${meta.accent};--product-order:${i}" aria-label="Explore ${product.name}" aria-pressed="false"><span class="qlove-motion-product__glow" aria-hidden="true"></span><img src="${image(product)}" alt="" loading="lazy" decoding="async" width="1000" height="1000"><span class="qlove-motion-product__label"><strong>${meta.label}</strong><small>${shortSize(product.name)}</small></span><span class="qlove-motion-product__cue">Click to explore</span></button>`}).join('')}</div>
+        <div class="qlove-motion-products" role="group" aria-label="${title} products">${items.map((product,i)=>{const meta=integratedProductMeta[product.number];return `<button class="qlove-motion-product" type="button" data-index="${i}" data-number="${product.number}" data-accent="${meta.accent}" data-name="${meta.label}" data-description="${meta.desc}" data-tags="${meta.tags.join('|')}" style="--product-accent:${meta.accent};--product-order:${i}" aria-label="Explore ${product.name}" aria-pressed="false"><span class="qlove-motion-product__glow" aria-hidden="true"></span><img src="${integratedProductImage(product,motion)}" alt="" loading="lazy" decoding="async" width="1000" height="1000"><span class="qlove-motion-product__label"><strong>${meta.label}</strong><small>${shortSize(product.name)}</small></span><span class="qlove-motion-product__cue">Click to explore</span></button>`}).join('')}</div>
         <div class="qlove-motion-flavour-bubbles" aria-hidden="true"></div>
       </div>
       <button class="qlove-motion-overlay" type="button" aria-label="Close product details" tabindex="-1"></button>
-      <aside class="qlove-motion-panel" role="dialog" aria-modal="false" aria-hidden="true" aria-label="Product details"><button class="qlove-motion-panel__x" type="button" aria-label="Close product details">×</button><span class="qlove-motion-panel__count"></span><h3></h3><p></p><div class="qlove-motion-panel__tags"></div><div class="qlove-motion-panel__actions"><button class="qlove-motion-panel__next" type="button">Next</button><button class="qlove-motion-panel__close" type="button">Close</button></div></aside>
+      <aside class="qlove-motion-panel" role="dialog" aria-modal="false" aria-hidden="true" aria-label="Product details"><button class="qlove-motion-panel__x" type="button" aria-label="Close product details">×</button><span class="qlove-motion-panel__count"></span><h3></h3><p></p><div class="qlove-motion-panel__tags"></div></aside>
       <p class="qlove-motion-chapter__hint">Hover to highlight · Click to explore</p>
     </div>
   </section>`;
-  const mix450Collection = () => `<section class="qlove-section qlove-mix-450" id="mix-450g" data-progress="0" aria-labelledby="qlove-mix-450-title">
-    <div class="qlove-mix-450__sticky">
-      <div class="qlove-mix-450__wash" aria-hidden="true"></div>
-      <div class="qlove-mix-450__intro">
-        <p class="qlove-kicker">08 / QLOVE SIGNATURE PLATTER</p>
-        <h2 id="qlove-mix-450-title">DESSERT PLATTER</h2>
-        <div class="qlove-mix-450__intro-side">
-          <p class="qlove-mix-450__intro-copy">Three dessert-inspired flavours in one box.</p>
-          <span class="qlove-mix-450__meta">450G TWN</span>
-        </div>
-      </div>
-      <div class="qlove-mix-450__stage"><div class="qlove-mix-450__product-wrap"><div class="qlove-mix-450__product-glow" aria-hidden="true"></div><img class="qlove-mix-450__image" src="/assets/mix_450g.png" alt="QLove Assorted Dessert Platter Mochi 450g TWN" loading="lazy" decoding="async"></div><p class="qlove-mix-450__scroll-note">SCROLL TO OPEN THE BOX <span>↓</span></p></div>
-      <div class="qlove-mix-450__chapter" aria-live="polite"><p class="qlove-kicker">THE BOX, OPENED</p><h3>ONE BOX.<br>THREE FLAVOURS.</h3><span>9 PIECES · 450G</span></div>
-      <div class="qlove-mix-450__flavours" aria-label="Three flavours"><article class="qlove-mix-450__flavour" data-flavour="chocolate"><span class="qlove-mix-450__flavour-index">01</span><span class="qlove-mix-450__flavour-orb"></span><div><h4>CHOCOLATE FUDGE BROWNIE</h4><p>Rich. Soft. Indulgent.</p></div></article><article class="qlove-mix-450__flavour" data-flavour="strawberry"><span class="qlove-mix-450__flavour-index">02</span><span class="qlove-mix-450__flavour-orb"></span><div><h4>STRAWBERRY CHEESECAKE</h4><p>Creamy. Fruity. Playful.</p></div></article><article class="qlove-mix-450__flavour" data-flavour="cookies"><span class="qlove-mix-450__flavour-index">03</span><span class="qlove-mix-450__flavour-orb"></span><div><h4>COOKIES &amp; CREAM</h4><p>Creamy. Comforting. Familiar.</p></div></article></div>
-      <div class="qlove-mix-450__focus" aria-live="polite"><span>01 / 03</span><h3>CHOCOLATE FUDGE BROWNIE</h3><p>Rich. Soft. Indulgent.</p></div>
-      <a class="qlove-mix-450__fallback" href="https://drive.google.com/file/d/1jFO3IkqsDrc1FNT_jzFEFh-CHQLtJOH0/view?usp=drive_link" target="_blank" rel="noopener noreferrer" hidden>View 450g product image</a>
-    </div>
+  const dessertPlatterCollection = () => `<section class="qlove-section qlove-dessert-platter-embed" id="dessert-platter" aria-label="Dessert Platter interactive 3D showcase">
+    <iframe class="qlove-dessert-platter-embed__frame" src="/demos/qlove_dessert_platter_FINAL_v2_ZOOM.html" title="QLove Dessert Platter interactive 3D showcase" loading="eager"></iframe>
   </section>`;
   const storyScene = (p, supportA, supportB, title, copy, colour, accent, ink) => ({p,supportA,supportB,title,copy,colour,accent,ink});
   fetch('/assets/qlove-products.json').then(r => r.ok ? r.json() : Promise.reject(new Error('Inventory unavailable'))).then(products => {
     const mini = group(products, 1, 8), traditional = group(products, 9, 15), double = group(products, 16, 21), deluxe = group(products, 22, 27), mixed = group(products, 28, 29), custard = group(products, 30, 32), standingTraditional = group(products, 33, 36), boba = group(products, 37, 39), assorted = group(products, 40, 41), dubai = group(products, 42, 43), premium = group(products, 44, 48), deluxe168 = group(products, 49, 52), dessert = group(products, 53, 64), party = group(products, 65, 66), snow = group(products, 67, 71), dora = group(products, 72, 75);
     const premiumOrder = [44, 46, 45, 47, 48].map(number => premium.find(product => product.number === number));
-    const deluxeMochi = [...deluxe168, ...deluxe];
+    const deluxeMochi = [...deluxe168, ...deluxe].filter(p => p.number !== 27);
     const traditionalFamily = [...traditional, ...mixed, ...double];
     const deluxePouch = [...dessert, ...party];
     const pouchMix = [...standingTraditional, ...assorted];
     const mix450 = products.filter(product => /450\s*g/i.test(product.name) && /mix/i.test(product.name));
+
+  const extraMiniPanel = (product, index) => {
+    const flavour = premiumFlavours[index];
+    const maskId = `qlove-extra-reveal-${index}`;
+    const origins = [
+      [[.48, .68], [.22, .45], [.77, .29]],
+      [[.53, .66], [.25, .50], [.73, .31]],
+      [[.45, .70], [.29, .40], [.79, .35]]
+    ][index % 3];
+    return `<article class="qlove-mini-panel" style="--mini-bg:${flavour.bg};--mini-ink:${flavour.ink}" aria-label="${product.name}">
+      <div class="qlove-mini-panel__media" aria-hidden="true">
+        <img class="qlove-mini-panel__image qlove-mini-panel__image--default" src="${image(product)}" alt="" loading="lazy" decoding="async" width="1024" height="1536">
+        <span class="qlove-mini-panel__hover-reveal"><img class="qlove-mini-panel__image qlove-mini-panel__image--hover" src="${image(product)}" alt="" loading="lazy" decoding="async" width="1024" height="1536" style="object-fit: contain; width: 108%; height: auto; top: 56%; left: 50%; transform: translate(-50%, -50%) scale(1.15) rotate(2deg); filter: drop-shadow(0 25px 25px rgba(0,0,0,0.2)) brightness(1.05);"></span>
+        <svg class="qlove-mini-panel__mask-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs><filter id="${maskId}-soft" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="0.01"/></filter><mask id="${maskId}" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox" style="mask-type:alpha"><g filter="url(#${maskId}-soft)">${origins.map(([x, y]) => `<circle class="qlove-mini-panel__reveal-spot" cx="${x}" cy="${y}" r="0" fill="white"/>`).join('')}</g></mask></defs></svg>
+      </div>
+      <div class="qlove-mini-panel__info">
+        <h3 class="qlove-mini-panel__title">${flavour.title}</h3>
+
+      </div>
+    </article>`;
+  };
+
+  const extraMiniShowcase = items => `<section class="qlove-section qlove-mini-showcase" id="extra-to-love" aria-labelledby="qlove-extra-title">
+    <div class="qlove-mini-showcase__header">
+      <div class="qlove-mini-showcase__heading-row">
+        <h2 id="qlove-extra-title">EXTRA TO LOVE</h2>
+        <p class="qlove-kicker">PREMIUM FILLING MINI</p>
+      </div>
+      <p>Five playful mini flavours, each with a little extra inside.</p>
+    </div>
+    <div class="qlove-mini-showcase__viewport" role="region" aria-label="Extra To Love flavours" tabindex="0">
+        <div class="qlove-mini-showcase__track">${items.map(extraMiniPanel).join('')}</div>
+      </div>
+      <div class="qlove-mini-showcase__controls">
+        <button class="qlove-mini-showcase__arrow qlove-mini-showcase__prev" type="button" aria-label="Previous flavour">&larr;</button>
+        <span class="qlove-mini-showcase__counter" aria-live="polite">01 / 05</span>
+        <button class="qlove-mini-showcase__arrow qlove-mini-showcase__next" type="button" aria-label="Next flavour">&rarr;</button>
+      </div>
+    </div>
+  </section>`;
+
+  const premiumPouchCard = (product, index) => {
+    const title = pouchTitles[index % pouchTitles.length] || product.name;
+    const bg = pouchPalettes[index % pouchPalettes.length];
+    return `<article class="qlove-extra-card qlove-pouch-card" style="--extra-card-bg:${bg};--extra-card-accent:#fff;--extra-card-ink:#2b2930" aria-label="${product.name}">
+      <h3>${title}</h3>
+      <div class="qlove-pouch-card__halo"></div>
+      <img src="${image(product)}" alt="${product.name}" loading="lazy" decoding="async" width="1000" height="1000" style="position:absolute; top:56%; left:50%; transform:translate(-50%,-50%); width:80%; height:auto; max-height:70%;">
+    </article>`;
+  };
+
+  const pouchJourney = (items) => `<section class="qlove-section qlove-extra-journey" id="deluxe-pouch-120g" aria-labelledby="qlove-pouch-journey-title">
+    <div class="qlove-extra-journey__stage">
+      <div class="qlove-extra-journey__heading">
+
+        <h2 id="qlove-pouch-journey-title">DELUXE POUCH 120G</h2>
+      </div>
+      <div class="qlove-extra-journey__viewport" role="region" aria-label="Deluxe Pouch flavours" tabindex="0">
+        <div class="qlove-extra-journey__track">${items.map(premiumPouchCard).join('')}</div>
+      </div>
+      <div class="qlove-extra-journey__status" aria-label="Current flavour"><span class="qlove-extra-journey__counter" aria-live="polite">01 / ${String(items.length).padStart(2,'0')}</span><span class="qlove-extra-journey__progress"><i></i></span></div>
+    </div>
+  </section>`;
+
     const series = [
       { id: 'mini-mochi', label: 'MINI 80g', products: mini, markup: miniShowcase(mini) },
-      { id: 'extra-to-love', label: 'EXTRA TO LOVE', products: premiumOrder, markup: premiumJourney(premiumOrder) },
-      { id: 'deluxe-pouch-120g', label: 'DELUXE POUCH', products: deluxePouch, markup: pouchWall(deluxePouch) },
+      { id: 'extra-to-love', label: 'EXTRA TO LOVE', products: premiumOrder, markup: extraMiniShowcase(premiumOrder) },
+      { id: 'deluxe-pouch-120g', label: 'DELUXE POUCH', products: deluxePouch, markup: pouchJourney(deluxePouch) },
       { id: 'deluxe-mochi', label: 'DELUXE MOCHI', products: deluxeMochi, markup: deluxeShowcase(deluxeMochi) },
       { id: 'dorayaki', label: 'DORAYAKI', products: dora, markup: dorayakiShowcase(dora) },
       { id: 'snowflake', label: 'SNOWFLAKE', products: snow, markup: snowflakeShowcase(snow) },
-      { id: 'mix-450g', label: 'MIX 450g', products: mix450, markup: mix450Collection() },
+      { id: 'dessert-platter', label: 'DESSERT PLATTER', products: mix450, markup: dessertPlatterCollection() },
       { id: 'traditional-mochi', label: 'TRADITIONAL 180g', products: traditional, markup: traditionalCollection(traditional) },
-      { id: 'mix-180g', label: 'MIX 180g', products: mixed, markup: integratedChapter({id:'mix-180g',index:10,title:'QLove Mix Mochi',subtitle:'Two assortments · one split story',motion:'mix',entry:'none',exit:'doors',items:mixed}) },
-      { id: 'double-filling', label: 'DOUBLE FILLING', products: double, markup: integratedChapter({id:'double-filling',index:11,title:'Double Filling',subtitle:'Six creamy centres in a slow flavour orbit',motion:'double',entry:'doors',exit:'cream',items:double}) },
-      { id: 'custard-168g', label: 'CUSTARD 168g', products: custard, markup: integratedChapter({id:'custard-168g',index:12,title:'Custard Mochi',subtitle:'Soft lens focus · three bright flavours',motion:'custard',entry:'cream',exit:'pearls',items:custard}) },
-      { id: 'boba-pouch-120g', label: 'BOBA POUCH', products: boba, markup: integratedChapter({id:'boba-pouch-120g',index:13,title:'Boba Standing Pouch',subtitle:'Gravity room · pearls in motion',motion:'boba',entry:'pearls',exit:'bands',items:boba}) },
-      { id: 'pouch-mix-120g', label: 'POUCH MIX', products: pouchMix, markup: integratedChapter({id:'pouch-mix-120g',index:14,title:'QLove Pouch Mix',subtitle:'Two moving shelves · six pouch personalities',motion:'pouch',entry:'bands',exit:'greenwash',items:pouchMix}) },
-      { id: 'dubai', label: 'DUBAI', products: dubai, markup: integratedChapter({id:'dubai',index:15,title:'Dubai Style',subtitle:'Chocolate · pistachio · kunafa',motion:'dubai',entry:'greenwash',exit:'none',items:dubai,dark:true}) }
+      { id: 'mix-180g', label: 'MIX 180g', products: mixed, markup: integratedChapter({id:'mix-180g',index:10,title:'QLove Mix Mochi',subtitle:'Two assortments · one split story.',motion:'mix',entry:'none',exit:'doors',items:mixed}) },
+      { id: 'double-filling', label: 'DOUBLE FILLING', products: double, markup: integratedChapter({id:'double-filling',index:11,title:'Double Filling',subtitle:'Six creamy centres in a slow flavour orbit.',motion:'double',entry:'doors',exit:'cream',items:double}) },
+      { id: 'custard-168g', label: 'CUSTARD 168g', products: custard, markup: integratedChapter({id:'custard-168g',index:12,title:'Custard Mochi',subtitle:'Soft lens focus · three bright flavours.',motion:'custard',entry:'cream',exit:'pearls',items:custard}) },
+      { id: 'boba-pouch-120g', label: 'BOBA POUCH', products: boba, markup: integratedChapter({id:'boba-pouch-120g',index:13,title:'Boba Standing Pouch',subtitle:'Gravity room · pearls in motion.',motion:'boba',entry:'pearls',exit:'bands',items:boba}) },
+      { id: 'pouch-mix-120g', label: 'POUCH MIX', products: pouchMix, markup: integratedChapter({id:'pouch-mix-120g',index:14,title:'QLove Pouch Mix',subtitle:'Two moving shelves · six pouch personalities.',motion:'pouch',entry:'bands',exit:'greenwash',items:pouchMix}) },
+      { id: 'dubai', label: 'DUBAI', products: dubai, markup: integratedChapter({id:'dubai',index:15,title:'Dubai Style',subtitle:'Chocolate · pistachio · kunafa.',motion:'dubai',entry:'greenwash',exit:'none',items:dubai,dark:true}) }
     ];
     const placedNumbers = series.flatMap(section => section.products.map(product => product.number));
     if (placedNumbers.length !== products.length || new Set(placedNumbers).size !== products.length) console.warn('QLove series inventory mismatch:', products.filter(product => !placedNumbers.includes(product.number)).map(product => product.number));
     const jumpNav = `<nav class="qlove-jump" aria-label="Collection jump">${series.map((section, index) => `<a href="#${section.id}"${index === 0 ? ' class="is-active" aria-current="location"' : ''}>${section.label}</a>`).join('')}</nav>`;
     const seriesMarkup = series.map(section => section.markup).join('');
     const scenes = [
-      storyScene(mini[0], mini[3], mini[1], 'MINI MOCHI', 'Small format. Big QLove energy.', '#f49fbc', '#ffd3ba', '#1a1a1a'),
-      storyScene(deluxe[2], deluxe[0], deluxe[3], 'DELUXE MOCHI', 'Dessert mood, wrapped the QLove way.', '#805d93', '#ffd3ba', '#ffffff'),
+      storyScene(mini[5], mini[2], mini[7], 'MINI MOCHI', 'Small format. Big QLove energy.', '#f49fbc', '#ffd3ba', '#1a1a1a'),
+      storyScene(deluxe168[1], deluxe[0], deluxe[3], 'DELUXE MOCHI', 'Dessert mood, wrapped the QLove way.', '#805d93', '#ffd3ba', '#ffffff'),
       storyScene(double[1], double[4], double[0], 'DOUBLE FILLING', 'Twice the visual surprise.', '#ffd3ba', '#169873', '#1a1a1a'),
       storyScene(traditional[0], traditional[1], traditional[2], 'TRADITIONAL MOCHI', 'A classic shape, with QLove personality.', '#9ebd6e', '#e1f5ee', '#085041')
     ];
-    root.innerHTML = `
+  const footerRetailWideLogos = [
+    { name: 'HalfPrice', src: './assets/qlove/retail-logos/halfprice.jpg' },
+    { name: 'COOP', src: './assets/qlove/retail-logos/coop.jpg' },
+    { name: 'NORMA', src: './assets/qlove/retail-logos/norma.jpg' },
+    { name: 'Makro', src: './assets/qlove/retail-logos/makro.jpg' },
+    { name: 'Oki Doki', src: './assets/qlove/retail-logos/oki-doki.jpg' },
+    { name: 'Candy Pop', src: './assets/qlove/retail-logos/candy-pop.jpg' },
+    { name: 'Normal', src: './assets/qlove/retail-logos/normal.jpg' },
+    { name: 'AliExpress Plaza', src: './assets/qlove/retail-logos/aliexpress-plaza.jpg' }
+  ];
+
+  const footerRetailSquareLogos = [
+    { name: 'Han Food', src: './assets/qlove/retail-logos/han-food.jpg' },
+    { name: 'Yatta', src: './assets/qlove/retail-logos/yatta.jpg' },
+    { name: 'Miniso', src: './assets/qlove/retail-logos/miniso.jpg' },
+    { name: 'Kaufland', src: './assets/qlove/retail-logos/kaufland.jpg' },
+    { name: 'Modern Asia Market', src: './assets/qlove/retail-logos/modern-asia-market.jpg' }
+  ];
+
+  const footerRetailLogoGroup = (logos, { duplicate = false, shape = 'wide', repeats = 1 } = {}) => `
+    <div class="qlove-unified-footer__logo-group qlove-unified-footer__logo-group--${shape}"${duplicate ? ' aria-hidden="true"' : ''}>
+      ${Array.from({ length: repeats }, (_, repeatIndex) => `
+        <div class="qlove-unified-footer__logo-set"${repeatIndex > 0 ? ' aria-hidden="true"' : ''}>
+          ${logos.map((logo) => `
+            <span class="qlove-unified-footer__logo-card">
+              <img src="${logo.src}" alt="${duplicate || repeatIndex > 0 ? '' : logo.name}" loading="eager" decoding="async">
+            </span>
+          `).join('')}
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  root.innerHTML = `
       <section id="qlove-intro-story" class="qlove-section qlove-intro-story" aria-labelledby="qlove-intro-title">
         <div class="qlove-intro-inner">
           <div class="qlove-banner-bg" aria-hidden="true">
@@ -415,7 +504,7 @@
         </div>
       </section>
       <section class="qlove-story" aria-label="QLove collection story"><div class="qlove-story__sticky" style="--story-bg:${scenes[0].colour};--story-accent:${scenes[0].accent};--story-ink:${scenes[0].ink}"><div class="qlove-story__wash"></div><div class="qlove-story__circle"></div><div class="qlove-story__word">MINI</div><div class="qlove-story__stage"><img class="qlove-story__support qlove-story__support--a" alt="" src="${image(scenes[0].supportA)}"><img class="qlove-story__pack" src="${image(scenes[0].p)}" alt="${scenes[0].p.name}" loading="eager"><img class="qlove-story__support qlove-story__support--b" alt="" src="${image(scenes[0].supportB)}"></div><div class="qlove-story__copy"><p>01 / 04</p><h2>MINI MOCHI</h2><span>Small format. Big QLove energy.</span></div><div class="qlove-story__progress"><i></i></div><div class="qlove-story__counter">01 — 04</div></div></section>
-      <section class="qlove-section qlove-marquee" aria-label="Flavours"><div class="qlove-marquee__rail">MANGO · MATCHA · STRAWBERRY · TARO · LYCHEE · CHOCOLATE · PEANUT · MANGO · MATCHA · STRAWBERRY · TARO · LYCHEE · </div><img class="qlove-marquee__pack" src="${image(deluxe[2])}" alt="${deluxe[2].name}" loading="lazy"><div class="qlove-marquee__rail qlove-marquee__rail--reverse">BOBA · BLUEBERRY · COCONUT · CUSTARD · PISTACHIO · YUZU · TOFFEE · BOBA · BLUEBERRY · COCONUT · CUSTARD · </div></section>
+      <section class="qlove-section qlove-marquee" aria-label="Flavours"><div class="qlove-marquee__rail">QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE </div><img class="qlove-marquee__pack" src="${image(deluxe[2])}" alt="${deluxe[2].name}" loading="lazy"><div class="qlove-marquee__rail qlove-marquee__rail--reverse">QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE </div></section>
       ${jumpNav}
       ${seriesMarkup}
       <footer class="qlove-unified-footer" id="retail" aria-labelledby="qlove-footer-title">
@@ -451,10 +540,18 @@
             </div>
           </div>
         </section>
-        <div class="qlove-unified-footer__retail" id="qlove-footer-retail" aria-label="Retail partners">
-          <div class="qlove-unified-footer__track">
-            <span>HalfPrice</span><span>Coop</span><span>Normal</span><span>Makro</span><span>Oki Doki</span><span>Candy Pop</span><span>AliExpress Plaza</span><span>Han Food</span><span>Yatta!</span><span>Miniso</span><span>Kaufland</span>
-            <span aria-hidden="true">HalfPrice</span><span aria-hidden="true">Coop</span><span aria-hidden="true">Normal</span><span aria-hidden="true">Makro</span><span aria-hidden="true">Oki Doki</span><span aria-hidden="true">Candy Pop</span><span aria-hidden="true">AliExpress Plaza</span><span aria-hidden="true">Han Food</span><span aria-hidden="true">Yatta!</span><span aria-hidden="true">Miniso</span><span aria-hidden="true">Kaufland</span>
+        <div class="qlove-unified-footer__logo-marquees" id="qlove-footer-retail" aria-label="Where to find us">
+          <div class="qlove-unified-footer__retail" aria-label="Retail partners">
+            <div class="qlove-unified-footer__track">
+              ${footerRetailLogoGroup(footerRetailWideLogos, { repeats: 2 })}
+              ${footerRetailLogoGroup(footerRetailWideLogos, { duplicate: true, repeats: 2 })}
+            </div>
+          </div>
+          <div class="qlove-unified-footer__retail qlove-unified-footer__retail--square qlove-unified-footer__retail--reverse" aria-label="Square retail partners">
+            <div class="qlove-unified-footer__track">
+              ${footerRetailLogoGroup(footerRetailSquareLogos, { shape: 'square', repeats: 5 })}
+              ${footerRetailLogoGroup(footerRetailSquareLogos, { duplicate: true, shape: 'square', repeats: 5 })}
+            </div>
           </div>
         </div>
         <div class="qlove-unified-footer__brandrow">
@@ -470,7 +567,7 @@
       <section class="qlove-section qlove-retail" id="legacy-retail" hidden>
         <p class="qlove-kicker">Where to find us</p>
         <h2>QLove,<br>out in the world.</h2>
-        
+
         <div class="qlove-retail__logos">
           <div class="logo-item"><img src="https://qlovemochi.com/wp-content/uploads/2026/09/HalfPrice.jpg" alt="HalfPrice" loading="lazy"></div>
           <div class="logo-item"><img src="https://qlovemochi.com/wp-content/uploads/2026/09/COOP.jpg" alt="COOP" loading="lazy"></div>
@@ -485,7 +582,7 @@
           <div class="logo-item"><img src="https://qlovemochi.com/wp-content/uploads/2026/09/Miniso.jpg" alt="Miniso" loading="lazy"></div>
           <div class="logo-item"><img src="https://qlovemochi.com/wp-content/uploads/2026/09/Kaufland.jpg" alt="Kaufland" loading="lazy"></div>
         </div>
-        
+
         <div class="qlove-retail__presence">
           <h3>Real store presence</h3>
           <div class="qlove-retail__store-grid">
@@ -576,56 +673,54 @@
       window.setTimeout(() => root.scrollIntoView({ behavior: 'auto', block: 'start' }), 250);
     }
   }).catch(error => { root.innerHTML = `<p style="padding:3rem">Unable to load the QLove product inventory.</p>`; console.error(error); });
-  function initMiniShowcase() {
-    const section = root.querySelector('.qlove-mini-showcase');
-    if (!section) return;
-    const hoverPreloads = [...section.querySelectorAll('.qlove-mini-panel__image--hover')].map(artwork => {
-      const preload = new Image();
-      preload.src = artwork.src;
-      return preload.decode().catch(() => {});
-    });
-    Promise.all(hoverPreloads).catch(() => {});
-    const viewport = section.querySelector('.qlove-mini-showcase__viewport');
-    const panels = [...section.querySelectorAll('.qlove-mini-panel')];
-    const prev = section.querySelector('.qlove-mini-showcase__prev');
-    const next = section.querySelector('.qlove-mini-showcase__next');
-    const counter = section.querySelector('.qlove-mini-showcase__counter');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let index = 2;
-    let ticking = false;
-    const visibleCount = () => Number(getComputedStyle(section).getPropertyValue('--visible-panels')) || 3;
-    const maxIndex = () => Math.max(0, panels.length - visibleCount());
-    const step = () => panels[1]?.offsetLeft - panels[0]?.offsetLeft || viewport.clientWidth;
-    const updateControls = () => {
-      counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
-      prev.disabled = index === 0;
-      next.disabled = index === maxIndex();
-    };
-    const goTo = (target, smooth = true) => {
-      index = Math.max(0, Math.min(maxIndex(), target));
-      viewport.scrollTo({ left: index * step(), behavior: smooth && !reduceMotion.matches ? 'smooth' : 'auto' });
-      updateControls();
-    };
-    prev.addEventListener('click', () => goTo(index - 1));
-    next.addEventListener('click', () => goTo(index + 1));
-    viewport.addEventListener('keydown', event => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      event.preventDefault();
-      goTo(index + (event.key === 'ArrowRight' ? 1 : -1));
-    });
-    viewport.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        index = Math.max(0, Math.min(maxIndex(), Math.round(viewport.scrollLeft / step())));
-        updateControls();
+    function initMiniShowcase() {
+    root.querySelectorAll('.qlove-mini-showcase').forEach(section => {
+      const hoverPreloads = [...section.querySelectorAll('.qlove-mini-panel__image--hover')].map(artwork => {
+        const preload = new Image();
+        preload.src = artwork.src;
+        return preload.decode().catch(() => {});
       });
-    }, { passive: true });
-    const onResize = () => requestAnimationFrame(() => goTo(index, false));
-    if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(viewport);
-    else addEventListener('resize', onResize, { passive: true });
-    updateControls();
+      Promise.all(hoverPreloads).catch(() => {});
+      const viewport = section.querySelector('.qlove-mini-showcase__viewport');
+      const panels = [...section.querySelectorAll('.qlove-mini-panel')];
+      const prev = section.querySelector('.qlove-mini-showcase__prev');
+      const next = section.querySelector('.qlove-mini-showcase__next');
+      const counter = section.querySelector('.qlove-mini-showcase__counter');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let index = 2;
+      let ticking = false;
+      const visibleCount = () => Number(getComputedStyle(section).getPropertyValue('--visible-panels')) || 3;
+      const maxIndex = () => Math.max(0, panels.length - visibleCount());
+      const step = () => panels[1]?.offsetLeft - panels[0]?.offsetLeft || viewport.clientWidth;
+      const updateControls = () => {
+        counter.textContent = `${String(Math.min(index + 1, panels.length)).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+        prev.disabled = index === 0;
+        next.disabled = index === maxIndex();
+      };
+      const goTo = (target, smooth = true) => {
+        index = Math.max(0, Math.min(maxIndex(), target));
+        viewport.scrollTo({ left: index * step(), behavior: smooth && !reduceMotion.matches ? 'smooth' : 'auto' });
+        updateControls();
+      };
+      prev.addEventListener('click', () => goTo(index - 1));
+      next.addEventListener('click', () => goTo(index + 1));
+      viewport.addEventListener('keydown', event => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        goTo(index + (event.key === 'ArrowRight' ? 1 : -1));
+      });
+      viewport.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          index = Math.round(viewport.scrollLeft / step());
+          updateControls();
+          ticking = false;
+        });
+      }, { passive: true });
+      updateControls();
+      setTimeout(() => goTo(0, false), 100);
+    });
   }
   function initMiniReveal() {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
@@ -686,106 +781,107 @@
       render();
     });
   }
-  function initPremiumJourney() {
-    const section = root.querySelector('#extra-to-love');
-    if (!section) return;
-    const stage = section.querySelector('.qlove-extra-journey__stage');
-    const viewport = section.querySelector('.qlove-extra-journey__viewport');
-    const track = section.querySelector('.qlove-extra-journey__track');
-    const heading = section.querySelector('.qlove-extra-journey__heading');
-    const cards = [...section.querySelectorAll('.qlove-extra-card')];
-    const counter = section.querySelector('.qlove-extra-journey__counter');
-    const progressBar = section.querySelector('.qlove-extra-journey__progress i');
-    const desktop = window.matchMedia('(min-width: 901px) and (prefers-reduced-motion: no-preference)');
-    const holdFraction = .06;
-    const clamp = value => Math.min(1, Math.max(0, value));
-    let geometry;
-    let renderQueued = false;
-    let measureQueued = false;
-    const updateActive = (movement, progress) => {
-      const firstCentre = cards[0].offsetLeft + cards[0].offsetWidth / 2;
-      const focalPoint = firstCentre + (geometry.finalCentre - firstCentre) * movement;
-      let active = 0;
-      let closest = Infinity;
-      cards.forEach((card, index) => {
-        const centre = card.offsetLeft + card.offsetWidth / 2 - geometry.distance * movement;
-        const distance = Math.abs(centre - focalPoint);
-        if (distance < closest) { closest = distance; active = index; }
-        const focus = 1 - clamp(distance / (viewport.clientWidth * .55));
-        card.style.setProperty('--extra-scale', (.96 + .04 * focus).toFixed(3));
-        card.style.setProperty('--extra-opacity', (.85 + .15 * focus).toFixed(3));
-        card.style.setProperty('--extra-y', `${(8 * (1 - focus)).toFixed(1)}px`);
-        card.style.setProperty('--extra-shadow', (.1 + .1 * focus).toFixed(3));
-      });
-      active = Math.max(0, Math.min(cards.length - 1, active));
-      counter.textContent = `${String(active + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
-      progressBar.style.width = `${Math.max((active + 1) / cards.length, clamp(progress)) * 100}%`;
-      heading.style.opacity = '1';
-    };
-    const updateSwipeCounter = () => {
-      if (desktop.matches) return;
-      const step = cards[1]?.offsetLeft - cards[0]?.offsetLeft || viewport.clientWidth;
-      const index = Math.min(cards.length - 1, Math.max(0, Math.round(viewport.scrollLeft / step)));
-      counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
-      progressBar.style.width = `${((index + 1) / cards.length) * 100}%`;
-    };
-    viewport.addEventListener('scroll', updateSwipeCounter, { passive: true });
-    const render = () => {
-      renderQueued = false;
-      if (!desktop.matches || !geometry) return;
-      const progress = clamp(-section.getBoundingClientRect().top / geometry.scrollRange);
-      const movement = clamp(progress / (1 - holdFraction));
-      track.style.transform = `translate3d(${-geometry.distance * movement}px, 0, 0)`;
-      updateActive(movement, progress);
-    };
-    const queueRender = () => {
-      if (renderQueued) return;
-      renderQueued = true;
-      requestAnimationFrame(render);
-    };
-    const measure = () => {
-      measureQueued = false;
-      if (!desktop.matches) {
-        section.classList.remove('is-horizontal');
-        section.style.removeProperty('height');
-        track.style.removeProperty('transform');
-        heading.style.removeProperty('opacity');
-        cards.forEach(card => ['--extra-scale', '--extra-opacity', '--extra-y', '--extra-shadow'].forEach(name => card.style.removeProperty(name)));
-        geometry = undefined;
-        updateSwipeCounter();
-        return;
+    function initPremiumJourney() {
+    root.querySelectorAll('.qlove-extra-journey').forEach(section => {
+      const stage = section.querySelector('.qlove-extra-journey__stage');
+      if (!stage) return;
+      const viewport = section.querySelector('.qlove-extra-journey__viewport');
+      const track = section.querySelector('.qlove-extra-journey__track');
+      const heading = section.querySelector('.qlove-extra-journey__heading');
+      const cards = [...section.querySelectorAll('.qlove-extra-card')];
+      const counter = section.querySelector('.qlove-extra-journey__counter');
+      const progressBar = section.querySelector('.qlove-extra-journey__progress i');
+      const desktop = window.matchMedia('(min-width: 901px) and (prefers-reduced-motion: no-preference)');
+      const holdFraction = .06;
+      const clamp = value => Math.min(1, Math.max(0, value));
+      let geometry;
+      let renderQueued = false;
+      let measureQueued = false;
+      const updateActive = (movement, progress) => {
+        const firstCentre = cards[0].offsetLeft + cards[0].offsetWidth / 2;
+        const focalPoint = firstCentre + (geometry.finalCentre - firstCentre) * movement;
+        let active = 0;
+        let closest = Infinity;
+        cards.forEach((card, index) => {
+          const centre = card.offsetLeft + card.offsetWidth / 2 - geometry.distance * movement;
+          const distance = Math.abs(centre - focalPoint);
+          if (distance < closest) { closest = distance; active = index; }
+          const focus = 1 - clamp(distance / (viewport.clientWidth * .55));
+          card.style.setProperty('--extra-scale', (.96 + .04 * focus).toFixed(3));
+          card.style.setProperty('--extra-opacity', (.85 + .15 * focus).toFixed(3));
+          card.style.setProperty('--extra-y', `${(8 * (1 - focus)).toFixed(1)}px`);
+          card.style.setProperty('--extra-shadow', (.1 + .1 * focus).toFixed(3));
+        });
+        active = Math.max(0, Math.min(cards.length - 1, active));
+        counter.textContent = `${String(active + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+        progressBar.style.width = `${Math.max((active + 1) / cards.length, clamp(progress)) * 100}%`;
+        heading.style.opacity = '1';
+      };
+      const updateSwipeCounter = () => {
+        if (desktop.matches) return;
+        const step = cards[1]?.offsetLeft - cards[0]?.offsetLeft || viewport.clientWidth;
+        const index = Math.min(cards.length - 1, Math.max(0, Math.round(viewport.scrollLeft / step)));
+        counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+        progressBar.style.width = `${((index + 1) / cards.length) * 100}%`;
+      };
+      viewport.addEventListener('scroll', updateSwipeCounter, { passive: true });
+      const render = () => {
+        renderQueued = false;
+        if (!desktop.matches || !geometry) return;
+        const progress = clamp(-section.getBoundingClientRect().top / geometry.scrollRange);
+        const movement = clamp(progress / (1 - holdFraction));
+        track.style.transform = `translate3d(${-geometry.distance * movement}px, 0, 0)`;
+        updateActive(movement, progress);
+      };
+      const queueRender = () => {
+        if (renderQueued) return;
+        renderQueued = true;
+        requestAnimationFrame(render);
+      };
+      const measure = () => {
+        measureQueued = false;
+        if (!desktop.matches) {
+          section.classList.remove('is-horizontal');
+          section.style.removeProperty('height');
+          track.style.removeProperty('transform');
+          heading.style.removeProperty('opacity');
+          cards.forEach(card => ['--extra-scale', '--extra-opacity', '--extra-y', '--extra-shadow'].forEach(name => card.style.removeProperty(name)));
+          geometry = undefined;
+          updateSwipeCounter();
+          return;
+        }
+        section.classList.add('is-horizontal');
+        const maxX = Math.max(0, track.scrollWidth - viewport.clientWidth);
+        const last = cards.at(-1);
+        const lastCentre = last.offsetLeft + last.offsetWidth / 2;
+        const distance = Math.min(maxX, Math.max(0, lastCentre - viewport.clientWidth * .55));
+        const scrollRange = Math.max(1, distance * .7 / (1 - holdFraction));
+        section.style.height = `${Math.ceil(stage.offsetHeight + scrollRange)}px`;
+        geometry = { distance, scrollRange: section.offsetHeight - stage.offsetHeight, finalCentre: lastCentre - distance };
+        render();
+      };
+      const queueMeasure = () => {
+        if (measureQueued) return;
+        measureQueued = true;
+        requestAnimationFrame(measure);
+      };
+      addEventListener('scroll', queueRender, { passive: true });
+      addEventListener('resize', queueMeasure, { passive: true });
+      desktop.addEventListener('change', queueMeasure);
+      if ('ResizeObserver' in window) {
+        const observer = new ResizeObserver(queueMeasure);
+        observer.observe(viewport);
+        observer.observe(track);
       }
-      section.classList.add('is-horizontal');
-      const maxX = Math.max(0, track.scrollWidth - viewport.clientWidth);
-      const last = cards.at(-1);
-      const lastCentre = last.offsetLeft + last.offsetWidth / 2;
-      const distance = Math.min(maxX, Math.max(0, lastCentre - viewport.clientWidth * .55));
-      const scrollRange = Math.max(1, distance * .7 / (1 - holdFraction));
-      section.style.height = `${Math.ceil(stage.offsetHeight + scrollRange)}px`;
-      geometry = { distance, scrollRange: section.offsetHeight - stage.offsetHeight, finalCentre: lastCentre - distance };
-      render();
-    };
-    const queueMeasure = () => {
-      if (measureQueued) return;
-      measureQueued = true;
-      requestAnimationFrame(measure);
-    };
-    addEventListener('scroll', queueRender, { passive: true });
-    addEventListener('resize', queueMeasure, { passive: true });
-    desktop.addEventListener('change', queueMeasure);
-    if ('ResizeObserver' in window) {
-      const observer = new ResizeObserver(queueMeasure);
-      observer.observe(viewport);
-      observer.observe(track);
-    }
-    Promise.all([
-      ...cards.map(card => card.querySelector('img').decode().catch(() => {})),
-      document.fonts?.ready || Promise.resolve()
-    ]).then(() => {
+      Promise.all([
+        ...cards.map(card => card.querySelector('img').decode().catch(() => {})),
+        document.fonts?.ready || Promise.resolve()
+      ]).then(() => {
+        queueMeasure();
+        requestAnimationFrame(() => window.ScrollTrigger?.refresh());
+      });
       queueMeasure();
-      requestAnimationFrame(() => window.ScrollTrigger?.refresh());
     });
-    queueMeasure();
   }
   function initDeluxeShowcase(items) {
     const section = root.querySelector('#deluxe-mochi');
@@ -1112,135 +1208,122 @@
     syncState();
   }
   function initDorayakiShowcase() {
-    const section = root.querySelector('.qlove-dorayaki-showcase');
+    const section = root.querySelector('.qlove-dora-scroll');
     if (!section) return;
-    const banners = [...section.querySelectorAll('.qlove-dorayaki-showcase__banner')];
-    const tabs = [...section.querySelectorAll('.qlove-dorayaki-showcase__tab')];
-    const allButton = section.querySelector('.qlove-dorayaki-showcase__rail button');
-    const description = section.querySelector('.qlove-dorayaki-showcase__description');
-    const indexLabel = description.querySelector('.qlove-dorayaki-showcase__index');
-    const title = description.querySelector('h3');
-    const copy = description.querySelector('p');
-    const hint = description.querySelector('.qlove-dorayaki-showcase__hint');
-    const progress = section.querySelector('.qlove-dorayaki-showcase__progress i');
+    const stage = section.querySelector('.qlove-dora-stage');
+    const wheel = section.querySelector('.qlove-dora-wheel');
+    const cut = section.querySelector('.qlove-dora-cut');
+    const pack = section.querySelector('.qlove-dora-pack');
+    const flavour = section.querySelector('.qlove-dora-flavour');
+    const description = section.querySelector('#qlove-dora-desc');
+    const stepTitle = section.querySelector('.qlove-dora-steptitle');
+    const stepCopy = section.querySelector('.qlove-dora-stepcopy');
+    const bar = section.querySelector('.qlove-dora-bar span');
+    const flash = section.querySelector('.qlove-dora-flash');
+    const controls = [...section.querySelectorAll('.qlove-dora-progress button')];
+    if (!stage || !wheel || !cut || !pack || !flavour || controls.length !== 4) return;
+
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-    const overview = {
-      key: 'overview',
-      banner: '/assets/qlove/dorayaki-banner-overview-all-4.png',
-      index: 'ALL / 04',
-      title: 'Choose your Dorayaki flavour',
-      description: 'Default banner shows all four flavours. Click one flavour above to enter its scene.',
-      hint: 'SELECT A FLAVOUR'
-    };
-    const states = new Map([[overview.key, overview], ...dorayakiPresentation.map((item, index) => [item.key, {
-      ...item,
-      index: `${String(index + 1).padStart(2, '0')} / 04`,
-      title: item.label,
-      hint: 'DORAYAKI / 165G'
-    }])]);
-    let currentView = overview.key;
-    let currentLayer = 0;
+    const scenes = dorayakiScrollScenes.map((scene, index) => ({
+      ...scene,
+      src: controls[index].dataset.src,
+      alt: controls[index].dataset.alt
+    }));
+    scenes.forEach(scene => { const preload = new Image(); preload.src = scene.src; });
+
+    let current = 0;
+    let requested = 0;
     let busy = false;
+    let scrollFrame = 0;
+    let swapTimer = 0;
+    let settleTimer = 0;
 
-    const bannerPreloads = [];
-    states.forEach(state => {
-      const preload = new Image();
-      preload.src = state.banner;
-      bannerPreloads.push(preload);
-    });
-
-    const syncControls = nextView => {
-      section.dataset.view = nextView;
-      tabs.forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.view === nextView)));
-      allButton.setAttribute('aria-pressed', String(nextView === overview.key));
-      const selected = tabs.findIndex(tab => tab.dataset.view === nextView);
-      progress.style.setProperty('--dorayaki-progress', String(Math.max(0, selected)));
-      progress.style.opacity = selected < 0 ? '.38' : '1';
+    const resetMotion = () => {
+      pack.style.transform = 'rotateY(0deg) scale(1)';
+      pack.style.opacity = '1';
+      flavour.style.transform = 'translateY(0)';
+      flavour.style.opacity = '1';
     };
 
-    const updateDescription = async state => {
-      const duration = reduce.matches ? 1 : 140;
-      const outgoing = description.animate([
-        { opacity: 1, transform: 'translateY(0)' },
-        { opacity: 0, transform: 'translateY(-8px)' }
-      ], { duration, easing: 'ease-in', fill: 'forwards' });
-      await outgoing.finished.catch(() => {});
-      indexLabel.textContent = state.index;
-      title.textContent = state.title;
-      copy.textContent = state.description;
-      hint.textContent = state.hint;
-      outgoing.cancel();
-      const incoming = description.animate([
-        { opacity: 0, transform: 'translateY(9px)' },
-        { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: reduce.matches ? 1 : 240, easing: 'cubic-bezier(.2,.75,.2,1)' });
-      await incoming.finished.catch(() => {});
+    const applyScene = index => {
+      const scene = scenes[index];
+      stage.style.setProperty('--dora-background', scene.background);
+      wheel.style.setProperty('--dora-rotation', `${index * 90}deg`);
+      cut.style.setProperty('--dora-fill', scene.fill);
+      if (pack.getAttribute('src') !== scene.src) pack.src = scene.src;
+      pack.alt = scene.alt;
+      flavour.textContent = scene.display;
+      description.textContent = scene.description;
+      stepTitle.textContent = scene.title;
+      stepCopy.textContent = index === scenes.length - 1
+        ? 'One more scroll and this section releases into the next series.'
+        : 'Scroll again to rotate to the next flavour.';
+      controls.forEach((control, controlIndex) => {
+        const active = controlIndex === index;
+        control.classList.toggle('active', active);
+        if (active) control.setAttribute('aria-current', 'step');
+        else control.removeAttribute('aria-current');
+      });
+      bar.style.width = `${(index + 1) * 25}%`;
+      section.dataset.activeIndex = String(index);
     };
 
-    const changeView = async nextView => {
-      if (busy || nextView === currentView || !states.has(nextView)) return;
+    const requestScene = target => {
+      requested = Math.max(0, Math.min(scenes.length - 1, target));
+      if (busy || requested === current) return;
+      const direction = requested > current ? 1 : -1;
+      const next = current + direction;
       busy = true;
       section.dataset.transitioning = 'true';
-      const state = states.get(nextView);
-      const outgoing = banners[currentLayer];
-      const incomingLayer = currentLayer === 0 ? 1 : 0;
-      const incoming = banners[incomingLayer];
-      incoming.src = state.banner;
-      try {
-        if (incoming.decode) await Promise.race([
-          incoming.decode().catch(() => {}),
-          new Promise(resolve => setTimeout(resolve, 1200))
-        ]);
-        syncControls(nextView);
-        const duration = reduce.matches ? 160 : 920;
-        incoming.style.zIndex = '2';
-        outgoing.style.zIndex = '1';
-        incoming.classList.add('is-transitioning');
-        const outgoingMotion = outgoing.animate([
-          { transform: 'translateX(0) scale(1)', opacity: 1 },
-          { transform: reduce.matches ? 'translateX(-2%) scale(1)' : 'translateX(-18%) scale(1.015)', opacity: reduce.matches ? 0 : .28 }
-        ], { duration, easing: 'cubic-bezier(.72,0,.18,1)', fill: 'forwards' });
-        const incomingMotion = incoming.animate([
-          { transform: reduce.matches ? 'translateX(2%) scale(1)' : 'translateX(100%) scale(1.025)', opacity: reduce.matches ? 0 : 1 },
-          { transform: 'translateX(0) scale(1)', opacity: 1 }
-        ], { duration, easing: 'cubic-bezier(.72,0,.18,1)', fill: 'forwards' });
-        await Promise.all([outgoingMotion.finished, incomingMotion.finished, updateDescription(state)]);
-        outgoing.classList.remove('is-current');
-        incoming.classList.add('is-current');
-        incoming.classList.remove('is-transitioning');
-        outgoingMotion.cancel();
-        incomingMotion.cancel();
-        incoming.style.zIndex = '';
-        outgoing.style.zIndex = '';
-        currentLayer = incomingLayer;
-        currentView = nextView;
-      } finally {
-        delete section.dataset.transitioning;
+      clearTimeout(swapTimer);
+      clearTimeout(settleTimer);
+      pack.style.transform = `rotateY(${direction > 0 ? -78 : 78}deg) scale(.88)`;
+      pack.style.opacity = '0';
+      flavour.style.transform = `translateY(${direction > 0 ? -16 : 16}px)`;
+      flavour.style.opacity = '0';
+      flash.classList.remove('play');
+      void flash.offsetWidth;
+      flash.classList.add('play');
+
+      const swapDelay = reduce.matches ? 1 : 240;
+      swapTimer = window.setTimeout(() => {
+        applyScene(next);
+        current = next;
+        pack.style.transform = `rotateY(${direction > 0 ? 68 : -68}deg) scale(.9)`;
+        requestAnimationFrame(() => requestAnimationFrame(resetMotion));
+      }, swapDelay);
+
+      settleTimer = window.setTimeout(() => {
         busy = false;
-      }
+        delete section.dataset.transitioning;
+        resetMotion();
+        if (requested !== current) requestScene(requested);
+      }, reduce.matches ? 20 : 920);
     };
 
-    tabs.forEach(tab => tab.addEventListener('click', () => changeView(tab.dataset.view)));
-    allButton.addEventListener('click', () => changeView(overview.key));
-    section.querySelector('.qlove-dorayaki-showcase__tabs').addEventListener('keydown', event => {
-      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-      event.preventDefault();
-      const current = Math.max(0, tabs.indexOf(document.activeElement));
-      let next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : current + (event.key === 'ArrowRight' ? 1 : -1);
-      next = (next + tabs.length) % tabs.length;
-      tabs.forEach((tab, index) => { tab.tabIndex = index === next ? 0 : -1; });
-      tabs[next].focus();
-    });
+    const sync = () => {
+      scrollFrame = 0;
+      const rect = section.getBoundingClientRect();
+      const total = Math.max(1, section.offsetHeight - innerHeight);
+      const passed = Math.max(0, Math.min(total, -rect.top));
+      const progress = passed / total;
+      requestScene(Math.min(scenes.length - 1, Math.floor(progress * scenes.length)));
+    };
+    const scheduleSync = () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(sync);
+    };
 
-    syncControls(overview.key);
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(entries => {
-        if (!entries.some(entry => entry.isIntersecting)) return;
-        section.classList.add('is-visible');
-        observer.disconnect();
-      }, { threshold: .18 });
-      observer.observe(section);
-    } else section.classList.add('is-visible');
+    controls.forEach(control => control.addEventListener('click', () => {
+      const index = Number(control.dataset.index);
+      const sectionTop = scrollY + section.getBoundingClientRect().top;
+      const total = Math.max(1, section.offsetHeight - innerHeight);
+      scrollTo({ top: sectionTop + total * ((index + .1) / scenes.length), behavior: reduce.matches ? 'auto' : 'smooth' });
+    }));
+    addEventListener('scroll', scheduleSync, { passive: true });
+    addEventListener('resize', scheduleSync, { passive: true });
+    applyScene(0);
+    resetMotion();
+    sync();
   }
   function initSnowflakeShowcase() {
     const section = root.querySelector('.qlove-snowflake-showcase');
@@ -1458,7 +1541,7 @@
   function initPouchWall() {
     const section = root.querySelector('#deluxe-pouch-120g');
     if (!section) return;
-    const viewport = section.querySelector('.qlove-pouch-wall__viewport');
+    const viewport = section.querySelector('.qlove-pouch-wall__viewport'); if (!viewport) return;
     const track = section.querySelector('.qlove-pouch-wall__track');
     const cards = [...section.querySelectorAll('.qlove-pouch-wall__card')];
     const prev = section.querySelector('.qlove-pouch-wall__prev');

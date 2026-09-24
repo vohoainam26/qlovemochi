@@ -187,12 +187,12 @@
 #qlove-main .qlove-unified-footer__track {
   display:flex;
   width:max-content;
-  gap:34px;
+  gap:48px;
   animation:qlove-footer-retail-track 28s linear infinite;
 }
 #qlove-main .qlove-unified-footer__track span {
   color:rgba(247,240,229,.72);
-  font-size:12px;
+  font-size:24px;
   font-weight:900;
   letter-spacing:.14em;
   text-transform:uppercase;
@@ -270,4 +270,106 @@
   #qlove-main .qlove-unified-footer__button,
   #qlove-main .qlove-unified-footer__socials a,
   #qlove-main .qlove-unified-footer__back { transition:none; }
+}
+#qlove-main .qlove-unified-footer__logo-marquees {
+  position: relative;
+  z-index: 2;
+  margin-top: 6px;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__retail {
+  margin: 0;
+  padding: 9px 0;
+  border: 0;
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__retail + .qlove-unified-footer__retail {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__track {
+  gap: 0;
+  animation-duration: 38s;
+  will-change: transform;
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__retail--reverse .qlove-unified-footer__track {
+  animation-direction: reverse;
+  animation-duration: 44s;
+  animation-delay: -13s;
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: clamp(12px, 1.45vw, 22px);
+  padding-right: clamp(12px, 1.45vw, 22px);
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-set {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: clamp(12px, 1.45vw, 22px);
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__track .qlove-unified-footer__logo-card {
+  display: grid;
+  width: clamp(126px, 10.5vw, 168px);
+  height: clamp(58px, 5.2vw, 78px);
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  padding: clamp(6px, 0.65vw, 10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 9px 24px rgba(22, 4, 8, 0.16);
+  font-size: 0;
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-group--square .qlove-unified-footer__logo-card {
+  width: clamp(82px, 7vw, 106px);
+  height: clamp(82px, 7vw, 106px);
+  padding: clamp(7px, 0.7vw, 10px);
+}
+
+#qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__retail:hover .qlove-unified-footer__track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  #qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__track {
+    width: 100%;
+    transform: none;
+  }
+
+  #qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+  }
+
+  #qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-set {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-set:not(:first-child) {
+    display: none;
+  }
+
+  #qlove-main .qlove-unified-footer__logo-marquees .qlove-unified-footer__logo-group[aria-hidden="true"] {
+    display: none;
+  }
 }

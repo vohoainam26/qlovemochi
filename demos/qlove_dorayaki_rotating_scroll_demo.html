@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QLove Dorayaki Rotating Scroll Demo</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f7f4ee;color:#171717}
+.intro,.outro{height:55vh;display:grid;place-items:center;text-align:center;padding:24px}
+.intro{background:#fff}.outro{height:100vh;background:#efd8cc}
+.intro h2,.outro h2{font-size:clamp(44px,8vw,110px);letter-spacing:-.06em;margin:0}
+.scroll{height:500vh;position:relative}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#dfe8c4;transition:background .55s ease}
+.stage:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,#fff8,transparent 28%),radial-gradient(circle at 80% 80%,#fff5,transparent 25%)}
+.header{position:absolute;z-index:5;top:4vh;left:5vw;right:5vw;display:flex;justify-content:space-between;align-items:flex-start}
+.header h1{font-size:clamp(58px,8vw,125px);letter-spacing:-.075em;line-height:.8;margin:0;font-weight:1000}
+.header p{margin:16px 0 0;font-weight:650;opacity:.68}
+.hint{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;opacity:.62}
+.main{position:absolute;inset:0;padding:18vh 5vw 7vh;display:grid;grid-template-columns:1fr 1.35fr .8fr;align-items:center;gap:2vw}
+.copy{align-self:end;padding-bottom:4vh;z-index:3}
+.kicker{font-size:11px;letter-spacing:.17em;text-transform:uppercase;font-weight:900;opacity:.62;margin-bottom:12px}
+.flavour{font-size:clamp(40px,5vw,92px);line-height:.88;letter-spacing:-.06em;margin:0;font-weight:1000;max-width:7ch;transition:.3s ease}
+.meta{margin-top:18px;font-size:12px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:12px;align-items:center}
+.pill{border:1px solid #0002;border-radius:999px;padding:9px 14px;background:#ffffff55}
+.visual{height:min(68vh,700px);display:grid;place-items:center;position:relative;perspective:1400px}
+.dora{position:absolute;width:min(43vw,610px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 28%,#f0c079 0 8%,#d99b50 28%,#b56e2e 61%,#8d4d1f 100%);box-shadow:inset -24px -28px 44px #63331144,inset 20px 18px 35px #ffecb955,0 42px 70px #43271133;transform:rotate(var(--rot,0deg)) scale(.96);transition:transform .78s cubic-bezier(.16,.78,.18,1)}
+.cut{position:absolute;width:42%;height:17%;left:29%;top:41.5%;border-radius:999px;background:var(--fill,#53683f);box-shadow:inset 0 7px 13px #ffffff2e;transition:background .5s ease}
+.packwrap{width:min(25vw,330px);height:min(56vh,530px);position:relative;z-index:2}
+.pack{position:absolute;inset:0;border-radius:28px 28px 20px 20px;background:linear-gradient(155deg,#7faa48,#386c2f);box-shadow:0 38px 55px #361e102e;border:1px solid #ffffff88;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;transition:transform .65s cubic-bezier(.18,.78,.2,1),opacity .35s ease,background .45s ease}
+.pack:before{content:"";position:absolute;left:0;right:0;top:0;height:15%;background:#ffffff20;border-bottom:1px solid #ffffff35}
+.logo{font-size:clamp(32px,3vw,54px);font-weight:1000;font-style:italic;letter-spacing:-.07em;margin-bottom:18px}
+.pack small{font-weight:850;letter-spacing:.16em;text-transform:uppercase}
+.pack strong{font-size:clamp(18px,1.5vw,25px);margin-top:8px;max-width:74%;line-height:1.05}
+.note{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;opacity:.5}
+.side{align-self:end;padding-bottom:4vh;z-index:3}
+.progress{display:grid;gap:13px;justify-content:end}
+.progress button{all:unset;width:52px;height:4px;background:#0003;border-radius:999px;cursor:pointer;transition:.3s}
+.progress button.active{width:92px;background:#171717}
+.steptitle{margin-top:23px;text-align:right;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.stepcopy{margin:10px 0 0 auto;max-width:240px;text-align:right;font-size:13px;line-height:1.5;opacity:.68}
+.bar{position:absolute;left:5vw;right:5vw;bottom:22px;height:1px;background:#0002}.bar span{display:block;height:100%;width:25%;background:#171717;transition:width .55s ease}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:9}.flash.play{animation:flash .45s ease}@keyframes flash{30%{opacity:.22}100%{opacity:0}}
+@media(max-width:900px){.main{grid-template-columns:1fr;padding-top:20vh}.copy{position:absolute;left:24px;bottom:7vh}.side{position:absolute;right:24px;bottom:7vh}.visual{height:62vh}.dora{width:min(80vw,560px)}.packwrap{width:min(48vw,300px);height:min(47vh,460px)}.header{left:24px;right:24px}.header p,.hint,.stepcopy{display:none}}
+</style>
+</head>
+<body>
+<section class="intro"><div><h2>Scroll into DORAYAKI</h2><p>Demo interaction only — product pack is a placeholder.</p></div></section>
+
+<section class="scroll" id="scroll">
+  <div class="stage" id="stage">
+    <div class="flash" id="flash"></div>
+    <div class="header">
+      <div><h1>DORAYAKI</h1><p>One flavour at a time. Scroll to rotate through the collection.</p></div>
+      <div class="hint">Scroll through 4 flavours ↓</div>
+    </div>
+
+    <div class="main">
+      <div class="copy">
+        <div class="kicker">QLove Dorayaki</div>
+        <h2 class="flavour" id="flavour">MATCHA & RED BEAN</h2>
+        <div class="meta"><span class="pill">165G</span><span id="desc">earthy · creamy · classic</span></div>
+      </div>
+
+      <div class="visual">
+        <div class="dora" id="dora"><div class="cut" id="cut"></div></div>
+        <div class="packwrap">
+          <div class="pack" id="pack">
+            <div class="logo">QLove</div>
+            <small>Japanese Style</small>
+            <strong id="packname">Matcha & Red Bean Dorayaki</strong>
+          </div>
+          <div class="note">Replace with transparent product PNG</div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="progress">
+          <button class="active" data-i="0"></button>
+          <button data-i="1"></button>
+          <button data-i="2"></button>
+          <button data-i="3"></button>
+        </div>
+        <div class="steptitle" id="steptitle">Matcha scene</div>
+        <div class="stepcopy" id="stepcopy">Each scroll beat rotates the dorayaki wheel 90° and flips in the next flavour.</div>
+      </div>
+    </div>
+
+    <div class="bar"><span id="bar"></span></div>
+  </div>
+</section>
+
+<section class="outro"><div><h2>NEXT SERIES</h2><p>After flavour 4, the pinned section releases.</p></div></section>
+
+<script>
+const items=[
+{name:"MATCHA & RED BEAN",pack:"Matcha & Red Bean Dorayaki",desc:"earthy · creamy · classic",bg:"#dfe8c4",fill:"#4d6339",p1:"#7faa48",p2:"#386c2f",title:"Matcha scene"},
+{name:"BOBA MILK TEA",pack:"Boba Milk Tea Dorayaki",desc:"milky · chewy · playful",bg:"#d9edf1",fill:"#9f785e",p1:"#45b4cf",p2:"#16728d",title:"Boba milk tea scene"},
+{name:"RED BEAN",pack:"Red Bean Dorayaki",desc:"sweet · smooth · nostalgic",bg:"#efd6d7",fill:"#7f2d2f",p1:"#dc5466",p2:"#922637",title:"Red bean scene"},
+{name:"STRAWBERRY",pack:"Strawberry Dorayaki",desc:"fruity · soft · bright",bg:"#f5d3dd",fill:"#c84f67",p1:"#f05f8d",p2:"#ba2c5c",title:"Strawberry scene"}];
+
+const sec=document.getElementById("scroll"),stage=document.getElementById("stage"),dora=document.getElementById("dora"),cut=document.getElementById("cut"),pack=document.getElementById("pack"),fl=document.getElementById("flavour"),desc=document.getElementById("desc"),pn=document.getElementById("packname"),st=document.getElementById("steptitle"),sc=document.getElementById("stepcopy"),bar=document.getElementById("bar"),flash=document.getElementById("flash"),btns=[...document.querySelectorAll(".progress button")];
+let current=0,busy=false;
+
+function show(i,dir=1,instant=false){
+ if(i===current&&!instant)return;
+ const x=items[i];
+ const apply=()=>{
+   stage.style.background=x.bg;
+   dora.style.setProperty("--rot",`${i*90}deg`);
+   cut.style.setProperty("--fill",x.fill);
+   pack.style.background=`linear-gradient(155deg,${x.p1},${x.p2})`;
+   fl.textContent=x.name; desc.textContent=x.desc; pn.textContent=x.pack; st.textContent=x.title;
+   sc.textContent=i===3?"One more scroll and this section releases into the next series.":"Scroll again to rotate to the next flavour.";
+   btns.forEach((b,n)=>b.classList.toggle("active",n===i));
+   bar.style.width=`${(i+1)*25}%`;
+ };
+ if(instant){apply();current=i;return}
+ busy=true;
+ pack.style.transform=`rotateY(${dir>0?-78:78}deg) scale(.88)`;pack.style.opacity="0";fl.style.opacity="0";fl.style.transform=`translateY(${dir>0?-16:16}px)`;
+ flash.classList.remove("play");void flash.offsetWidth;flash.classList.add("play");
+ setTimeout(()=>{apply();pack.style.transform=`rotateY(${dir>0?68:-68}deg) scale(.9)`;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{pack.style.transform="rotateY(0) scale(1)";pack.style.opacity="1";fl.style.opacity="1";fl.style.transform="translateY(0)";busy=false;}));},250);
+ current=i;
+}
+function sync(){
+ const r=sec.getBoundingClientRect(),total=sec.offsetHeight-innerHeight,passed=Math.max(0,Math.min(total,-r.top)),p=total?passed/total:0;
+ const i=Math.min(3,Math.floor(p*4));
+ if(i!==current&&!busy)show(i,i>current?1:-1);
+}
+btns.forEach(b=>b.onclick=()=>{const i=+b.dataset.i,top=scrollY+sec.getBoundingClientRect().top,total=sec.offsetHeight-innerHeight;scrollTo({top:top+total*((i+.1)/4),behavior:"smooth"})});
+addEventListener("scroll",sync,{passive:true});addEventListener("resize",sync);show(0,1,true);sync();
+</script>
+</body>
+</html>

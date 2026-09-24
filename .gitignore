@@ -5,6 +5,7 @@ work/
 .chrome-*/
 .edge-*/
 .vite/
+node_modules/
 
 # Local environment and logs
 .env
@@ -19,3 +20,10 @@ desktop.ini
 .idea/
 .vscode/
 
+# One-off local QA files
+.qa-*
+*.tmp
+
+# Local client-review exports (not required by the website)
+docs/client-feedback/*.pdf
+docs/client-feedback/*.xlsx
