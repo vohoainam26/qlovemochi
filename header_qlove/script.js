@@ -23,6 +23,20 @@
     const currentSlide = slides[currentIndex];
     const nextSlide = slides[newIndex];
 
+    const mochiImages = [
+      '/header_qlove/assets/images/mochiheader/MINIMOCHI.png',
+      '/header_qlove/assets/images/mochiheader/POUCH.png',
+      '/header_qlove/assets/images/mochiheader/SNOWFLAKE.png',
+      '/header_qlove/assets/images/mochiheader/DORAYAKI.png',
+      '/header_qlove/assets/images/mochiheader/DOUBLE FILLING.png',
+      '/header_qlove/assets/images/mochiheader/BOBA MOCHI.png',
+      '/header_qlove/assets/images/mochiheader/CUSTARD MOCHI.png'
+    ];
+    const randomBtnImg = document.querySelector('.random-btn-img');
+    if (randomBtnImg) {
+      randomBtnImg.src = mochiImages[newIndex];
+    }
+
     // Cleanup previous states
     slides.forEach(s => {
       s.classList.remove('previous');

@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Standalone QLove Dorayaki product showcase">
+  <title>QLove Dorayaki Showcase</title>
+  <link rel="icon" href="data:,">
+  <link rel="preload" as="image" href="../assets/qlove/products-cutout/72-transparent.png">
+  <style>
+    @font-face {
+      font-family: "Poppins";
+      src: url("../header_qlove/assets/fonts/poppins-regular.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Poppins";
+      src: url("../header_qlove/assets/fonts/poppins-black.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 900 1000;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { overflow-x: clip; scroll-behavior: auto; }
+    body {
+      margin: 0;
+      overflow-x: clip;
+      background: #dfe8c4;
+      color: #171717;
+      font-family: "Poppins", Arial, sans-serif;
+    }
+    button { font: inherit; }
+
+    .qlove-dora-scroll {
+      height: 500svh;
+      position: relative;
+    }
+
+    .qlove-dora-stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--dora-background, #dfe8c4);
+      color: #171717;
+      transition: background-color .55s ease;
+    }
+
+    .qlove-dora-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.53), transparent 28%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,.33), transparent 25%);
+    }
+
+    .qlove-dora-flash {
+      position: absolute;
+      inset: 0;
+      z-index: 9;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .qlove-dora-flash.play { animation: qlove-dora-flash-anim .45s ease; }
+    @keyframes qlove-dora-flash-anim {
+      30% { opacity: .22; }
+      100% { opacity: 0; }
+    }
+
+    .qlove-dora-header {
+      position: absolute;
+      z-index: 5;
+      top: calc(4vh + 58px);
+      left: 5vw;
+      right: 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .qlove-dora-header h2 {
+      margin: 0;
+      font-size: clamp(58px, 8vw, 125px);
+      font-weight: 1000;
+      line-height: .8;
+      letter-spacing: -.075em;
+    }
+    .qlove-dora-header p {
+      max-width: 440px;
+      margin: 16px 0 0;
+      font-weight: 650;
+      opacity: .68;
+    }
+    .qlove-dora-hint {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .62;
+    }
+
+    .qlove-dora-main {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr .8fr;
+      align-items: center;
+      gap: 2vw;
+      padding: 18vh 5vw 7vh;
+    }
+    .qlove-dora-copy {
+      z-index: 3;
+      align-self: end;
+      padding-bottom: 4vh;
+    }
+    .qlove-dora-kicker {
+      margin-bottom: 12px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      opacity: .62;
+    }
+    .qlove-dora-flavour {
+      max-width: 7ch;
+      margin: 0;
+      font-size: clamp(40px, 5vw, 92px);
+      font-weight: 1000;
+      line-height: .88;
+      letter-spacing: -.06em;
+      transition: .3s ease;
+    }
+    .qlove-dora-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .qlove-dora-pill {
+      padding: 9px 14px;
+      border: 1px solid rgba(0,0,0,.13);
+      border-radius: 999px;
+      background: rgba(255,255,255,.34);
+    }
+
+    .qlove-dora-visual {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      height: min(68vh, 700px);
+      perspective: 1400px;
+    }
+
+    .qlove-dora-wheel {
+      position: absolute;
+      width: min(43vw, 610px);
+      aspect-ratio: 1;
+      isolation: isolate;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 24%, rgba(255,239,181,.92) 0 4%, transparent 18%),
+        radial-gradient(circle at 50% 42%, #e8b862 0 20%, #d6923f 54%, #a85b25 78%, #793719 100%);
+      box-shadow:
+        inset 18px 22px 34px rgba(255,235,170,.42),
+        inset -30px -38px 46px rgba(91,39,12,.42),
+        0 15px 0 #9a4c20,
+        0 29px 0 #713317,
+        0 52px 48px rgba(67,39,17,.28);
+      transform: translateY(14%) rotateX(58deg) scale(.96);
+      transform-style: preserve-3d;
+      transition: transform .78s cubic-bezier(.16,.78,.18,1);
+    }
+
+    .qlove-dora-wheel::before {
+      content: "";
+      position: absolute;
+      inset: 3.5%;
+      z-index: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 28% 25%, rgba(255,248,211,.48) 0 2%, transparent 9%),
+        radial-gradient(circle at 69% 34%, rgba(113,55,20,.14) 0 1.2%, transparent 5%),
+        radial-gradient(circle at 43% 72%, rgba(113,55,20,.12) 0 1%, transparent 4%),
+        radial-gradient(circle at 61% 58%, transparent 0 42%, rgba(104,48,18,.13) 75%, rgba(75,31,12,.25) 100%);
+      box-shadow: inset 0 0 0 2px rgba(255,224,145,.2);
+      transform: translateZ(6px) rotateZ(var(--dora-rotation, 0deg));
+      transition: transform .78s cubic-bezier(.16,.78,.18,1);
+    }
+
+    .qlove-dora-wheel::after {
+      content: "";
+      position: absolute;
+      inset: 8%;
+      z-index: 2;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 25% 35%, rgba(103,48,18,.23) 0 1.2%, transparent 2.8%),
+        radial-gradient(circle at 68% 27%, rgba(103,48,18,.18) 0 1%, transparent 2.5%),
+        radial-gradient(circle at 75% 68%, rgba(103,48,18,.18) 0 1.3%, transparent 3%),
+        radial-gradient(circle at 39% 76%, rgba(255,231,164,.26) 0 1.2%, transparent 3%);
+      opacity: .8;
+      transform: translateZ(9px) rotateZ(var(--dora-rotation, 0deg));
+      transition: transform .78s cubic-bezier(.16,.78,.18,1);
+    }
+
+    .qlove-dora-cut {
+      position: absolute;
+      z-index: 3;
+      top: 41.5%;
+      left: 29%;
+      width: 42%;
+      height: 17%;
+      border: 3px solid rgba(91,43,18,.34);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.22), transparent 38%),
+        var(--dora-fill, #53683f);
+      box-shadow:
+        inset 0 7px 13px rgba(255,255,255,.2),
+        inset 0 -8px 12px rgba(33,19,12,.22),
+        0 5px 8px rgba(54,27,12,.22);
+      transform: translateZ(14px) rotateZ(var(--dora-rotation, 0deg));
+      transition: background-color .5s ease, transform .78s cubic-bezier(.16,.78,.18,1);
+    }
+
+    .qlove-dora-packwrap {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: min(34vw, 500px);
+      height: min(66vh, 650px);
+      perspective: 1400px;
+    }
+    .qlove-dora-pack {
+      display: block;
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      object-fit: contain;
+      backface-visibility: hidden;
+      transform-origin: center;
+      filter: drop-shadow(0 34px 38px rgba(54,30,16,.22));
+      transition: transform .65s cubic-bezier(.18,.78,.2,1), opacity .35s ease;
+      will-change: transform, opacity;
+    }
+
+    .qlove-dora-side {
+      z-index: 3;
+      align-self: end;
+      padding-bottom: 4vh;
+    }
+    .qlove-dora-progress {
+      display: grid;
+      justify-content: end;
+      gap: 13px;
+    }
+    .qlove-dora-progress button {
+      all: unset;
+      width: 52px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.2);
+      cursor: pointer;
+      transition: width .3s ease, background-color .3s ease;
+    }
+    .qlove-dora-progress button.active {
+      width: 92px;
+      background: #171717;
+    }
+    .qlove-dora-progress button:focus-visible {
+      outline: 3px solid rgba(23,23,23,.45);
+      outline-offset: 6px;
+    }
+    .qlove-dora-steptitle {
+      margin-top: 23px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    .qlove-dora-stepcopy {
+      max-width: 240px;
+      margin: 10px 0 0 auto;
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: right;
+      opacity: .68;
+    }
+
+    .qlove-dora-bar {
+      position: absolute;
+      right: 5vw;
+      bottom: 22px;
+      left: 5vw;
+      z-index: 5;
+      height: 1px;
+      background: rgba(0,0,0,.13);
+    }
+    .qlove-dora-bar span {
+      display: block;
+      width: 25%;
+      height: 100%;
+      background: #171717;
+      transition: width .55s ease;
+    }
+
+    @media (max-width: 900px) {
+      .qlove-dora-main { grid-template-columns: 1fr; padding-top: 20vh; }
+      .qlove-dora-copy { position: absolute; bottom: 7vh; left: 24px; }
+      .qlove-dora-side { position: absolute; right: 24px; bottom: 7vh; }
+      .qlove-dora-visual { height: 62svh; }
+      .qlove-dora-wheel { width: min(80vw, 560px); }
+      .qlove-dora-packwrap { width: min(58vw, 380px); height: min(52svh, 500px); }
+      .qlove-dora-header { right: 24px; left: 24px; }
+      .qlove-dora-header p,
+      .qlove-dora-hint,
+      .qlove-dora-stepcopy { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .qlove-dora-header { top: 76px; }
+      .qlove-dora-header h2 { font-size: clamp(48px, 15vw, 72px); }
+      .qlove-dora-main { padding: 16svh 20px 6svh; }
+      .qlove-dora-copy { bottom: 6svh; left: 20px; max-width: 58vw; }
+      .qlove-dora-flavour { font-size: clamp(30px, 10vw, 48px); }
+      .qlove-dora-meta { align-items: flex-start; flex-direction: column; gap: 8px; font-size: 10px; }
+      .qlove-dora-side { right: 20px; bottom: 6svh; }
+      .qlove-dora-steptitle { max-width: 120px; }
+      .qlove-dora-visual { height: 58svh; transform: translateY(-1svh); }
+      .qlove-dora-wheel { width: min(88vw, 500px); }
+      .qlove-dora-packwrap { width: min(72vw, 340px); height: min(49svh, 440px); }
+      .qlove-dora-progress { gap: 10px; }
+      .qlove-dora-progress button { width: 34px; }
+      .qlove-dora-progress button.active { width: 58px; }
+      .qlove-dora-bar { right: 20px; bottom: 14px; left: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .qlove-dora-stage,
+      .qlove-dora-wheel,
+      .qlove-dora-wheel::before,
+      .qlove-dora-wheel::after,
+      .qlove-dora-cut,
+      .qlove-dora-pack,
+      .qlove-dora-flavour,
+      .qlove-dora-progress button,
+      .qlove-dora-bar span { transition-duration: .01ms !important; }
+      .qlove-dora-flash { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="qlove-dora-scroll" id="dorayaki" aria-labelledby="qlove-dora-title">
+      <div class="qlove-dora-stage" id="qlove-dora-stage" style="--dora-background:#dfe8c4;--dora-fill:#4d6339">
+        <div class="qlove-dora-flash" id="qlove-dora-flash" aria-hidden="true"></div>
+
+        <header class="qlove-dora-header">
+          <div>
+            <h2 id="qlove-dora-title">DORAYAKI</h2>
+            <p>One flavour at a time. Scroll to rotate through the collection.</p>
+          </div>
+          <div class="qlove-dora-hint">Scroll through 4 flavours &darr;</div>
+        </header>
+
+        <div class="qlove-dora-main">
+          <div class="qlove-dora-copy">
+            <div class="qlove-dora-kicker">QLove Dorayaki</div>
+            <h3 class="qlove-dora-flavour" id="qlove-dora-flavour">MATCHA &amp; RED BEAN</h3>
+            <div class="qlove-dora-meta">
+              <span class="qlove-dora-pill">165G</span>
+              <span id="qlove-dora-desc">earthy &middot; creamy &middot; classic</span>
+            </div>
+          </div>
+
+          <div class="qlove-dora-visual">
+            <div class="qlove-dora-wheel" id="qlove-dora-wheel" aria-hidden="true">
+              <div class="qlove-dora-cut" id="qlove-dora-cut"></div>
+            </div>
+            <div class="qlove-dora-packwrap">
+              <img
+                class="qlove-dora-pack"
+                id="qlove-dora-pack"
+                src="../assets/qlove/products-cutout/72-transparent.png"
+                alt="QLove Matcha &amp; Red Bean Dorayaki 165g TWN"
+                width="1000"
+                height="1000"
+                fetchpriority="high"
+                decoding="async">
+            </div>
+          </div>
+
+          <aside class="qlove-dora-side" aria-label="Dorayaki flavour progress">
+            <div class="qlove-dora-progress" id="qlove-dora-progress">
+              <button class="active" type="button" data-index="0" aria-label="Show Matcha &amp; Red Bean" aria-current="step"></button>
+              <button type="button" data-index="1" aria-label="Show Boba Milk Tea"></button>
+              <button type="button" data-index="2" aria-label="Show Red Bean"></button>
+              <button type="button" data-index="3" aria-label="Show Strawberry"></button>
+            </div>
+            <div class="qlove-dora-steptitle" id="qlove-dora-steptitle">Matcha scene</div>
+            <p class="qlove-dora-stepcopy" id="qlove-dora-stepcopy">Each scroll beat rotates the dorayaki wheel 90&deg; and flips in the next flavour.</p>
+          </aside>
+        </div>
+
+        <div class="qlove-dora-bar" aria-hidden="true">
+          <span id="qlove-dora-bar-fill"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const section = document.querySelector('.qlove-dora-scroll');
+      const stage = section.querySelector('.qlove-dora-stage');
+      const wheel = section.querySelector('.qlove-dora-wheel');
+      const cut = section.querySelector('.qlove-dora-cut');
+      const pack = section.querySelector('.qlove-dora-pack');
+      const flavour = section.querySelector('.qlove-dora-flavour');
+      const description = section.querySelector('#qlove-dora-desc');
+      const stepTitle = section.querySelector('.qlove-dora-steptitle');
+      const stepCopy = section.querySelector('.qlove-dora-stepcopy');
+      const bar = section.querySelector('.qlove-dora-bar span');
+      const flash = section.querySelector('.qlove-dora-flash');
+      const controls = [...section.querySelectorAll('.qlove-dora-progress button')];
+
+      const scenes = [
+        {
+          display: 'MATCHA & RED BEAN',
+          description: 'earthy · creamy · classic',
+          background: '#dfe8c4',
+          fill: '#4d6339',
+          title: 'Matcha scene',
+          src: '../assets/qlove/products-cutout/72-transparent.png',
+          alt: 'QLove Matcha & Red Bean Dorayaki 165g TWN'
+        },
+        {
+          display: 'BOBA MILK TEA',
+          description: 'milky · chewy · playful',
+          background: '#d9edf1',
+          fill: '#9f785e',
+          title: 'Boba milk tea scene',
+          src: '../assets/qlove/products-cutout/73-transparent.png',
+          alt: 'QLove Boba Milk Tea Dorayaki 165g TWN'
+        },
+        {
+          display: 'RED BEAN',
+          description: 'sweet · smooth · nostalgic',
+          background: '#efd6d7',
+          fill: '#7f2d2f',
+          title: 'Red bean scene',
+          src: '../assets/qlove/products-cutout/74-transparent.png',
+          alt: 'QLove Red Bean Dorayaki 165g TWN'
+        },
+        {
+          display: 'STRAWBERRY',
+          description: 'fruity · soft · bright',
+          background: '#f5d3dd',
+          fill: '#c84f67',
+          title: 'Strawberry scene',
+          src: '../assets/qlove/products-cutout/75-transparent.png',
+          alt: 'QLove Strawberry Dorayaki 165g TWN'
+        }
+      ];
+
+      scenes.forEach(scene => {
+        const preload = new Image();
+        preload.src = scene.src;
+      });
+
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+      let current = 0;
+      let requested = 0;
+      let busy = false;
+      let scrollFrame = 0;
+      let swapTimer = 0;
+      let settleTimer = 0;
+
+      const resetMotion = () => {
+        pack.style.transform = 'rotateY(0deg) scale(1)';
+        pack.style.opacity = '1';
+        flavour.style.transform = 'translateY(0)';
+        flavour.style.opacity = '1';
+      };
+
+      const applyScene = index => {
+        const scene = scenes[index];
+        stage.style.setProperty('--dora-background', scene.background);
+        wheel.style.setProperty('--dora-rotation', `${index * 90}deg`);
+        cut.style.setProperty('--dora-fill', scene.fill);
+        if (pack.getAttribute('src') !== scene.src) pack.src = scene.src;
+        pack.alt = scene.alt;
+        flavour.textContent = scene.display;
+        description.textContent = scene.description;
+        stepTitle.textContent = scene.title;
+        stepCopy.textContent = index === scenes.length - 1
+          ? 'One more scroll and this section releases into the next series.'
+          : 'Scroll again to rotate to the next flavour.';
+        controls.forEach((control, controlIndex) => {
+          const active = controlIndex === index;
+          control.classList.toggle('active', active);
+          if (active) control.setAttribute('aria-current', 'step');
+          else control.removeAttribute('aria-current');
+        });
+        bar.style.width = `${(index + 1) * 25}%`;
+        section.dataset.activeIndex = String(index);
+      };
+
+      const requestScene = target => {
+        requested = Math.max(0, Math.min(scenes.length - 1, target));
+        if (busy || requested === current) return;
+        const direction = requested > current ? 1 : -1;
+        const next = current + direction;
+        busy = true;
+        section.dataset.transitioning = 'true';
+        clearTimeout(swapTimer);
+        clearTimeout(settleTimer);
+        pack.style.transform = `rotateY(${direction > 0 ? -78 : 78}deg) scale(.88)`;
+        pack.style.opacity = '0';
+        flavour.style.transform = `translateY(${direction > 0 ? -16 : 16}px)`;
+        flavour.style.opacity = '0';
+        flash.classList.remove('play');
+        void flash.offsetWidth;
+        flash.classList.add('play');
+
+        const swapDelay = reduce.matches ? 1 : 240;
+        swapTimer = window.setTimeout(() => {
+          applyScene(next);
+          current = next;
+          pack.style.transform = `rotateY(${direction > 0 ? 68 : -68}deg) scale(.9)`;
+          requestAnimationFrame(() => requestAnimationFrame(resetMotion));
+        }, swapDelay);
+
+        settleTimer = window.setTimeout(() => {
+          busy = false;
+          delete section.dataset.transitioning;
+          resetMotion();
+          if (requested !== current) requestScene(requested);
+        }, reduce.matches ? 20 : 920);
+      };
+
+      const sync = () => {
+        scrollFrame = 0;
+        const rect = section.getBoundingClientRect();
+        const total = Math.max(1, section.offsetHeight - innerHeight);
+        const passed = Math.max(0, Math.min(total, -rect.top));
+        const progress = passed / total;
+        requestScene(Math.min(scenes.length - 1, Math.floor(progress * scenes.length)));
+      };
+
+      const scheduleSync = () => {
+        if (!scrollFrame) scrollFrame = requestAnimationFrame(sync);
+      };
+
+      controls.forEach(control => control.addEventListener('click', () => {
+        const index = Number(control.dataset.index);
+        const sectionTop = scrollY + section.getBoundingClientRect().top;
+        const total = Math.max(1, section.offsetHeight - innerHeight);
+        scrollTo({
+          top: sectionTop + total * ((index + .1) / scenes.length),
+          behavior: reduce.matches ? 'auto' : 'smooth'
+        });
+      }));
+
+      addEventListener('scroll', scheduleSync, { passive: true });
+      addEventListener('resize', scheduleSync, { passive: true });
+      applyScene(0);
+      resetMotion();
+      sync();
+    })();
+  </script>
+</body>
+</html>

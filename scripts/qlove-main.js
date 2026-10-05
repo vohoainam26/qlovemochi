@@ -41,10 +41,10 @@
     <div class="qlove-deluxe-showcase__footer"><span class="qlove-deluxe-showcase__status" aria-live="polite">10 FLAVOURS</span><span class="qlove-deluxe-showcase__footer-note">A little extra in every bite.</span></div>
   </section>`;
   const dorayakiScrollScenes = [
-    { key: 'matcha', label: 'Matcha & Red Bean', display: 'MATCHA & RED BEAN', description: 'earthy \u00b7 creamy \u00b7 classic', background: '#dfe8c4', fill: '#4d6339', title: 'Matcha scene' },
-    { key: 'boba', label: 'Boba Milk Tea', display: 'BOBA MILK TEA', description: 'milky \u00b7 chewy \u00b7 playful', background: '#d9edf1', fill: '#9f785e', title: 'Boba milk tea scene' },
-    { key: 'redbean', label: 'Red Bean', display: 'RED BEAN', description: 'sweet \u00b7 smooth \u00b7 nostalgic', background: '#efd6d7', fill: '#7f2d2f', title: 'Red bean scene' },
-    { key: 'strawberry', label: 'Strawberry', display: 'STRAWBERRY', description: 'fruity \u00b7 soft \u00b7 bright', background: '#f5d3dd', fill: '#c84f67', title: 'Strawberry scene' }
+    { key: 'matcha', label: 'Matcha & Red Bean', display: 'MATCHA & RED BEAN', description: 'earthy \u00b7 creamy \u00b7 classic', background: '#dfe8c4', fill: '#4d6339', title: 'Matcha scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' },
+    { key: 'boba', label: 'Boba Milk Tea', display: 'BOBA MILK TEA', description: 'milky \u00b7 chewy \u00b7 playful', background: '#d9edf1', fill: '#9f785e', title: 'Boba milk tea scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' },
+    { key: 'redbean', label: 'Red Bean', display: 'RED BEAN', description: 'sweet \u00b7 smooth \u00b7 nostalgic', background: '#efd6d7', fill: '#7f2d2f', title: 'Red bean scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' },
+    { key: 'strawberry', label: 'Strawberry', display: 'STRAWBERRY', description: 'fruity \u00b7 soft \u00b7 bright', background: '#f5d3dd', fill: '#c84f67', title: 'Strawberry scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' }
   ];
   const dorayakiShowcase = items => {
     const transparentImage = product => `/assets/qlove/products-cutout/${product.number}-transparent.png`;
@@ -67,7 +67,7 @@
             <div class="qlove-dora-meta"><span class="qlove-dora-pill">165G</span><span id="qlove-dora-desc">${first.description}</span></div>
           </div>
           <div class="qlove-dora-visual">
-            <div class="qlove-dora-wheel" id="qlove-dora-wheel" aria-hidden="true"><div class="qlove-dora-cut" id="qlove-dora-cut"></div></div>
+            <div class="qlove-dora-wheel" id="qlove-dora-wheel" aria-hidden="true"><img class="qlove-dora-cake" id="qlove-dora-cake" src="${first.cake}" alt="" decoding="async"><div class="qlove-dora-cut" id="qlove-dora-cut"></div></div>
             <div class="qlove-dora-packwrap">
               <img class="qlove-dora-pack" id="qlove-dora-pack" src="${transparentImage(first.product)}" alt="${first.product.name}" width="1000" height="1000" loading="eager" fetchpriority="high" decoding="async">
             </div>
@@ -122,26 +122,18 @@
       </div>
     </section>`;
   };
-  const pouchPalettes = ['#f0d5c7','#d6ebdf','#ddd2e6','#f6d1d9','#d6dcf2','#f2d1cb','#ead5b5','#d5e8dc','#e7cfdf','#f6dbb9','#d7e8d3','#dcd0ea','#efc4df','#f1c985'];
+  const pouchPalettes = ['#efc4df','#f1c985','#ddd2e6','#f0d5c7','#d6dcf2','#f6d1d9','#f2d1cb','#e7cfdf','#d6ebdf','#ead5b5','#dcd0ea','#d7e8d3','#f6dbb9','#d5e8dc'];
   const pouchTitles = ['PISTACHIO CHOCOLATE','STRAWBERRY MATCHA','BIRTHDAY CAKE','COOKIES & CREAM','STRAWBERRY CHEESECAKE','MANGO MATCHA','STRAWBERRY TIRAMISU','WATERMELON','RASPBERRY CHOCOLATE','SAKURA BLOSSOM','MATCHA LATTE','APPLE CINNAMON','BUBBLEGUM','MANGO CHILLI'];
+  const pouchTitlesByNumber = {
+    53: 'PISTACHIO CHOCOLATE', 54: 'STRAWBERRY MATCHA', 55: 'BIRTHDAY CAKE', 56: 'COOKIES & CREAM',
+    57: 'STRAWBERRY CHEESECAKE', 58: 'MANGO MATCHA', 59: 'STRAWBERRY TIRAMISU', 60: 'WATERMELON',
+    61: 'RASPBERRY CHOCOLATE', 62: 'SAKURA BLOSSOM', 63: 'MATCHA LATTE', 64: 'APPLE CINNAMON',
+    65: 'BUBBLEGUM PARTY', 66: 'MANGO CHILLI PARTY'
+  };
+  const pouchTitle = product => pouchTitlesByNumber[product.number] || product.name;
   // Soft, very low-saturation ambient wash colours — one per Deluxe Pouch flavour
-  const pouchAmbient = [
-    '#ddd8c8', // 0  Pistachio Chocolate  → warm pistachio beige
-    '#cdddd0', // 1  Strawberry Matcha    → soft sage with pink warmth
-    '#cdd4e8', // 2  Birthday Cake        → pastel sky / lavender
-    '#d6dae2', // 3  Cookies & Cream      → cool icy blue-grey
-    '#ecdad8', // 4  Strawberry Cheesecake→ soft blush
-    '#e2dcc4', // 5  Mango Matcha         → mango cream, green undertone
-    '#e0cec8', // 6  Strawberry Tiramisu  → strawberry cocoa beige
-    '#cee0cc', // 7  Watermelon           → pale watermelon green-pink
-    '#d6ccd6', // 8  Raspberry Chocolate  → muted berry mauve
-    '#ecccd8', // 9  Sakura Blossom       → soft sakura pink
-    '#c8d6c4', // 10 Matcha Latte         → muted matcha green
-    '#e4d6c4', // 11 Apple Cinnamon       → warm cinnamon beige
-    '#e8cadf', // 12 Bubblegum            → playful pastel pink
-    '#ead39f', // 13 Mango Chilli         → warm mango gold
-  ];
-  const pouchWallCard = (product, index) => `<article class="qlove-pouch-wall__card" tabindex="0" style="--pouch-bg:${pouchPalettes[index % pouchPalettes.length]};--pouch-ink:#2b2930;--card-index:${index % 4}"><div class="qlove-pouch-wall__media"><img class="qlove-pouch-wall__image qlove-pouch-wall__image--default" src="${image(product)}" alt="${product.name}" loading="lazy" decoding="async" draggable="false" width="1000" height="1000"><img class="qlove-pouch-wall__image qlove-pouch-wall__image--hover" src="/assets/products/deluxe-pouch-120g/pouch-${index + 1}.png" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" width="1000" height="1000"></div><div class="qlove-pouch-wall__info"><h3>${pouchTitles[index] || product.name}</h3><p>${shortSize(product.name)}</p></div></article>`;
+  const pouchAmbient = ['#e8cadf','#ead39f','#cdd4e8','#ddd8c8','#ecdad8','#d6dae2','#e2dcc4','#d6ccd6','#cdddd0','#e0cec8','#e4d6c4','#c8d6c4','#ecccd8','#cee0cc'];
+  const pouchWallCard = (product, index) => `<article class="qlove-pouch-wall__card" tabindex="0" style="--pouch-bg:${pouchPalettes[index % pouchPalettes.length]};--pouch-ink:#2b2930;--card-index:${index % 4}"><div class="qlove-pouch-wall__media"><img class="qlove-pouch-wall__image qlove-pouch-wall__image--default" src="${image(product)}" alt="${product.name}" loading="lazy" decoding="async" draggable="false" width="1000" height="1000"><img class="qlove-pouch-wall__image qlove-pouch-wall__image--hover" src="/assets/products/deluxe-pouch-120g/pouch-${index + 1}.png" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" width="1000" height="1000"></div><div class="qlove-pouch-wall__info"><h3>${pouchTitle(product)}</h3><p>${shortSize(product.name)}</p></div></article>`;
   const pouchWall = items => `<section class="qlove-section qlove-pouch-wall" id="deluxe-pouch-120g" aria-labelledby="qlove-pouch-wall-title"><div class="qlove-pouch-wall__ambient" aria-hidden="true"></div><div class="qlove-pouch-wall__head"><p class="qlove-kicker">03 / ${items.length} FLAVOURS</p><h2 id="qlove-pouch-wall-title">DELUXE POUCH 120G</h2></div><div class="qlove-pouch-wall__carousel"><button class="qlove-pouch-wall__arrow qlove-pouch-wall__prev" type="button" aria-label="Previous flavour">←</button><div class="qlove-pouch-wall__viewport" tabindex="0" role="region" aria-label="Deluxe pouch flavours"><div class="qlove-pouch-wall__track">${items.map(pouchWallCard).join('')}</div></div><button class="qlove-pouch-wall__arrow qlove-pouch-wall__next" type="button" aria-label="Next flavour">→</button></div><div class="qlove-pouch-wall__status"><span class="qlove-pouch-wall__counter" aria-live="polite">01 / ${String(items.length).padStart(2, '0')}</span><i></i></div></section>`;
   // One frame for every Mini Mochi flavour; artwork pairs share the same layout.
   const miniPalettes = [
@@ -355,7 +347,9 @@
     const premiumOrder = [44, 46, 45, 47, 48].map(number => premium.find(product => product.number === number));
     const deluxeMochi = [...deluxe168, ...deluxe].filter(p => p.number !== 27);
     const traditionalFamily = [...traditional, ...mixed, ...double];
-    const deluxePouch = [...dessert, ...party];
+    const deluxePouch = [65, 66, 55, 53, 57, 56, 58, 61, 54, 59, 64, 63, 62, 60]
+      .map(number => products.find(product => product.number === number))
+      .filter(Boolean);
     const pouchMix = [...standingTraditional, ...assorted];
     const mix450 = products.filter(product => /450\s*g/i.test(product.name) && /mix/i.test(product.name));
 
@@ -400,7 +394,7 @@
   </section>`;
 
   const premiumPouchCard = (product, index) => {
-    const title = pouchTitles[index % pouchTitles.length] || product.name;
+    const title = pouchTitle(product);
     const bg = pouchPalettes[index % pouchPalettes.length];
     return `<article class="qlove-extra-card qlove-pouch-card" style="--extra-card-bg:${bg};--extra-card-accent:#fff;--extra-card-ink:#2b2930" aria-label="${product.name}">
       <h3>${title}</h3>
@@ -504,7 +498,7 @@
         </div>
       </section>
       <section class="qlove-story" aria-label="QLove collection story"><div class="qlove-story__sticky" style="--story-bg:${scenes[0].colour};--story-accent:${scenes[0].accent};--story-ink:${scenes[0].ink}"><div class="qlove-story__wash"></div><div class="qlove-story__circle"></div><div class="qlove-story__word">MINI</div><div class="qlove-story__stage"><img class="qlove-story__support qlove-story__support--a" alt="" src="${image(scenes[0].supportA)}"><img class="qlove-story__pack" src="${image(scenes[0].p)}" alt="${scenes[0].p.name}" loading="eager"><img class="qlove-story__support qlove-story__support--b" alt="" src="${image(scenes[0].supportB)}"></div><div class="qlove-story__copy"><p>01 / 04</p><h2>MINI MOCHI</h2><span>Small format. Big QLove energy.</span></div><div class="qlove-story__progress"><i></i></div><div class="qlove-story__counter">01 — 04</div></div></section>
-      <section class="qlove-section qlove-marquee" aria-label="Flavours"><div class="qlove-marquee__rail">QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE </div><img class="qlove-marquee__pack" src="${image(deluxe[2])}" alt="${deluxe[2].name}" loading="lazy"><div class="qlove-marquee__rail qlove-marquee__rail--reverse">QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> QLOVE </div></section>
+      <section class="qlove-section qlove-marquee" aria-label="Flavours"><div class="qlove-marquee__rail">MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> MANGO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> LYCHEE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> CHOCOLATE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> BLUEBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> COCONUT <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> CUSTARD <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> PISTACHIO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> YUZU <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA </div><img class="qlove-marquee__pack" src="/header_qlove/assets/images/qlove-logo-trang.png" alt="QLove Logo" loading="lazy" ><div class="qlove-marquee__rail qlove-marquee__rail--reverse">MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> MANGO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> LYCHEE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> CHOCOLATE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> BLUEBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> COCONUT <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> CUSTARD <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> PISTACHIO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> YUZU <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA </div></section>
       ${jumpNav}
       ${seriesMarkup}
       <footer class="qlove-unified-footer" id="retail" aria-labelledby="qlove-footer-title">
@@ -1213,6 +1207,7 @@
     const stage = section.querySelector('.qlove-dora-stage');
     const wheel = section.querySelector('.qlove-dora-wheel');
     const cut = section.querySelector('.qlove-dora-cut');
+    const cake = section.querySelector('.qlove-dora-cake');
     const pack = section.querySelector('.qlove-dora-pack');
     const flavour = section.querySelector('.qlove-dora-flavour');
     const description = section.querySelector('#qlove-dora-desc');
@@ -1221,7 +1216,7 @@
     const bar = section.querySelector('.qlove-dora-bar span');
     const flash = section.querySelector('.qlove-dora-flash');
     const controls = [...section.querySelectorAll('.qlove-dora-progress button')];
-    if (!stage || !wheel || !cut || !pack || !flavour || controls.length !== 4) return;
+    if (!stage || !wheel || !cut || !cake || !pack || !flavour || controls.length !== 4) return;
 
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
     const scenes = dorayakiScrollScenes.map((scene, index) => ({
@@ -1229,7 +1224,12 @@
       src: controls[index].dataset.src,
       alt: controls[index].dataset.alt
     }));
-    scenes.forEach(scene => { const preload = new Image(); preload.src = scene.src; });
+    scenes.forEach(scene => {
+      const preload = new Image();
+      preload.src = scene.src;
+      const cakePreload = new Image();
+      cakePreload.src = scene.cake;
+    });
 
     let current = 0;
     let requested = 0;
@@ -1241,6 +1241,8 @@
     const resetMotion = () => {
       pack.style.transform = 'rotateY(0deg) scale(1)';
       pack.style.opacity = '1';
+      cake.style.transform = 'translateY(0) rotateY(0deg) scale(1)';
+      cake.style.opacity = '1';
       flavour.style.transform = 'translateY(0)';
       flavour.style.opacity = '1';
     };
@@ -1251,6 +1253,7 @@
       wheel.style.setProperty('--dora-rotation', `${index * 90}deg`);
       cut.style.setProperty('--dora-fill', scene.fill);
       if (pack.getAttribute('src') !== scene.src) pack.src = scene.src;
+      if (cake.getAttribute('src') !== scene.cake) cake.src = scene.cake;
       pack.alt = scene.alt;
       flavour.textContent = scene.display;
       description.textContent = scene.description;
@@ -1279,6 +1282,8 @@
       clearTimeout(settleTimer);
       pack.style.transform = `rotateY(${direction > 0 ? -78 : 78}deg) scale(.88)`;
       pack.style.opacity = '0';
+      cake.style.transform = `translateY(4px) rotateY(${direction > 0 ? -24 : 24}deg) scale(.95)`;
+      cake.style.opacity = '0';
       flavour.style.transform = `translateY(${direction > 0 ? -16 : 16}px)`;
       flavour.style.opacity = '0';
       flash.classList.remove('play');
@@ -1290,6 +1295,7 @@
         applyScene(next);
         current = next;
         pack.style.transform = `rotateY(${direction > 0 ? 68 : -68}deg) scale(.9)`;
+        cake.style.transform = `translateY(4px) rotateY(${direction > 0 ? 20 : -20}deg) scale(.96)`;
         requestAnimationFrame(() => requestAnimationFrame(resetMotion));
       }, swapDelay);
 

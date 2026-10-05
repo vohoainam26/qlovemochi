@@ -56,8 +56,77 @@
 .qlove-dora-pill { border: 1px solid rgba(0,0,0,.13); border-radius: 999px; padding: 9px 14px; background: rgba(255,255,255,.34); }
 
 .qlove-dora-visual { height: min(68vh, 700px); display: grid; place-items: center; position: relative; perspective: 1400px; z-index: 2; }
-.qlove-dora-wheel { position: absolute; width: min(43vw, 610px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #f0c079 0 8%, #d99b50 28%, #b56e2e 61%, #8d4d1f 100%); box-shadow: inset -24px -28px 44px #63331144, inset 20px 18px 35px #ffecb955, 0 42px 70px #43271133; transform: rotate(var(--dora-rotation,0deg)) scale(.96); transition: transform .78s cubic-bezier(.16,.78,.18,1); }
-.qlove-dora-cut { position: absolute; width: 42%; height: 17%; left: 29%; top: 41.5%; border-radius: 999px; background: var(--dora-fill, #53683f); box-shadow: inset 0 7px 13px rgba(255,255,255,.18); transition: background-color .5s ease; }
+.qlove-dora-wheel {
+  position: absolute;
+  width: min(43vw, 610px);
+  aspect-ratio: 1;
+  isolation: isolate;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255,239,181,.92) 0 4%, transparent 18%),
+    radial-gradient(circle at 50% 42%, #e8b862 0 20%, #d6923f 54%, #a85b25 78%, #793719 100%);
+  box-shadow:
+    inset 18px 22px 34px rgba(255,235,170,.42),
+    inset -30px -38px 46px rgba(91,39,12,.42),
+    0 15px 0 #9a4c20,
+    0 29px 0 #713317,
+    0 52px 48px rgba(67,39,17,.28);
+  transform-style: preserve-3d;
+  transform: translateY(14%) rotateX(58deg) scale(.96);
+  transition: transform .78s cubic-bezier(.16,.78,.18,1);
+}
+
+.qlove-dora-wheel::before {
+  content: "";
+  position: absolute;
+  inset: 3.5%;
+  z-index: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 28% 25%, rgba(255,248,211,.48) 0 2%, transparent 9%),
+    radial-gradient(circle at 69% 34%, rgba(113,55,20,.14) 0 1.2%, transparent 5%),
+    radial-gradient(circle at 43% 72%, rgba(113,55,20,.12) 0 1%, transparent 4%),
+    radial-gradient(circle at 61% 58%, transparent 0 42%, rgba(104,48,18,.13) 75%, rgba(75,31,12,.25) 100%);
+  box-shadow: inset 0 0 0 2px rgba(255,224,145,.2);
+  transform: translateZ(6px) rotateZ(var(--dora-rotation,0deg));
+  transition: transform .78s cubic-bezier(.16,.78,.18,1);
+}
+
+.qlove-dora-wheel::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  z-index: 2;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 25% 35%, rgba(103,48,18,.23) 0 1.2%, transparent 2.8%),
+    radial-gradient(circle at 68% 27%, rgba(103,48,18,.18) 0 1%, transparent 2.5%),
+    radial-gradient(circle at 75% 68%, rgba(103,48,18,.18) 0 1.3%, transparent 3%),
+    radial-gradient(circle at 39% 76%, rgba(255,231,164,.26) 0 1.2%, transparent 3%);
+  opacity: .8;
+  transform: translateZ(9px) rotateZ(var(--dora-rotation,0deg));
+  transition: transform .78s cubic-bezier(.16,.78,.18,1);
+}
+
+.qlove-dora-cut {
+  position: absolute;
+  z-index: 3;
+  width: 42%;
+  height: 17%;
+  left: 29%;
+  top: 41.5%;
+  border: 3px solid rgba(91,43,18,.34);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22), transparent 38%),
+    var(--dora-fill, #53683f);
+  box-shadow:
+    inset 0 7px 13px rgba(255,255,255,.2),
+    inset 0 -8px 12px rgba(33,19,12,.22),
+    0 5px 8px rgba(54,27,12,.22);
+  transform: translateZ(14px) rotateZ(var(--dora-rotation,0deg));
+  transition: background-color .5s ease, transform .78s cubic-bezier(.16,.78,.18,1);
+}
 
 .qlove-dora-packwrap { width: min(34vw, 500px); height: min(66vh, 650px); position: relative; z-index: 2; display: grid; place-items: center; perspective: 1400px; }
 .qlove-dora-pack { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; backface-visibility: hidden; transform-origin: center; filter: drop-shadow(0 34px 38px rgba(54,30,16,.22)); transition: transform .65s cubic-bezier(.18,.78,.2,1), opacity .35s ease; will-change: transform, opacity; }
@@ -104,4 +173,112 @@
 @media(prefers-reduced-motion: reduce) {
   .qlove-dora-stage, .qlove-dora-wheel, .qlove-dora-cut, .qlove-dora-pack, .qlove-dora-flavour, .qlove-dora-progress button, .qlove-dora-bar span { transition-duration: .01ms !important; }
   .qlove-dora-flash { display: none; }
+}
+
+/* Exact overhead Dorayaki: round silhouette, domed lighting and centered pack like the reference. */
+.qlove-dora-visual {
+  position: relative;
+  overflow: visible;
+}
+
+.qlove-dora-wheel {
+  position: absolute;
+  left: 50%;
+  bottom: 1%;
+  z-index: 1;
+  width: min(42vw, 600px);
+  aspect-ratio: 1;
+  overflow: visible;
+  border-radius: 0;
+  background: none !important;
+  box-shadow: none !important;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.qlove-dora-wheel::before,
+.qlove-dora-wheel::after,
+.qlove-dora-cut {
+  display: none !important;
+}
+
+.qlove-dora-cake {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  opacity: 1;
+  transform: translateY(0) rotateY(0deg) scale(1);
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+  transition:
+    transform .72s cubic-bezier(.18,.78,.2,1),
+    opacity .34s ease;
+  will-change: transform, opacity;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 14px 18px rgba(54,30,16,.14));
+}
+
+.qlove-dora-packwrap {
+  position: absolute;
+  left: 50%;
+  bottom: 15%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: min(34vw, 490px);
+  height: min(58vh, 430px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.qlove-dora-pack {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 24px rgba(54,30,16,.18));
+}
+
+@media(max-width: 1200px) {
+  .qlove-dora-wheel {
+    width: min(64vw, 600px);
+  }
+  .qlove-dora-packwrap {
+    bottom: 18%;
+    width: min(42vw, 460px);
+    height: min(58vh, 420px);
+  }
+}
+
+@media(max-width: 900px) {
+  .qlove-dora-wheel {
+    bottom: -15%;
+    width: min(82vw, 655px);
+  }
+  .qlove-dora-packwrap {
+    bottom: 0;
+    width: min(63vw, 510px);
+    height: min(76svh, 510px);
+  }
+}
+
+@media(max-width: 600px) {
+  .qlove-dora-wheel {
+    bottom: 22%;
+    width: min(82vw, 460px);
+  }
+  .qlove-dora-packwrap {
+    bottom: 28.5%;
+    width: min(72vw, 430px);
+    height: min(60svh, 400px);
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  .qlove-dora-cake { transition-duration: .01ms !important; }
 }
