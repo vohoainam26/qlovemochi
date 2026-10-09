@@ -643,7 +643,8 @@
 
 #qlove-main .qlove-mini-showcase__arrow {
   position: absolute;
-  top: calc(50% - 24px);
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 10;
   display: grid;
   place-items: center;
@@ -664,7 +665,7 @@
 
 #qlove-main .qlove-mini-showcase__arrow:not(:disabled):hover {
   background: #fce7ee;
-  transform: translateY(-2px);
+  transform: translateY(calc(-50% - 2px));
 }
 
 #qlove-main .qlove-mini-showcase__arrow:focus-visible {

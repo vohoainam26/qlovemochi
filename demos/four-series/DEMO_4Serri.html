@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="QLove Mochi - 4 Seri Showcase" />
+    <title>QLove Mochi - 4 Seri Showcase</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles/qlove-main.css" />
+    <link rel="stylesheet" href="/styles/demo-4seri-motion.css" />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #f8f7f4;
+        color: #1a1a1a;
+        font-family: Poppins, Arial, sans-serif;
+        overflow-x: clip;
+      }
+      #qlove-main {
+        width: 100%;
+        min-height: 100vh;
+      }
+      .qlove-jump {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+      }
+    </style>
+  </head>
+  <body id="top">
+    <main id="qlove-main" aria-live="polite"></main>
+    <script src="/assets/gsap.min.js"></script>
+    <script src="/assets/ScrollTrigger.min.js"></script>
+    <script src="/scripts/demo-4seri-main.js"></script>
+    <script src="/scripts/demo-4seri-motion.js"></script>
+  </body>
+</html>

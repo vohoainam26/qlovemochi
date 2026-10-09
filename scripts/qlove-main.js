@@ -4,6 +4,28 @@
   // Inventory retains the authoritative Drive URL; the UI uses its local copy.
   // Render only the non-destructive, transparent-background product PNGs.
   const image = p => `/assets/qlove/products-cutout/${p.number}.png`;
+  const miniArtworkByNumber = {
+    1: 'TROPICAL MANGO 80G',
+    2: 'MATCHA LATTE 80G',
+    3: 'INTENSE CHOCOLATE 80G',
+    4: 'SAKURA STRAWBERRY 80G',
+    5: 'WILD BLUEBERRY 80G',
+    6: 'EXOTIC LYCHEE 80G',
+    7: 'PEANUT BUTTER 80G',
+    8: 'VELVET TARO 80G',
+    44: 'PEACH CUSTARD  80G',
+    45: 'TROPICAL PASSION  80G',
+    46: 'CHOCO MINT COOKIE  80G',
+    47: 'EXOTIC COCONUT 80G',
+    48: 'GOLDEN FRUIT 80G'
+  };
+  const miniArtwork = (product, variant) => {
+    const filename = miniArtworkByNumber[product.number];
+    const revision = product.number === 48 ? '?v=20261009' : '';
+    return filename
+      ? `/assets/qlove/mini-mochi-scenes/${encodeURIComponent(`${filename}${variant}.png`)}${revision}`
+      : image(product);
+  };
   const group = (items, from, to) => items.filter(p => p.number >= from && p.number <= to);
   const shortSize = name => (name.match(/(\d+g)/i) || [''])[0];
   const card = (p, index = 0) => `<article class="qlove-card" style="--card-blob:${['#ffd3ba','#f49fbc','#e1f5ee','#eee4f3'][index % 4]}"><img src="${image(p)}" alt="${p.name}" loading="lazy" decoding="async" width="360" height="280"><h3>${p.name}</h3><p>${shortSize(p.name)}</p></article>`;
@@ -41,46 +63,59 @@
     <div class="qlove-deluxe-showcase__footer"><span class="qlove-deluxe-showcase__status" aria-live="polite">10 FLAVOURS</span><span class="qlove-deluxe-showcase__footer-note">A little extra in every bite.</span></div>
   </section>`;
   const dorayakiScrollScenes = [
-    { key: 'matcha', label: 'Matcha & Red Bean', display: 'MATCHA & RED BEAN', description: 'earthy \u00b7 creamy \u00b7 classic', background: '#dfe8c4', fill: '#4d6339', title: 'Matcha scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' },
-    { key: 'boba', label: 'Boba Milk Tea', display: 'BOBA MILK TEA', description: 'milky \u00b7 chewy \u00b7 playful', background: '#d9edf1', fill: '#9f785e', title: 'Boba milk tea scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' },
-    { key: 'redbean', label: 'Red Bean', display: 'RED BEAN', description: 'sweet \u00b7 smooth \u00b7 nostalgic', background: '#efd6d7', fill: '#7f2d2f', title: 'Red bean scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' },
-    { key: 'strawberry', label: 'Strawberry', display: 'STRAWBERRY', description: 'fruity \u00b7 soft \u00b7 bright', background: '#f5d3dd', fill: '#c84f67', title: 'Strawberry scene', cake: '/assets/qlove/dorayaki-cake-overhead-v2.png' }
+    { key: 'matcha', name: 'MATCHA', sub: '& RED BEAN', kicker: 'EARTHY · CREAMY · CLASSIC', desc: 'Soft Japanese pancake filled with aromatic Uji matcha cream and rich sweet azuki red bean.', bg: '#DDE8BD', accent: '#6B8238', accent2: '#9AB85A', fill: '#6F8D3F', grain: '#A25B24', ingA: 'Matcha', ingB: 'Red Bean', cake: '/assets/qlove/dorayaki-cake-1-matcha.png?v=5', pack: '/assets/qlove/dorayaki-thumbnails/72-pack.png?v=5' },
+    { key: 'boba', name: 'BOBA', sub: 'MILK TEA', kicker: 'MILKY · CHEWY · PLAYFUL', desc: 'Golden fluffy pancake paired with smooth milk tea filling and chewy brown sugar boba pearls.', bg: '#D6EAF0', accent: '#2A91AE', accent2: '#68B6CB', fill: '#8F6546', grain: '#9C663B', ingA: 'Boba', ingB: 'Milk Tea', cake: '/assets/qlove/dorayaki-cake-2-boba.png?v=5', pack: '/assets/qlove/dorayaki-thumbnails/73-pack.png?v=5' },
+    { key: 'redbean', name: 'RED BEAN', sub: 'CLASSIC', kicker: 'SWEET · SMOOTH · NOSTALGIC', desc: 'Traditional Japanese dorayaki with tender honey-kissed pancake layers and smooth slow-cooked red bean paste.', bg: '#EED9DB', accent: '#A93E45', accent2: '#CE7077', fill: '#6C252B', grain: '#944722', ingA: 'Azuki', ingB: 'Pancake', cake: '/assets/qlove/dorayaki-cake-3-redbean.png?v=5', pack: '/assets/qlove/dorayaki-thumbnails/74-pack.png?v=5' },
+    { key: 'strawberry', name: 'STRAWBERRY', sub: '& RED BEAN', kicker: 'FRUITY · SOFT · BRIGHT', desc: 'Delicate fluffy pancake layered with ripe strawberry puree and classic sweet red bean filling.', bg: '#F6D9E3', accent: '#D84F70', accent2: '#E7849D', fill: '#B53B5A', grain: '#9C4C28', ingA: 'Strawberry', ingB: 'Red Bean', cake: '/assets/qlove/dorayaki-cake-4-strawberry.png?v=5', pack: '/assets/qlove/dorayaki-thumbnails/75-pack.png?v=5' }
   ];
   const dorayakiShowcase = items => {
-    const transparentImage = product => `/assets/qlove/products-cutout/${product.number}-transparent.png`;
     const flavours = dorayakiScrollScenes.map((scene, index) => ({
       ...scene,
-      product: items.find(product => product.number === 72 + index) || items[index]
+      product: items.find(product => product.number === 72 + index) || items[index],
+      num: String(index + 1).padStart(2, '0')
     }));
     const first = flavours[0];
-    return `<section class="qlove-section qlove-dora-scroll" id="dorayaki" aria-labelledby="qlove-dora-title">
-      <div class="qlove-dora-stage" id="qlove-dora-stage" style="--dora-background:${first.background};--dora-fill:${first.fill}">
-        <div class="qlove-dora-flash" id="qlove-dora-flash" aria-hidden="true"></div>
-        <header class="qlove-dora-header">
-          <div><h2 id="qlove-dora-title">DORAYAKI</h2><p>One flavour at a time. Scroll to rotate through the collection.</p></div>
-          <div class="qlove-dora-hint">Scroll through 4 flavours &darr;</div>
-        </header>
-        <div class="qlove-dora-main">
-          <div class="qlove-dora-copy">
-            <div class="qlove-dora-kicker">QLove Dorayaki</div>
-            <h3 class="qlove-dora-flavour" id="qlove-dora-flavour">${first.display}</h3>
-            <div class="qlove-dora-meta"><span class="qlove-dora-pill">165G</span><span id="qlove-dora-desc">${first.description}</span></div>
+    return `<section class="qlove-section qlove-dora-scroll" id="dorayaki" style="--bg:${first.bg};--accent:${first.accent};--accent2:${first.accent2};--fill:${first.fill};--grain:${first.grain};">
+      <div class="qlove-dora-shell" id="qlove-dora-shell">
+        <section class="qlove-dora-copy">
+          <div class="qlove-dora-eyebrow">Japanese style pancake</div>
+          <h1 class="qlove-dora-h1">
+            <span class="qlove-dora-name">${first.name}</span>
+            <span class="qlove-dora-accent qlove-dora-sub">${first.sub}</span>
+          </h1>
+          <p class="qlove-dora-lead">
+            ${first.desc}
+          </p>
+          <div class="qlove-dora-facts">
+            <span class="qlove-dora-chip">165G</span>
+            <span class="qlove-dora-chip qlove-dora-kicker-chip">${first.kicker}</span>
           </div>
-          <div class="qlove-dora-visual">
-            <div class="qlove-dora-wheel" id="qlove-dora-wheel" aria-hidden="true"><img class="qlove-dora-cake" id="qlove-dora-cake" src="${first.cake}" alt="" decoding="async"><div class="qlove-dora-cut" id="qlove-dora-cut"></div></div>
-            <div class="qlove-dora-packwrap">
-              <img class="qlove-dora-pack" id="qlove-dora-pack" src="${transparentImage(first.product)}" alt="${first.product.name}" width="1000" height="1000" loading="eager" fetchpriority="high" decoding="async">
-            </div>
+        </section>
+
+        <section class="qlove-dora-stage" aria-label="Dorayaki product stage">
+          <div class="qlove-dora-spot"></div>
+
+          <div class="qlove-dora-cake-wrap" aria-hidden="true">
+            <img class="qlove-dora-cake-img" src="${first.cake}" alt="Dorayaki Cake" />
           </div>
-          <aside class="qlove-dora-side" aria-label="Dorayaki flavour progress">
-            <div class="qlove-dora-progress" id="qlove-dora-progress">
-              ${flavours.map(({ label, product }, index) => `<button class="${index === 0 ? 'active' : ''}" type="button" data-index="${index}" data-src="${transparentImage(product)}" data-alt="${product.name}" aria-label="Show ${label}"${index === 0 ? ' aria-current="step"' : ''}></button>`).join('')}
+
+          <div class="qlove-dora-pack-card" data-num="${first.num}">
+            <img class="qlove-dora-pack" src="${first.pack}" alt="QLove ${first.name} ${first.sub} Dorayaki" width="1000" height="1000" loading="eager" fetchpriority="high" decoding="async">
+          </div>
+        </section>
+
+        <aside class="qlove-dora-rail" aria-label="Dorayaki flavour navigation">
+          <div class="qlove-dora-rail-title">4 Flavours</div>
+          ${flavours.map((f, index) => `
+            <div class="qlove-dora-flavour-btn ${index === 0 ? 'active' : ''}" data-index="${index}" style="color:${f.accent}">
+              <span class="qlove-dora-thumb-wrap"><img class="qlove-dora-thumb-img" src="${f.cake}" alt="${f.name}" /></span>
+              <span><strong>${f.name}</strong><small>${f.sub}</small></span>
+              <span class="qlove-dora-num">${f.num}</span>
             </div>
-            <div class="qlove-dora-steptitle" id="qlove-dora-steptitle">${first.title}</div>
-            <p class="qlove-dora-stepcopy" id="qlove-dora-stepcopy">Each scroll beat rotates the dorayaki wheel 90&deg; and flips in the next flavour.</p>
-          </aside>
-        </div>
-        <div class="qlove-dora-bar" aria-hidden="true"><span id="qlove-dora-bar-fill"></span></div>
+          `).join('')}
+        </aside>
+
+        <div class="qlove-dora-footer-line" aria-hidden="true"><span class="qlove-dora-progress-bar"></span></div>
       </div>
     </section>`;
   };
@@ -148,7 +183,6 @@
   ];
   const miniPanel = (product, index) => {
     const flavour = miniPalettes[index];
-    const artwork = `/assets/qlove/Minimochi/${flavour.title}`;
     const maskId = `qlove-mini-reveal-${index}`;
     const origins = [
       [[.48, .68], [.22, .45], [.77, .29]],
@@ -157,8 +191,8 @@
     ][index % 3];
     return `<article class="qlove-mini-panel" style="--mini-bg:${flavour.bg};--mini-ink:${flavour.ink}" aria-label="${product.name}">
       <div class="qlove-mini-panel__media" aria-hidden="true">
-        <img class="qlove-mini-panel__image qlove-mini-panel__image--default" src="${artwork}1.png" alt="" loading="lazy" decoding="async" width="1024" height="1536">
-        <span class="qlove-mini-panel__hover-reveal"><img class="qlove-mini-panel__image qlove-mini-panel__image--hover" src="${artwork}2.png" alt="" loading="lazy" decoding="async" width="1024" height="1536"></span>
+        <img class="qlove-mini-panel__image qlove-mini-panel__image--default" src="${miniArtwork(product, 1)}" alt="" loading="lazy" decoding="async" width="1024" height="1536">
+        <span class="qlove-mini-panel__hover-reveal"><img class="qlove-mini-panel__image qlove-mini-panel__image--hover" src="${miniArtwork(product, 2)}" alt="" loading="lazy" decoding="async" width="1024" height="1536"></span>
         <svg class="qlove-mini-panel__mask-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs><filter id="${maskId}-soft" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="0.01"/></filter><mask id="${maskId}" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox" style="mask-type:alpha"><g filter="url(#${maskId}-soft)">${origins.map(([x, y]) => `<circle class="qlove-mini-panel__reveal-spot" cx="${x}" cy="${y}" r="0" fill="white"/>`).join('')}</g></mask></defs></svg>
       </div>
       <h3 class="qlove-mini-panel__title">${flavour.title}</h3>
@@ -232,38 +266,25 @@
   const traditionalCollection = (traditional, mixed, double) => `
     <section class="qlove-traditional-scroll" id="traditional-mochi" data-progress="0">
       <div class="qlove-traditional-scroll__stage">
+        <div class="qlove-traditional-scroll__paper" aria-hidden="true"></div>
         <div class="qlove-traditional-scroll__grain" aria-hidden="true"></div>
 
         <div class="qlove-traditional-scroll__headline">
           <div class="kicker">QLOVE TRADITIONAL MOCHI</div>
-          <h2>THE CLASSICS,<br>SEVEN WAYS.</h2>
-          <p>Soft, chewy Japanese-style mochi in seven timeless flavours.</p>
+          <h2>THE ORIGINAL SEVEN.</h2>
+          <span class="qlove-traditional-scroll__headline-note">SCROLL TO TURN THE RING</span>
         </div>
 
-        <div class="qlove-traditional-scroll__products"></div>
+        <div class="qlove-traditional-scroll__ring" aria-label="Traditional Mochi product gallery">
+          <div class="qlove-traditional-scroll__word-rail" aria-hidden="true"></div>
+          <div class="qlove-traditional-scroll__products"></div>
+        </div>
 
         <div class="qlove-traditional-scroll__spot-copy" aria-live="polite">
           <div class="num">01 / 07</div>
           <h3>MATCHA</h3>
           <div class="descriptor">Earthy · Smooth · Classic</div>
-          <div class="meta">
-            <span class="pill">180G</span>
-            <span class="pill">TWN</span>
-            <span class="pill">TRADITIONAL MOCHI</span>
-          </div>
-        </div>
-
-        <div class="qlove-traditional-scroll__final-title" aria-live="polite">
-          <div class="small">The full collection</div>
-          <h3>Seven classics.<br>Which one is yours?</h3>
-          <p>Matcha · Peanut · Red Bean · Boba · Pandan · Sesame · Taro</p>
-        </div>
-
-        <div class="qlove-traditional-scroll__phase-badge" aria-hidden="true">STACK → FAN → SPOTLIGHT → LINEUP</div>
-
-        <div class="qlove-traditional-scroll__rail" aria-hidden="true">
-          <div class="qlove-traditional-scroll__rail-track"><div class="qlove-traditional-scroll__rail-fill"></div></div>
-          <div class="qlove-traditional-scroll__rail-labels"></div>
+          <nav class="qlove-traditional-scroll__dots" aria-label="Choose a Traditional Mochi flavour"></nav>
         </div>
       </div>
     </section>
@@ -339,7 +360,7 @@
     </div>
   </section>`;
   const dessertPlatterCollection = () => `<section class="qlove-section qlove-dessert-platter-embed" id="dessert-platter" aria-label="Dessert Platter interactive 3D showcase">
-    <iframe class="qlove-dessert-platter-embed__frame" src="/demos/qlove_dessert_platter_FINAL_v2_ZOOM.html" title="QLove Dessert Platter interactive 3D showcase" loading="eager"></iframe>
+    <iframe class="qlove-dessert-platter-embed__frame" src="/demos/dessert-platter/qlove_dessert_platter_FINAL_v2_ZOOM.html" title="QLove Dessert Platter interactive 3D showcase" loading="eager"></iframe>
   </section>`;
   const storyScene = (p, supportA, supportB, title, copy, colour, accent, ink) => ({p,supportA,supportB,title,copy,colour,accent,ink});
   fetch('/assets/qlove-products.json').then(r => r.ok ? r.json() : Promise.reject(new Error('Inventory unavailable'))).then(products => {
@@ -363,8 +384,8 @@
     ][index % 3];
     return `<article class="qlove-mini-panel" style="--mini-bg:${flavour.bg};--mini-ink:${flavour.ink}" aria-label="${product.name}">
       <div class="qlove-mini-panel__media" aria-hidden="true">
-        <img class="qlove-mini-panel__image qlove-mini-panel__image--default" src="${image(product)}" alt="" loading="lazy" decoding="async" width="1024" height="1536">
-        <span class="qlove-mini-panel__hover-reveal"><img class="qlove-mini-panel__image qlove-mini-panel__image--hover" src="${image(product)}" alt="" loading="lazy" decoding="async" width="1024" height="1536" style="object-fit: contain; width: 108%; height: auto; top: 56%; left: 50%; transform: translate(-50%, -50%) scale(1.15) rotate(2deg); filter: drop-shadow(0 25px 25px rgba(0,0,0,0.2)) brightness(1.05);"></span>
+        <img class="qlove-mini-panel__image qlove-mini-panel__image--default" src="${miniArtwork(product, 1)}" alt="" loading="lazy" decoding="async" width="1024" height="1536">
+        <span class="qlove-mini-panel__hover-reveal"><img class="qlove-mini-panel__image qlove-mini-panel__image--hover" src="${miniArtwork(product, 2)}" alt="" loading="lazy" decoding="async" width="1024" height="1536"></span>
         <svg class="qlove-mini-panel__mask-defs" aria-hidden="true" focusable="false" width="0" height="0"><defs><filter id="${maskId}-soft" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="0.01"/></filter><mask id="${maskId}" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox" style="mask-type:alpha"><g filter="url(#${maskId}-soft)">${origins.map(([x, y]) => `<circle class="qlove-mini-panel__reveal-spot" cx="${x}" cy="${y}" r="0" fill="white"/>`).join('')}</g></mask></defs></svg>
       </div>
       <div class="qlove-mini-panel__info">
@@ -416,6 +437,7 @@
     </div>
   </section>`;
 
+    const mixBobaDemo2 = () => `<section class="qlove-section qlove-mb-embed" id="mix-to-boba" aria-label="QLove Mix Mochi to Boba Standing Pouch"><iframe class="qlove-mb-embed__frame" src="/demos/mix-to-boba/qlove-mix-to-boba-demo2.html" title="QLove Mix Mochi to Boba Standing Pouch" loading="eager"></iframe></section>`;
     const series = [
       { id: 'mini-mochi', label: 'MINI 80g', products: mini, markup: miniShowcase(mini) },
       { id: 'extra-to-love', label: 'EXTRA TO LOVE', products: premiumOrder, markup: extraMiniShowcase(premiumOrder) },
@@ -425,10 +447,7 @@
       { id: 'snowflake', label: 'SNOWFLAKE', products: snow, markup: snowflakeShowcase(snow) },
       { id: 'dessert-platter', label: 'DESSERT PLATTER', products: mix450, markup: dessertPlatterCollection() },
       { id: 'traditional-mochi', label: 'TRADITIONAL 180g', products: traditional, markup: traditionalCollection(traditional) },
-      { id: 'mix-180g', label: 'MIX 180g', products: mixed, markup: integratedChapter({id:'mix-180g',index:10,title:'QLove Mix Mochi',subtitle:'Two assortments · one split story.',motion:'mix',entry:'none',exit:'doors',items:mixed}) },
-      { id: 'double-filling', label: 'DOUBLE FILLING', products: double, markup: integratedChapter({id:'double-filling',index:11,title:'Double Filling',subtitle:'Six creamy centres in a slow flavour orbit.',motion:'double',entry:'doors',exit:'cream',items:double}) },
-      { id: 'custard-168g', label: 'CUSTARD 168g', products: custard, markup: integratedChapter({id:'custard-168g',index:12,title:'Custard Mochi',subtitle:'Soft lens focus · three bright flavours.',motion:'custard',entry:'cream',exit:'pearls',items:custard}) },
-      { id: 'boba-pouch-120g', label: 'BOBA POUCH', products: boba, markup: integratedChapter({id:'boba-pouch-120g',index:13,title:'Boba Standing Pouch',subtitle:'Gravity room · pearls in motion.',motion:'boba',entry:'pearls',exit:'bands',items:boba}) },
+      { id: 'mix-to-boba', label: 'MIX → BOBA', products: [...mixed, ...double, ...custard, ...boba], markup: mixBobaDemo2() },
       { id: 'pouch-mix-120g', label: 'POUCH MIX', products: pouchMix, markup: integratedChapter({id:'pouch-mix-120g',index:14,title:'QLove Pouch Mix',subtitle:'Two moving shelves · six pouch personalities.',motion:'pouch',entry:'bands',exit:'greenwash',items:pouchMix}) },
       { id: 'dubai', label: 'DUBAI', products: dubai, markup: integratedChapter({id:'dubai',index:15,title:'Dubai Style',subtitle:'Chocolate · pistachio · kunafa.',motion:'dubai',entry:'greenwash',exit:'none',items:dubai,dark:true}) }
     ];
@@ -498,7 +517,7 @@
         </div>
       </section>
       <section class="qlove-story" aria-label="QLove collection story"><div class="qlove-story__sticky" style="--story-bg:${scenes[0].colour};--story-accent:${scenes[0].accent};--story-ink:${scenes[0].ink}"><div class="qlove-story__wash"></div><div class="qlove-story__circle"></div><div class="qlove-story__word">MINI</div><div class="qlove-story__stage"><img class="qlove-story__support qlove-story__support--a" alt="" src="${image(scenes[0].supportA)}"><img class="qlove-story__pack" src="${image(scenes[0].p)}" alt="${scenes[0].p.name}" loading="eager"><img class="qlove-story__support qlove-story__support--b" alt="" src="${image(scenes[0].supportB)}"></div><div class="qlove-story__copy"><p>01 / 04</p><h2>MINI MOCHI</h2><span>Small format. Big QLove energy.</span></div><div class="qlove-story__progress"><i></i></div><div class="qlove-story__counter">01 — 04</div></div></section>
-      <section class="qlove-section qlove-marquee" aria-label="Flavours"><div class="qlove-marquee__rail">MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> MANGO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> LYCHEE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> CHOCOLATE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> BLUEBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> COCONUT <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> CUSTARD <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> PISTACHIO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> YUZU <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA </div><img class="qlove-marquee__pack" src="/header_qlove/assets/images/qlove-logo-trang.png" alt="QLove Logo" loading="lazy" ><div class="qlove-marquee__rail qlove-marquee__rail--reverse">MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> MANGO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> LYCHEE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> CHOCOLATE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> BLUEBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> COCONUT <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> CUSTARD <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> PISTACHIO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> YUZU <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA </div></section>
+      <section class="qlove-section qlove-marquee" aria-label="Flavours"><div class="qlove-marquee__rail">MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> MANGO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> LYCHEE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> CHOCOLATE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> BLUEBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> COCONUT <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-7.webp" class="marquee-mochi" alt="" loading="lazy"> CUSTARD <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> PISTACHIO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> YUZU <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA </div><img class="qlove-marquee__pack" src="/header_qlove/assets/images/qlove-logo-den.png" alt="QLove Logo" loading="lazy" ><div class="qlove-marquee__rail qlove-marquee__rail--reverse">MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_9_687f9064cf83dbac28057097_Marquecontainer-4.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_8_687f9064941ff622f5fc204f_Marquecontainer-6.webp" class="marquee-mochi" alt="" loading="lazy"> MANGO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_7_687f90654e3272a2ec2dcac9_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> LYCHEE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_6_687f9065d602967ae01b1e6d_Marquecontainer-8.webp" class="marquee-mochi" alt="" loading="lazy"> CHOCOLATE <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_14_687f906403c932500173dd2a_Marquecontainer-10.webp" class="marquee-mochi" alt="" loading="lazy"> BLUEBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_13_687f9064727e3f41f52ae4b1_Marquecontainer-2.webp" class="marquee-mochi" alt="" loading="lazy"> COCONUT <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> CUSTARD <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> PISTACHIO <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> YUZU <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_10_687f9064b8430bc28a4e13a7_Marquecontainer-5.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_11_687f9064674530dc18dbf725_Marquecontainer-9.webp" class="marquee-mochi" alt="" loading="lazy"> STRAWBERRY <img src="/assets/Royal Family - Traditional Mochi, Modern Flavors - Gluten-free and Vegan Friendly/imgi_12_687f9064b4b584dbc359f6ee_Marquecontainer-3.webp" class="marquee-mochi" alt="" loading="lazy"> MATCHA </div></section>
       ${jumpNav}
       ${seriesMarkup}
       <footer class="qlove-unified-footer" id="retail" aria-labelledby="qlove-footer-title">
@@ -649,6 +668,7 @@
         root.querySelector('.qlove-mix-450__fallback')?.removeAttribute('hidden');
       }
     });
+    initMixBobaDemo2();
     initQloveIntroTransition();
     initStory(scenes);
     initMiniShowcase();
@@ -667,6 +687,23 @@
       window.setTimeout(() => root.scrollIntoView({ behavior: 'auto', block: 'start' }), 250);
     }
   }).catch(error => { root.innerHTML = `<p style="padding:3rem">Unable to load the QLove product inventory.</p>`; console.error(error); });
+    function initMixBobaDemo2() {
+      root.querySelectorAll('.qlove-mb-embed__frame').forEach(frame => {
+        const resize = () => {
+          try {
+            const doc = frame.contentDocument;
+            if (!doc) return;
+            frame.style.height = `${Math.max(doc.documentElement.scrollHeight, doc.body?.scrollHeight || 0)}px`;
+          } catch (_) {
+            frame.style.height = '2600px';
+          }
+        };
+        frame.addEventListener('load', () => {
+          resize();
+          try { new ResizeObserver(resize).observe(frame.contentDocument.documentElement); } catch (_) {}
+        }, { once: true });
+      });
+    }
     function initMiniShowcase() {
     root.querySelectorAll('.qlove-mini-showcase').forEach(section => {
       const hoverPreloads = [...section.querySelectorAll('.qlove-mini-panel__image--hover')].map(artwork => {
@@ -719,6 +756,8 @@
   function initMiniReveal() {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const revealDuration = 1500;
+    const hideDuration = 1250;
     const clamp = value => Math.min(1, Math.max(0, value));
     const smooth = value => {
       const t = clamp(value);
@@ -743,18 +782,18 @@
         hoverReveal.style.webkitMaskImage = maskReference;
         hoverReveal.style.opacity = '1';
         spots.forEach((spot, index) => {
-          const delay = [35, 105, 175][index];
-          const progress = smooth((state.time - delay) / (905 - delay));
+          const delay = [55, 165, 275][index];
+          const progress = smooth((state.time - delay) / (revealDuration - delay));
           spot.setAttribute('r', String(1.18 * progress));
         });
       };
       const moveTo = active => {
         tween?.kill();
         if (frame) cancelAnimationFrame(frame);
-        const target = active ? (reducedMotion.matches ? 160 : 1050) : 0;
+        const target = active ? (reducedMotion.matches ? 160 : revealDuration) : 0;
         const start = state.time;
-        const total = reducedMotion.matches ? 160 : active ? 1050 : 880;
-        const duration = total * Math.abs(target - start) / (reducedMotion.matches ? 160 : 1050);
+        const total = reducedMotion.matches ? 160 : active ? revealDuration : hideDuration;
+        const duration = total * Math.abs(target - start) / (reducedMotion.matches ? 160 : revealDuration);
         if (!duration) return;
         if (window.gsap) {
           tween = window.gsap.to(state, { time: target, duration: duration / 1000, ease: 'none', onUpdate: render, onComplete: render });
@@ -1204,132 +1243,112 @@
   function initDorayakiShowcase() {
     const section = root.querySelector('.qlove-dora-scroll');
     if (!section) return;
-    const stage = section.querySelector('.qlove-dora-stage');
-    const wheel = section.querySelector('.qlove-dora-wheel');
-    const cut = section.querySelector('.qlove-dora-cut');
-    const cake = section.querySelector('.qlove-dora-cake');
+    const shell = section.querySelector('.qlove-dora-shell');
+    const nameEl = section.querySelector('.qlove-dora-name');
+    const subEl = section.querySelector('.qlove-dora-sub');
+    const kickerEl = section.querySelector('.qlove-dora-kicker-chip');
+    const leadEl = section.querySelector('.qlove-dora-lead');
+    const cakeImg = section.querySelector('.qlove-dora-cake-img');
+    const ingA = section.querySelector('.qlove-dora-ing-a');
+    const ingB = section.querySelector('.qlove-dora-ing-b');
     const pack = section.querySelector('.qlove-dora-pack');
-    const flavour = section.querySelector('.qlove-dora-flavour');
-    const description = section.querySelector('#qlove-dora-desc');
-    const stepTitle = section.querySelector('.qlove-dora-steptitle');
-    const stepCopy = section.querySelector('.qlove-dora-stepcopy');
-    const bar = section.querySelector('.qlove-dora-bar span');
-    const flash = section.querySelector('.qlove-dora-flash');
-    const controls = [...section.querySelectorAll('.qlove-dora-progress button')];
-    if (!stage || !wheel || !cut || !cake || !pack || !flavour || controls.length !== 4) return;
-
+    const packCard = section.querySelector('.qlove-dora-pack-card');
+    const progress = section.querySelector('.qlove-dora-progress-bar');
+    const buttons = [...section.querySelectorAll('.qlove-dora-flavour-btn')];
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
     const scenes = dorayakiScrollScenes.map((scene, index) => ({
       ...scene,
-      src: controls[index].dataset.src,
-      alt: controls[index].dataset.alt
+      alt: `QLove ${scene.name} ${scene.sub} Dorayaki`,
+      num: String(index + 1).padStart(2, '0')
     }));
+
     scenes.forEach(scene => {
-      const preload = new Image();
-      preload.src = scene.src;
-      const cakePreload = new Image();
-      cakePreload.src = scene.cake;
+      const p1 = new Image();
+      p1.src = scene.pack;
+      const p2 = new Image();
+      p2.src = scene.cake;
     });
 
     let current = 0;
     let requested = 0;
-    let busy = false;
     let scrollFrame = 0;
-    let swapTimer = 0;
-    let settleTimer = 0;
-
-    const resetMotion = () => {
-      pack.style.transform = 'rotateY(0deg) scale(1)';
-      pack.style.opacity = '1';
-      cake.style.transform = 'translateY(0) rotateY(0deg) scale(1)';
-      cake.style.opacity = '1';
-      flavour.style.transform = 'translateY(0)';
-      flavour.style.opacity = '1';
-    };
 
     const applyScene = index => {
+      current = index;
       const scene = scenes[index];
-      stage.style.setProperty('--dora-background', scene.background);
-      wheel.style.setProperty('--dora-rotation', `${index * 90}deg`);
-      cut.style.setProperty('--dora-fill', scene.fill);
-      if (pack.getAttribute('src') !== scene.src) pack.src = scene.src;
-      if (cake.getAttribute('src') !== scene.cake) cake.src = scene.cake;
-      pack.alt = scene.alt;
-      flavour.textContent = scene.display;
-      description.textContent = scene.description;
-      stepTitle.textContent = scene.title;
-      stepCopy.textContent = index === scenes.length - 1
-        ? 'One more scroll and this section releases into the next series.'
-        : 'Scroll again to rotate to the next flavour.';
-      controls.forEach((control, controlIndex) => {
-        const active = controlIndex === index;
-        control.classList.toggle('active', active);
-        if (active) control.setAttribute('aria-current', 'step');
-        else control.removeAttribute('aria-current');
-      });
-      bar.style.width = `${(index + 1) * 25}%`;
-      section.dataset.activeIndex = String(index);
+
+      section.style.setProperty('--bg', scene.bg);
+      section.style.setProperty('--accent', scene.accent);
+      section.style.setProperty('--accent2', scene.accent2);
+      section.style.setProperty('--fill', scene.fill);
+      section.style.setProperty('--grain', scene.grain);
+
+      if (!reduce.matches) {
+        pack.style.opacity = '0';
+        pack.style.transform = 'translateY(12px) rotate(4deg) scale(.95)';
+        cakeImg.style.opacity = '0';
+        cakeImg.style.transform = 'scale(.94) rotate(-4deg)';
+        nameEl.style.opacity = '0';
+        subEl.style.opacity = '0';
+        if (leadEl) leadEl.style.opacity = '0';
+      }
+
+      window.setTimeout(() => {
+        nameEl.textContent = scene.name;
+        subEl.textContent = scene.sub;
+        kickerEl.textContent = scene.kicker;
+        if (leadEl && scene.desc) leadEl.textContent = scene.desc;
+
+        pack.src = scene.pack;
+        pack.alt = scene.alt;
+        packCard.dataset.num = scene.num;
+        cakeImg.src = scene.cake;
+
+        progress.style.width = `${(current + 1) * 25}%`;
+        if (ingA) ingA.textContent = scene.ingA;
+        if (ingB) ingB.textContent = scene.ingB;
+
+        buttons.forEach((btn, i) => btn.classList.toggle('active', i === current));
+
+        requestAnimationFrame(() => {
+          pack.style.opacity = '1';
+          pack.style.transform = 'translateY(0) rotate(0deg) scale(1)';
+          cakeImg.style.opacity = '1';
+          cakeImg.style.transform = 'scale(1) rotate(0deg)';
+          nameEl.style.opacity = '1';
+          subEl.style.opacity = '1';
+          if (leadEl) leadEl.style.opacity = '1';
+        });
+      }, reduce.matches ? 10 : 140);
     };
 
-    const requestScene = target => {
-      requested = Math.max(0, Math.min(scenes.length - 1, target));
-      if (busy || requested === current) return;
-      const direction = requested > current ? 1 : -1;
-      const next = current + direction;
-      busy = true;
-      section.dataset.transitioning = 'true';
-      clearTimeout(swapTimer);
-      clearTimeout(settleTimer);
-      pack.style.transform = `rotateY(${direction > 0 ? -78 : 78}deg) scale(.88)`;
-      pack.style.opacity = '0';
-      cake.style.transform = `translateY(4px) rotateY(${direction > 0 ? -24 : 24}deg) scale(.95)`;
-      cake.style.opacity = '0';
-      flavour.style.transform = `translateY(${direction > 0 ? -16 : 16}px)`;
-      flavour.style.opacity = '0';
-      flash.classList.remove('play');
-      void flash.offsetWidth;
-      flash.classList.add('play');
-
-      const swapDelay = reduce.matches ? 1 : 240;
-      swapTimer = window.setTimeout(() => {
-        applyScene(next);
-        current = next;
-        pack.style.transform = `rotateY(${direction > 0 ? 68 : -68}deg) scale(.9)`;
-        cake.style.transform = `translateY(4px) rotateY(${direction > 0 ? 20 : -20}deg) scale(.96)`;
-        requestAnimationFrame(() => requestAnimationFrame(resetMotion));
-      }, swapDelay);
-
-      settleTimer = window.setTimeout(() => {
-        busy = false;
-        delete section.dataset.transitioning;
-        resetMotion();
-        if (requested !== current) requestScene(requested);
-      }, reduce.matches ? 20 : 920);
-    };
-
-    const sync = () => {
+    const syncFromScroll = () => {
       scrollFrame = 0;
       const rect = section.getBoundingClientRect();
-      const total = Math.max(1, section.offsetHeight - innerHeight);
+      const total = Math.max(1, section.offsetHeight - window.innerHeight);
       const passed = Math.max(0, Math.min(total, -rect.top));
-      const progress = passed / total;
-      requestScene(Math.min(scenes.length - 1, Math.floor(progress * scenes.length)));
-    };
-    const scheduleSync = () => {
-      if (!scrollFrame) scrollFrame = requestAnimationFrame(sync);
+      const ratio = passed / total;
+
+      const target = Math.min(
+        scenes.length - 1,
+        Math.floor(ratio * scenes.length)
+      );
+
+      if (target !== requested || target !== current) {
+        requested = target;
+        applyScene(target);
+      }
     };
 
-    controls.forEach(control => control.addEventListener('click', () => {
-      const index = Number(control.dataset.index);
-      const sectionTop = scrollY + section.getBoundingClientRect().top;
-      const total = Math.max(1, section.offsetHeight - innerHeight);
-      scrollTo({ top: sectionTop + total * ((index + .1) / scenes.length), behavior: reduce.matches ? 'auto' : 'smooth' });
-    }));
-    addEventListener('scroll', scheduleSync, { passive: true });
-    addEventListener('resize', scheduleSync, { passive: true });
+    const scheduleSync = () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(syncFromScroll);
+    };
+
+    window.addEventListener('scroll', scheduleSync, { passive: true });
+    window.addEventListener('resize', scheduleSync, { passive: true });
+
     applyScene(0);
-    resetMotion();
-    sync();
+    syncFromScroll();
   }
   function initSnowflakeShowcase() {
     const section = root.querySelector('.qlove-snowflake-showcase');
@@ -1637,15 +1656,14 @@
     const exp = root.querySelector('.qlove-traditional-scroll');
     if (!exp) return;
     const stage = exp.querySelector('.qlove-traditional-scroll__stage');
+    const ring = exp.querySelector('.qlove-traditional-scroll__ring');
     const wrap = exp.querySelector('.qlove-traditional-scroll__products');
-    const railFill = exp.querySelector('.qlove-traditional-scroll__rail-fill');
-    const railLabels = exp.querySelector('.qlove-traditional-scroll__rail-labels');
-    const headline = exp.querySelector('.qlove-traditional-scroll__headline');
+    const wordRail = exp.querySelector('.qlove-traditional-scroll__word-rail');
     const spotCopy = exp.querySelector('.qlove-traditional-scroll__spot-copy');
     const spotNum = spotCopy ? spotCopy.querySelector('.num') : null;
     const spotName = spotCopy ? spotCopy.querySelector('h3') : null;
     const spotSub = spotCopy ? spotCopy.querySelector('.descriptor') : null;
-    const finalTitle = exp.querySelector('.qlove-traditional-scroll__final-title');
+    const dotsBox = exp.querySelector('.qlove-traditional-scroll__dots');
 
     const traditionalData = [
       { name: 'MATCHA', full: 'Matcha Traditional Mochi', sub: 'Earthy · Smooth · Classic', accent: '#A8C95E' },
@@ -1658,161 +1676,142 @@
     ];
 
     if (wrap) wrap.innerHTML = '';
-    if (railLabels) railLabels.innerHTML = '';
+    if (wordRail) wordRail.innerHTML = '';
+    if (dotsBox) dotsBox.innerHTML = '';
 
     const els = traditionalData.map((p, i) => {
       const prodObj = (traditional && traditional[i]) || {};
       const imgSrc = image(prodObj);
-      const el = document.createElement('div');
+      const el = document.createElement('button');
+      el.type = 'button';
       el.className = 'qlove-traditional-scroll__product';
       el.innerHTML = `<img src="${imgSrc}" alt="${p.full}" loading="lazy" decoding="async">`;
       if (wrap) wrap.appendChild(el);
-
-      if (railLabels) {
-        const label = document.createElement('span');
-        label.textContent = p.name;
-        railLabels.appendChild(label);
-      }
       return el;
     });
 
-    const labels = railLabels ? [...railLabels.children] : [];
-
     const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-    const lerp = (a, b, t) => a + (b - a) * t;
-    const smooth = t => t * t * (3 - 2 * t);
-    const map = (v, a, b, c, d) => c + (d - c) * clamp((v - a) / (b - a));
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const stops = traditionalData.length - 1;
+    const hold = .34;
+    const plateau = raw => {
+      const i = Math.min(stops - 1, Math.floor(raw));
+      const t = raw - i;
+      const eased = clamp((t - hold) / (1 - 2 * hold));
+      return i + eased * eased * (3 - 2 * eased);
+    };
+    const pad = value => String(value).padStart(2, '0');
 
-    let currentP = 0;
-    let targetP = 0;
+    const words = traditionalData.map(item => {
+      const word = document.createElement('span');
+      word.textContent = item.name;
+      if (wordRail) wordRail.appendChild(word);
+      return word;
+    });
+    const dots = traditionalData.map((item, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.title = item.name;
+      dot.setAttribute('aria-label', `Show ${item.full}`);
+      if (dotsBox) dotsBox.appendChild(dot);
+      return dot;
+    });
 
+    let centers = [];
+    const measure = () => { centers = words.map(word => word.offsetLeft + word.offsetWidth / 2); };
     function viewportProgress() {
       const rect = exp.getBoundingClientRect();
       const total = exp.offsetHeight - window.innerHeight;
       return total > 0 ? clamp(-rect.top / total) : 0;
     }
+    const stopTop = i => {
+      const total = exp.offsetHeight - window.innerHeight;
+      return exp.getBoundingClientRect().top + window.scrollY + (i / stops) * total;
+    };
+    const goTo = i => window.scrollTo({
+      top: stopTop(clamp(i, 0, stops)),
+      behavior: reducedMotion.matches ? 'auto' : 'smooth'
+    });
 
-    function setProduct(el, x, y, scale, rotate, opacity = 1, blur = 0, z = 1) {
-      if (!el) return;
-      el.style.transform = `translate(-50%,-50%) translate(${x}px,${y}px) scale(${scale}) rotate(${rotate}deg)`;
-      el.style.opacity = opacity;
-      el.style.filter = blur ? `blur(${blur}px)` : 'none';
-      el.style.zIndex = z;
-    }
+    els.forEach((el, i) => el.addEventListener('click', () => goTo(i)));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
 
-    function render(p) {
-      if (railFill) railFill.style.width = `${p * 100}%`;
-
-      const mobile = window.innerWidth < 760;
-      const spreadW = mobile ? window.innerWidth * 0.62 : Math.min(window.innerWidth * 0.108, 170);
-      const fanRise = mobile ? 22 : 46;
-
-      // PHASES:
-      // 0.00 – 0.28: Steady Prelude Intro (headline steady, stack centered)
-      // 0.28 – 0.44: Fan Spread
-      // 0.44 – 0.90: Flavour Spotlight (7 items)
-      // 0.90 – 1.00: Final Lineup
-
-      const introFade = 1 - smooth(map(p, .05, .15, 0, 1));
-      if (headline) {
-        headline.style.opacity = introFade;
-        headline.style.transform = `translateX(-50%) translateY(${-24 * (1 - introFade)}px)`;
-      }
-
-      if (p < .20) {
-        if (spotCopy) spotCopy.style.opacity = 0;
-        if (finalTitle) finalTitle.style.opacity = 0;
-        labels.forEach(l => l.classList.remove('active'));
-
-        const spread = smooth(map(p, .08, .20, 0, 1));
-        traditionalData.forEach((prod, i) => {
-          const centered = i - 3;
-          const sx = centered * (mobile ? 11 : 15);
-          const sy = Math.abs(centered) * 6;
-          const sr = centered * 4.5;
-
-          const fx = centered * spreadW;
-          const fy = -Math.abs(centered) * fanRise + (Math.abs(centered) * 6);
-          const fr = centered * (mobile ? 3.5 : 5);
-
-          const x = lerp(sx, fx, spread);
-          const y = lerp(sy, fy, spread);
-          const scale = lerp(1 - Math.abs(centered) * .025, mobile ? .82 : .78, spread);
-          const rot = lerp(sr, fr, spread);
-          setProduct(els[i], x, y, scale, rot, 1, 0, 10 - Math.abs(centered));
-        });
-        if (stage) stage.style.setProperty('--accent', '#A8C95E');
-      } else if (p < .90) {
-        if (finalTitle) finalTitle.style.opacity = 0;
-        const q = map(p, .20, .90, 0, 1);
-        const exact = q * 6;
-        const active = Math.round(exact);
-        const local = exact - active;
-
-        traditionalData.forEach((prod, i) => {
-          const delta = i - exact;
-          const activeDist = Math.abs(i - exact);
-
-          let x, y, scale, opacity, rotate, blur;
-          if (mobile) {
-            x = delta * window.innerWidth * .66;
-            y = -50 - Math.min(activeDist, 2) * 8;
-            scale = 1.12 - Math.min(activeDist, 1) * .32;
-          } else {
-            x = window.innerWidth * .20 + delta * Math.min(window.innerWidth * .18, 255);
-            y = 12 + Math.min(activeDist, 2) * 12;
-            scale = 1.16 - Math.min(activeDist, 1) * .36;
-          }
-          opacity = 1 - Math.min(activeDist, 1) * .67;
-          rotate = clamp(delta, -2, 2) * 2.2;
-          blur = Math.max(0, activeDist - .35) * 1.8;
-          setProduct(els[i], x, y, scale, rotate, opacity, blur, 20 - Math.round(activeDist));
-        });
-
-        const idx = clamp(active, 0, 6);
-        const prod = traditionalData[idx];
-        if (stage) stage.style.setProperty('--accent', prod.accent);
-        if (spotNum) spotNum.textContent = String(idx + 1).padStart(2, '0') + ' / 07';
-        if (spotName) spotName.textContent = prod.name;
-        if (spotSub) spotSub.textContent = prod.sub;
-        if (spotCopy) {
-          spotCopy.style.opacity = smooth(map(p, .21, .26, 0, 1));
-          spotCopy.style.transform = mobile ? 'none' : `translateY(${-46 + local * 2}%)`;
-        }
-
-        labels.forEach((l, i) => l.classList.toggle('active', i === idx));
-      } else {
-        if (spotCopy) spotCopy.style.opacity = 0;
-        if (finalTitle) finalTitle.style.opacity = smooth(map(p, .91, .96, 0, 1));
-        labels.forEach(l => l.classList.remove('active'));
-
-        if (stage) stage.style.setProperty('--accent', '#E9B7D4');
-
-        traditionalData.forEach((prod, i) => {
-          const centered = i - 3;
-          const lineGap = mobile ? window.innerWidth * .25 : Math.min(window.innerWidth * .115, 170);
-          const x = centered * lineGap;
-          const y = mobile ? 55 + Math.abs(centered) * 7 : 92;
-          const scale = mobile ? .54 : .64;
-          setProduct(els[i], x, y, scale, 0, 1, 0, 10);
-        });
+    let shown = -1;
+    function setInfo(index) {
+      const item = traditionalData[index];
+      if (stage) stage.style.setProperty('--accent', item.accent);
+      if (spotNum) spotNum.textContent = `${pad(index + 1)} / ${pad(traditionalData.length)}`;
+      if (spotName) spotName.textContent = item.name;
+      if (spotSub) spotSub.textContent = item.sub;
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
+      words.forEach((word, i) => word.classList.toggle('on', i === index));
+      if (!reducedMotion.matches && spotCopy?.animate && shown !== -1) {
+        spotCopy.animate(
+          [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 260, easing: 'ease-out' }
+        );
       }
     }
 
-    let animFrame = null;
-    function tick() {
-      targetP = viewportProgress();
-      const diff = targetP - currentP;
-      if (Math.abs(diff) > 0.0001) {
-        currentP += diff * 0.06;
-      } else {
-        currentP = targetP;
+    function render(focus) {
+      const width = ring?.clientWidth || window.innerWidth;
+      const height = ring?.clientHeight || window.innerHeight;
+      const mobile = width < 760;
+      const radiusX = mobile ? width * .38 : Math.min(width * .33, 470);
+      const radiusY = mobile ? height * .15 : height * .15;
+      els.forEach((el, i) => {
+        let delta = i - focus;
+        delta = ((delta + traditionalData.length / 2) % traditionalData.length + traditionalData.length / 2) % traditionalData.length - traditionalData.length / 2;
+        const angle = delta * 2 * Math.PI / traditionalData.length;
+        const depth = Math.cos(angle);
+        const weight = (depth + 1) / 2;
+        const x = Math.sin(angle) * radiusX;
+        const y = -(1 - depth) * radiusY;
+        const scale = .42 + .58 * Math.pow(weight, 1.2);
+        const emphasis = clamp(1 - Math.abs(delta));
+        el.style.transform = `translate(-50%,-50%) translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${(-Math.sin(angle) * 5).toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        el.style.opacity = (.16 + .84 * Math.pow(weight, 1.9)).toFixed(3);
+        el.style.zIndex = String(Math.round(depth * 50) + 50);
+        el.style.setProperty('--e', emphasis.toFixed(3));
+        el.classList.toggle('is-front', emphasis > .6);
+        el.tabIndex = emphasis > .6 ? -1 : 0;
+      });
+      if (centers.length && wordRail) {
+        const a = Math.floor(clamp(focus, 0, stops));
+        const b = Math.min(stops, a + 1);
+        const t = clamp(focus, 0, stops) - a;
+        const center = centers[a] + (centers[b] - centers[a]) * t;
+        wordRail.style.transform = `translate3d(${(width / 2 - center).toFixed(1)}px,-50%,0)`;
       }
-      render(currentP);
-      animFrame = requestAnimationFrame(tick);
+      const index = clamp(Math.round(focus), 0, stops);
+      if (index !== shown) {
+        setInfo(index);
+        shown = index;
+      }
     }
 
-    tick();
+    let current = 0;
+    let target = 0;
+    let running = false;
+    function frame() {
+      const progress = viewportProgress();
+      stage?.classList.toggle('is-started', progress > .01);
+      target = plateau(progress * stops);
+      const delta = target - current;
+      current = reducedMotion.matches || Math.abs(delta) < .0005 ? target : current + delta * .14;
+      render(current);
+      if (current !== target) requestAnimationFrame(frame);
+      else running = false;
+    }
+    const kick = () => {
+      if (!running) {
+        running = true;
+        requestAnimationFrame(frame);
+      }
+    };
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', () => { measure(); kick(); });
+    requestAnimationFrame(() => { measure(); kick(); });
   }
 
   function initTraditionalHover() {

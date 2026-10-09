@@ -2,7 +2,7 @@
 #qlove-main .qlove-snowflake-showcase {
   --snowflake-accent: #e96f91; --snowflake-soft: #f9ccda;
   position: relative; min-height: 100svh; overflow: hidden;
-  background: #f4f8f8 url("/assets/backgrounds/qlove-snowflake-bg.png") center center / cover no-repeat; color: #243038; scroll-margin-top: 58px;
+  background: #f4f8f8 url("/assets/backgrounds/qlove-snowflake-bg-minimal-v1.png") center center / cover no-repeat; color: #243038; scroll-margin-top: 58px;
 }
 #qlove-main .qlove-snowflake-showcase__sticky {
   position: relative; display: grid; grid-template: 1fr auto / minmax(260px,29vw) minmax(0,1fr);

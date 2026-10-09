@@ -14,9 +14,9 @@ Open `http://127.0.0.1:4173/`.
 
 - `index.html` — page entry point
 - `styles/` — section and component styles
-- `scripts/` — site interactions and scroll animations
+- `scripts/` — site interactions and scroll animations (`scripts/tools/` holds reusable local packaging helpers)
 - `assets/` — product images, backgrounds, data and local libraries
-- `demos/` — interactive showcase documents and reference demos
+- `demos/` — interactive showcase documents, standalone exports and reference demos
 - `header_qlove/` — header assets, styles and behavior
 - `docs/` — project notes and client-feedback references
 - `server.mjs` — dependency-free local static server

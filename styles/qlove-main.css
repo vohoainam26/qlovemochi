@@ -75,3 +75,5 @@
   #qlove-main .qlove-footer__socials { position: static; transform: none; order: -1; margin-bottom: 10px; }
   #qlove-main .qlove-footer__totop { position: absolute; bottom: 4vw; right: 4vw; }
 }
+#qlove-main .qlove-mb-embed{width:100%;background:#f8f7f4;overflow:hidden}
+#qlove-main .qlove-mb-embed__frame{display:block;width:100%;min-height:1px;height:1px;border:0;background:#f8f7f4}
