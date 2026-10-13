@@ -1805,7 +1805,10 @@
       const radiusY = mobile ? height * .15 : height * .15;
       els.forEach((el, i) => {
         let delta = i - focus;
-        delta = ((delta + traditionalData.length / 2) % traditionalData.length + traditionalData.length / 2) % traditionalData.length - traditionalData.length / 2;
+        // Wrap to the shortest signed distance around the seven-product ring.
+        // The previous expression re-added half the ring after modulo, causing
+        // products near the first/last boundary to incorrectly become frontmost.
+        delta = ((delta + traditionalData.length / 2) % traditionalData.length + traditionalData.length) % traditionalData.length - traditionalData.length / 2;
         const angle = delta * 2 * Math.PI / traditionalData.length;
         const depth = Math.cos(angle);
         const weight = (depth + 1) / 2;
