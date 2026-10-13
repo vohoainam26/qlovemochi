@@ -9,10 +9,14 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
   let mouseX = 0, mouseY = 0;
-  window.addEventListener('mousemove', e => {
-    mouseX = (e.clientX / innerWidth - 0.5) * 2;
-    mouseY = (e.clientY / innerHeight - 0.5) * 2;
-  });
+  let schedulePointerRender = () => {};
+  if (!reduce.matches) {
+    window.addEventListener('mousemove', e => {
+      mouseX = (e.clientX / innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / innerHeight - 0.5) * 2;
+      schedulePointerRender();
+    }, { passive: true });
+  }
 
   const initialize = () => {
     const nodes = [...root.querySelectorAll('.qlove-motion-chapter')];
@@ -209,7 +213,14 @@
     };
 
     let raf = 0;
+    let pageVisible = !document.hidden;
+    const visibleChapters = new Set();
+    const scheduleRender = () => {
+      if (!raf && pageVisible) raf = requestAnimationFrame(render);
+    };
+    schedulePointerRender = scheduleRender;
     const render = timeStamp => {
+      raf = 0;
       const time = timeStamp * .001;
       const viewportWidth = innerWidth;
       const viewportHeight = innerHeight;
@@ -217,6 +228,7 @@
       const lowHeight = viewportHeight <= 800 && !mobile;
 
       chapters.forEach(chapter => {
+        if (!visibleChapters.has(chapter)) return;
         const rect = chapter.section.getBoundingClientRect();
         if (rect.bottom < -viewportHeight || rect.top > viewportHeight * 2) return;
         const range = Math.max(1, chapter.section.offsetHeight - viewportHeight);
@@ -384,23 +396,34 @@
 
         if (chapter.motion === 'dubai') {
           const gold = chapter.section.querySelector('.qlove-motion-base-gold');
-          if (gold) gold.style.width = active >= 0 ? '82vw' : `${34 + mid * 18}vw`;
+          if (gold) gold.style.width = active >= 0 ? '82vw' : `${48 + mid * 16}vw`;
           products.forEach((product, index) => {
             if (active >= 0) {
-              if (index === active) place(product, selectedX, mobile ? -4 : -20, mobile ? (index === 0 ? 1.28 : 1.38) : (index === 0 ? 1.54 : 1.56), 0, 48, 1, -mouseY * 12, mouseX * 12);
-              else place(product, mobile ? 96 : 150, 92, mobile ? .68 : .82, 6, -20, .22);
+              if (index === active) place(product, selectedX, mobile ? -4 : -20, mobile ? (index === 0 ? 1.26 : 1.34) : (index === 0 ? 1.38 : 1.46), 0, 48, 1, -mouseY * 12, mouseX * 12);
+              else place(product, mobile ? 102 : 222, 104, mobile ? .62 : .76, 6, -20, .22);
               return;
             }
             const side = index === 0 ? -1 : 1;
-            const spacing = mobile ? 76 : Math.min(viewportWidth * .15, 208);
-            const scale = mobile ? (index === 0 ? 1.02 : 1.18) : (index === 0 ? 1.28 : 1.3);
-            place(product, side * spacing, index === 0 ? 4 : -20, scale, side * 2, index === 0 ? 12 : 18, intro);
+            const spacing = mobile ? 84 : Math.min(viewportWidth * .18, 310);
+            const scale = mobile ? (index === 0 ? 1.02 : 1.12) : (index === 0 ? 1.25 : 1.32);
+            place(product, side * spacing, index === 0 ? 24 : -18, scale, side * 2.5, index === 0 ? 12 : 18, intro);
           });
         }
       });
 
-      raf = requestAnimationFrame(render);
+      if (!reduce.matches && pageVisible && visibleChapters.size) scheduleRender();
     };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const chapter = chapters.find(item => item.section === entry.target);
+        if (!chapter) return;
+        if (entry.isIntersecting) visibleChapters.add(chapter);
+        else visibleChapters.delete(chapter);
+      });
+      scheduleRender();
+    }, { rootMargin: '250px 0px' });
+    chapters.forEach(chapter => observer.observe(chapter.section));
 
     const closeOpenPanel = () => {
       const openChapter = chapters.find(chapter => chapter.active >= 0);
@@ -409,8 +432,22 @@
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape') closeOpenPanel();
     });
-    raf = requestAnimationFrame(render);
-    window.addEventListener('pagehide', () => cancelAnimationFrame(raf), { once: true });
+    window.addEventListener('scroll', scheduleRender, { passive: true });
+    window.addEventListener('resize', scheduleRender, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      pageVisible = !document.hidden;
+      if (!pageVisible && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      } else if (pageVisible) scheduleRender();
+    });
+    reduce.addEventListener?.('change', scheduleRender);
+    scheduleRender();
+    window.addEventListener('pagehide', () => {
+      if (raf) cancelAnimationFrame(raf);
+      observer.disconnect();
+      schedulePointerRender = () => {};
+    }, { once: true });
     return true;
   };
 

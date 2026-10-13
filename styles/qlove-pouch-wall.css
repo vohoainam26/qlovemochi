@@ -1,10 +1,13 @@
 #qlove-main .qlove-pouch-wall {
   padding: clamp(72px, 8vw, 120px) 6vw clamp(86px, 10vw, 150px);
-  background: #fff;
+  background: #0b5b52 url('/assets/backgrounds/qlove-deluxe-pouch-background-v1.webp') center/cover no-repeat;
 }
 
 #qlove-main .qlove-pouch-wall__head { max-width: 760px; margin-bottom: clamp(32px, 4vw, 58px); }
 #qlove-main .qlove-pouch-wall__head h2 { margin: 0; font-size: clamp(3rem, 6.5vw, 6.8rem); font-weight: 900; line-height: .84; letter-spacing: -.08em; }
+#qlove-main .qlove-pouch-wall__head .qlove-kicker,
+#qlove-main .qlove-pouch-wall__head h2,
+#qlove-main .qlove-pouch-wall__status { color: #fff; }
 #qlove-main .qlove-pouch-wall__head p:last-child { margin: 16px 0 0; max-width: 440px; color: var(--qlove-muted); line-height: 1.5; }
 #qlove-main .qlove-pouch-wall__card { position: relative; min-height: clamp(280px, 27vw, 420px); overflow: visible; border-radius: 0; padding: 20px 18px 16px; background: transparent; color: var(--pouch-ink); box-shadow: none; transition: color .45s ease; }
 #qlove-main .qlove-pouch-wall__card:hover { background: transparent; }
@@ -63,14 +66,14 @@
 #qlove-main .qlove-pouch-wall__media { bottom: 7%; width: 92%; height: 78%; }
 #qlove-main .qlove-pouch-wall__card h3 { font-size: clamp(.9rem, 1.25vw, 1.25rem); text-align: center; }
 #qlove-main .qlove-pouch-wall__card p { left: 50%; transform: translateX(-50%); white-space: nowrap; }
-#qlove-main .qlove-pouch-wall__arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border: 1px solid rgba(26,26,26,.25); border-radius: 50%; background: transparent; color: #1a1a1a; font-size: 1.2rem; cursor: pointer; transition: background .25s ease, color .25s ease, opacity .25s ease; }
+#qlove-main .qlove-pouch-wall__arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: rgba(0,42,36,.2); color: #fff; font-size: 1.2rem; cursor: pointer; transition: background .25s ease, color .25s ease, opacity .25s ease; }
 #qlove-main .qlove-pouch-wall__prev { left: 1.5vw; }
 #qlove-main .qlove-pouch-wall__next { right: 1.5vw; }
-#qlove-main .qlove-pouch-wall__arrow:hover:not(:disabled) { background: #1a1a1a; color: #fff; }
+#qlove-main .qlove-pouch-wall__arrow:hover:not(:disabled) { background: #fff; color: #0b5b52; }
 #qlove-main .qlove-pouch-wall__arrow:disabled { opacity: .25; cursor: default; }
 #qlove-main .qlove-pouch-wall__status { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 4px; font-size: .74rem; font-weight: 800; letter-spacing: .12em; }
-#qlove-main .qlove-pouch-wall__status i { display: block; width: min(140px, 22vw); height: 2px; background: #dedbd5; }
-#qlove-main .qlove-pouch-wall__status i::before { content: ''; display: block; width: calc((var(--pouch-index, 0) + 1) / 12 * 100%); height: 100%; background: #1a1a1a; }
+#qlove-main .qlove-pouch-wall__status i { display: block; width: min(140px, 22vw); height: 2px; background: rgba(255,255,255,.35); }
+#qlove-main .qlove-pouch-wall__status i::before { content: ''; display: block; width: calc((var(--pouch-index, 0) + 1) / 12 * 100%); height: 100%; background: #fff; }
 #qlove-main .qlove-pouch-wall.is-visible .qlove-pouch-wall__carousel { animation: qlove-pouch-rail-in .8s cubic-bezier(.2,.75,.2,1) both; }
 @keyframes qlove-pouch-rail-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 900px) { #qlove-main .qlove-pouch-wall__track { padding-block: 18px 24px; padding-inline: calc((100vw - min(78vw, 360px)) / 2); } #qlove-main .qlove-pouch-wall__card { flex-basis: min(78vw, 360px); width: min(78vw, 360px); min-height: clamp(390px, 108vw, 520px); } #qlove-main .qlove-pouch-wall__arrow { display: none; } }
@@ -116,7 +119,7 @@
 #qlove-main .qlove-pouch-wall {
   position: relative;
   overflow: hidden;
-  background: #f8f7f4;
+  background: #0b5b52 url('/assets/backgrounds/qlove-deluxe-pouch-background-v1.webp') center/cover no-repeat;
 }
 
 /* The reactive colour wash layer.
@@ -131,6 +134,7 @@
   pointer-events: none;
   /* Start at the neutral base — JS will update this */
   background-color: #f8f7f4;
+  opacity: .32;
   /* Smooth colour morph when the active card changes */
   transition: background-color 820ms cubic-bezier(0.22, 1, 0.36, 1);
   /* Soft radial mask: full colour at centre, fades to transparent at edges
@@ -165,3 +169,14 @@
 @media (prefers-reduced-motion: reduce) {
   #qlove-main .qlove-pouch-wall__ambient { transition: none; }
 }
+
+/* Keep the approved artwork visible: the flavour wash previously painted over
+   the whole section, which hid the section background on first render. */
+#qlove-main .qlove-pouch-wall {
+  background-color: #0b5b52 !important;
+  background-image: url('/assets/backgrounds/qlove-deluxe-pouch-background-v1.webp') !important;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#qlove-main .qlove-pouch-wall__ambient { display: none; }

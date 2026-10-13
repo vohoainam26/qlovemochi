@@ -12,6 +12,7 @@ const mime = {
   '.jpeg': 'image/jpeg',
   '.jpg': 'image/jpeg',
   '.png': 'image/png',
+  '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
 };
 
@@ -26,9 +27,14 @@ createServer((request, response) => {
     return;
   }
 
+  const extension = extname(file).toLowerCase();
+  const isDocument = extension === '.html' || extension === '.json';
   response.writeHead(200, {
-    'Cache-Control': 'no-cache',
-    'Content-Type': mime[extname(file).toLowerCase()] || 'application/octet-stream',
+    'Cache-Control': isDocument ? 'no-cache' : 'public, max-age=31536000, immutable',
+    'Content-Type': mime[extension] || 'application/octet-stream',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'camera=(), geolocation=(), microphone=()',
   });
   createReadStream(file).pipe(response);
 }).listen(port, '127.0.0.1', () => {

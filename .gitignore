@@ -6,6 +6,7 @@ work/
 .edge-*/
 .vite/
 node_modules/
+deploy/
 
 # Local environment and logs
 .env

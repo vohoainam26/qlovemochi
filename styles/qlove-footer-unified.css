@@ -208,12 +208,12 @@
   padding:30px 0 18px;
   gap:22px;
 }
-#qlove-main .qlove-unified-footer__word {
-  color:rgba(247,240,229,.98);
-  font-size:clamp(110px,17vw,290px);
-  font-weight:1000;
-  line-height:.62;
-  letter-spacing:-.09em;
+#qlove-main .qlove-unified-footer__brand-logo {
+  display:block;
+  width:clamp(390px,48vw,820px);
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
 }
 #qlove-main .qlove-unified-footer__meta {
   display:grid;
@@ -261,7 +261,7 @@
   #qlove-main .qlove-unified-footer__photo { border-radius:28px; }
   #qlove-main .qlove-unified-footer__contact { grid-template-columns:1fr; padding:18px; }
   #qlove-main .qlove-unified-footer__brandrow { padding-top:26px; }
-  #qlove-main .qlove-unified-footer__word { font-size:27vw; }
+  #qlove-main .qlove-unified-footer__brand-logo { width:min(100%, 520px); }
   #qlove-main .qlove-unified-footer__bottom { grid-template-columns:1fr auto; }
   #qlove-main .qlove-unified-footer__legal { display:none; }
 }

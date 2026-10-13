@@ -190,6 +190,7 @@
 .qlove-dora-pack {
   width: 95%;
   height: 95%;
+  max-width: 95%;
   object-fit: contain;
   filter: drop-shadow(0 20px 26px rgba(34, 24, 17, .18));
   transition: opacity .25s ease, transform .45s cubic-bezier(.18, .8, .2, 1);

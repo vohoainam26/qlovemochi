@@ -1,66 +1,101 @@
-// Hero Slider Logic
+// Hero slider logic. Kept self-contained so the rest of the catalogue can load independently.
 (() => {
-  const slides = document.querySelectorAll('.slide');
-  const flavorBtns = document.querySelectorAll('.flavor-btn');
+  const slides = [...document.querySelectorAll('.slide')];
+  const flavorBtns = [...document.querySelectorAll('.flavor-btn')];
   const prevBtn = document.querySelector('.arrow-prev');
   const nextBtn = document.querySelector('.arrow-next');
+  const pauseBtn = document.querySelector('.slider-pause');
   const indicator = document.querySelector('.slider-indicator');
   const heroSlider = document.querySelector('.hero-slider');
-  
-  if (!slides.length) return;
+
+  if (!slides.length || !heroSlider) return;
+
+  heroSlider.tabIndex = heroSlider.tabIndex < 0 ? 0 : heroSlider.tabIndex;
 
   let currentIndex = 0;
   let isAnimating = false;
-  let autoplayTimer;
+  let autoplayTimer = 0;
+  let isAutoplayPaused = false;
   const AUTOPLAY_DELAY = 6000;
-  
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const loadSlideAssets = index => {
+    [slides[index], flavorBtns[index]].filter(Boolean).forEach(container => {
+      container.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+      });
+    });
+  };
+
+  const preloadNextSlide = () => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+    const schedule = window.requestIdleCallback || (callback => window.setTimeout(callback, 900));
+    schedule(() => loadSlideAssets(nextIndex), { timeout: 1800 });
+  };
+
+  const pauseAutoplay = () => {
+    if (autoplayTimer) window.clearInterval(autoplayTimer);
+    autoplayTimer = 0;
+  };
+
+  const startAutoplay = () => {
+    pauseAutoplay();
+    if (isAutoplayPaused || reduceMotion.matches || document.hidden) return;
+    autoplayTimer = window.setInterval(nextSlide, AUTOPLAY_DELAY);
+  };
+
+  const resetAutoplay = () => {
+    if (!isAutoplayPaused) startAutoplay();
+  };
+
+  const setAutoplayPaused = paused => {
+    isAutoplayPaused = paused;
+    pauseBtn?.setAttribute('aria-pressed', String(paused));
+    if (pauseBtn) {
+      pauseBtn.textContent = paused ? 'Play' : 'Pause';
+      pauseBtn.setAttribute('aria-label', paused ? 'Resume automatic slide rotation' : 'Pause automatic slide rotation');
+    }
+    if (paused) pauseAutoplay();
+    else startAutoplay();
+  };
 
   function updateSlider(newIndex) {
     if (newIndex === currentIndex || isAnimating) return;
     isAnimating = true;
 
     const currentSlide = slides[currentIndex];
-    const nextSlide = slides[newIndex];
-
+    const nextSlideElement = slides[newIndex];
     const mochiImages = [
-      '/header_qlove/assets/images/mochiheader/MINIMOCHI.png',
-      '/header_qlove/assets/images/mochiheader/POUCH.png',
-      '/header_qlove/assets/images/mochiheader/SNOWFLAKE.png',
-      '/header_qlove/assets/images/mochiheader/DORAYAKI.png',
-      '/header_qlove/assets/images/mochiheader/DOUBLE FILLING.png',
-      '/header_qlove/assets/images/mochiheader/BOBA MOCHI.png',
-      '/header_qlove/assets/images/mochiheader/CUSTARD MOCHI.png'
+      '/assets/optimized/random/mini.webp',
+      '/assets/optimized/random/pouch.webp',
+      '/assets/optimized/random/snowflake.webp',
+      '/assets/optimized/random/dorayaki.webp',
+      '/assets/optimized/random/double-filling.webp',
+      '/assets/optimized/random/boba.webp',
+      '/assets/optimized/random/custard.webp'
     ];
     const randomBtnImg = document.querySelector('.random-btn-img');
-    if (randomBtnImg) {
-      randomBtnImg.src = mochiImages[newIndex];
-    }
+    if (randomBtnImg) randomBtnImg.src = mochiImages[newIndex];
 
-    // Cleanup previous states
-    slides.forEach(s => {
-      s.classList.remove('previous');
-      s.classList.remove('float'); // stop floating during transition
-    });
-
+    slides.forEach(slide => slide.classList.remove('previous', 'float'));
+    loadSlideAssets(newIndex);
     currentSlide.classList.remove('active');
     currentSlide.classList.add('previous');
-    
-    nextSlide.classList.add('active');
+    nextSlideElement.classList.add('active');
 
-    // Update UI
-    flavorBtns.forEach((btn, idx) => {
-      btn.classList.toggle('active', idx === newIndex);
+    flavorBtns.forEach((button, index) => {
+      button.classList.toggle('active', index === newIndex);
+      button.setAttribute('aria-current', index === newIndex ? 'true' : 'false');
     });
-    indicator.textContent = `0${newIndex + 1} / 0${slides.length}`;
+    if (indicator) indicator.textContent = `0${newIndex + 1} / 0${slides.length}`;
 
     currentIndex = newIndex;
-
-    // Reset animation lock
-    setTimeout(() => {
+    preloadNextSlide();
+    window.setTimeout(() => {
       isAnimating = false;
-      nextSlide.classList.add('float');
-    }, 1200); // matches CSS transition duration
+      nextSlideElement.classList.add('float');
+    }, reduceMotion.matches ? 0 : 1200);
   }
 
   function nextSlide() {
@@ -71,98 +106,82 @@
     updateSlider((currentIndex - 1 + slides.length) % slides.length);
   }
 
-  // Event Listeners
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
+  nextBtn?.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+  prevBtn?.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+  pauseBtn?.addEventListener('click', () => setAutoplayPaused(!isAutoplayPaused));
+  flavorBtns.forEach((button, index) => button.addEventListener('click', () => {
+    updateSlider(index);
     resetAutoplay();
-  });
+  }));
 
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetAutoplay();
-  });
-
-  flavorBtns.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-      updateSlider(index);
-      resetAutoplay();
-    });
-  });
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') {
+  heroSlider.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.target.matches('input, textarea, select')) return;
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
       nextSlide();
       resetAutoplay();
-    } else if (e.key === 'ArrowLeft') {
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
       prevSlide();
       resetAutoplay();
     }
   });
 
-  // Swipe logic (Touch)
   let touchStartX = 0;
-  let touchEndX = 0;
-  
-  heroSlider.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
+  heroSlider.addEventListener('touchstart', event => {
+    touchStartX = event.changedTouches[0].screenX;
     pauseAutoplay();
   }, { passive: true });
-
-  heroSlider.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-    startAutoplay();
-  }, { passive: true });
-
-  function handleSwipe() {
+  heroSlider.addEventListener('touchend', event => {
+    const touchEndX = event.changedTouches[0].screenX;
     const threshold = 50;
     if (touchEndX < touchStartX - threshold) nextSlide();
     if (touchEndX > touchStartX + threshold) prevSlide();
-  }
+    resetAutoplay();
+  }, { passive: true });
 
-  // Autoplay functionality
-  function startAutoplay() {
-    if (autoplayTimer) clearInterval(autoplayTimer);
-    autoplayTimer = setInterval(nextSlide, AUTOPLAY_DELAY);
-  }
-
-  function pauseAutoplay() {
-    if (autoplayTimer) clearInterval(autoplayTimer);
-  }
-
-  function resetAutoplay() {
-    pauseAutoplay();
-    startAutoplay();
-  }
-
-  // Hover to pause
   heroSlider.addEventListener('mouseenter', pauseAutoplay);
   heroSlider.addEventListener('mouseleave', startAutoplay);
-  
-  // Page visibility to pause
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) pauseAutoplay();
     else startAutoplay();
   });
+  reduceMotion.addEventListener?.('change', () => startAutoplay());
 
-  
+  // When returning from the catalogue, settle on the complete hero only after
+  // upward scrolling has stopped. This avoids the previous continuous snap
+  // while ensuring the visitor never lands on a cropped banner.
+  let previousScrollY = window.scrollY;
+  let heroSettleTimer = 0;
+  let isSettlingHero = false;
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    const isMovingUp = currentScrollY < previousScrollY - 1;
+    previousScrollY = currentScrollY;
+    window.clearTimeout(heroSettleTimer);
+
+    if (!isMovingUp || isSettlingHero || currentScrollY <= 2 || currentScrollY >= heroSlider.offsetHeight) return;
+    heroSettleTimer = window.setTimeout(() => {
+      const heroHeight = heroSlider.offsetHeight;
+      if (isSettlingHero || window.scrollY <= 2 || window.scrollY >= heroHeight) return;
+      isSettlingHero = true;
+      window.scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      window.setTimeout(() => { isSettlingHero = false; }, reduceMotion.matches ? 0 : 550);
+    }, 140);
+  }, { passive: true });
+
   const randomBtn = document.getElementById('randomBtn');
-  if (randomBtn) {
-    randomBtn.addEventListener('click', () => {
-      if (slides.length > 1) {
-        let randomIndex = Math.floor(Math.random() * slides.length);
-        while (randomIndex === currentIndex) {
-          randomIndex = Math.floor(Math.random() * slides.length);
-        }
-        pauseAutoplay();
-        updateSlider(randomIndex);
-        startAutoplay();
-      }
-    });
-  }
+  randomBtn?.addEventListener('click', () => {
+    if (slides.length < 2) return;
+    let randomIndex = Math.floor(Math.random() * slides.length);
+    while (randomIndex === currentIndex) randomIndex = Math.floor(Math.random() * slides.length);
+    updateSlider(randomIndex);
+    resetAutoplay();
+  });
 
-  // Init
+  loadSlideAssets(currentIndex);
+  flavorBtns[0]?.setAttribute('aria-current', 'true');
   slides[currentIndex].classList.add('float');
+  preloadNextSlide();
   startAutoplay();
 })();

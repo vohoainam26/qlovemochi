@@ -277,6 +277,12 @@
 #qlove-main [data-motion="boba"] { --product-scale-base:1.27; --product-scale-active:1.2; --product-scale-front:1.06; }
 #qlove-main [data-motion="pouch"] { --product-scale-base:1.38; --product-scale-active:1.2; }
 #qlove-main [data-motion="dubai"] { --product-scale-base:1.2; --product-scale-active:1.2; }
+/* Dubai is a two-pack hero: give the horizontal 45g and tall 168g pack
+   enough visual weight while retaining the existing motion/button behaviour. */
+@media (min-width: 901px) {
+  #qlove-main [data-motion="dubai"] .qlove-motion-product { width:clamp(270px,21vw,350px); }
+  #qlove-main [data-motion="dubai"] .qlove-motion-products { transform:translateY(clamp(8px,2vh,28px)); }
+}
 #qlove-main [data-motion="double"] .qlove-motion-product__label strong { font-size:clamp(.8rem,1.1vw,1.04rem); }
 #qlove-main [data-motion="pouch"] .qlove-motion-product__label {
   right:auto;
@@ -559,6 +565,7 @@
   #qlove-main .qlove-motion-chapter__head span { font-size:.72rem; }
   #qlove-main .qlove-motion-chapter__ghost { font-size:26vw; }
   #qlove-main .qlove-motion-product { width:34vw; max-width:158px; }
+  #qlove-main [data-motion="dubai"] .qlove-motion-product { width:42vw; max-width:210px; }
   #qlove-main .qlove-motion-product__label strong { font-size:.62rem; line-height:1.08; }
   #qlove-main .qlove-motion-product__label small { font-size:.52rem; }
   #qlove-main [data-motion="double"] .qlove-motion-product__label,

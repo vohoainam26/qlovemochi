@@ -1,7 +1,7 @@
 /* Deluxe Mochi: one floating collection that reorganizes into a flavour rail. */
 #qlove-main .qlove-deluxe-showcase {
   position: relative; min-height: 100svh; padding: clamp(64px,7vw,112px) 6vw clamp(46px,6vw,82px);
-  overflow: hidden; isolation: isolate; background: #f9f5f0; color: #211d1c; scroll-margin-top: 72px;
+  overflow: hidden; isolation: isolate; background: #f9f5f0 url('/assets/backgrounds/qlove-deluxe-mochi-background-v1.webp') center/cover no-repeat; color: #211d1c; scroll-margin-top: 72px;
 }
 #qlove-main .qlove-deluxe-showcase__ambient {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;

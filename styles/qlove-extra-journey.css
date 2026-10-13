@@ -269,7 +269,7 @@
   background:
     radial-gradient(ellipse at 50% 62%, color-mix(in srgb, var(--accent, #A8C95E) 23%, transparent) 0%, transparent 49%),
     linear-gradient(rgba(255,253,249,.64), rgba(248,244,238,.70)),
-    url("/assets/qlove/traditional-mochi-paper-bg-v1.png") center / cover no-repeat,
+    url("/assets/optimized/backgrounds/traditional-mochi-paper.webp") center / cover no-repeat,
     linear-gradient(#fffdf9, #f8f4ee);
   transition: background-color .45s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -468,7 +468,7 @@
 }
 #qlove-main .qlove-traditional-scroll__paper {
   position: absolute; inset: 0; pointer-events: none; opacity: .35; mix-blend-mode: multiply;
-  background: url("/assets/qlove/traditional-mochi-paper-bg-v1.png") center / cover no-repeat;
+  background: url("/assets/optimized/backgrounds/traditional-mochi-paper.webp") center / cover no-repeat;
 }
 #qlove-main .qlove-traditional-scroll__grain { z-index: 1; opacity: .06; }
 #qlove-main .qlove-traditional-scroll__headline {
