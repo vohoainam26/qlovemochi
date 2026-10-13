@@ -92,3 +92,11 @@
 #qlove-main .qlove-load-fallback p { margin: 0 0 22px; }
 #qlove-main .qlove-load-fallback button { min-height: 44px; padding: 0 18px; border: 2px solid #211d1a; border-radius: 999px; background: #211d1a; color: #fff; font: 700 .875rem/1 Poppins, sans-serif; cursor: pointer; }
 #qlove-main .qlove-load-fallback button:focus-visible { outline: 3px solid #d75778; outline-offset: 3px; }
+
+/* Tighten the story framing without changing the four-scene scroll experience. */
+#qlove-main .qlove-story__progress { display: none; }
+@media (min-width: 901px) {
+  #qlove-main .qlove-story__word { top: 1vh; }
+  #qlove-main .qlove-story__copy,
+  #qlove-main .qlove-story__counter { bottom: 2.5vh; }
+}
